@@ -1,8 +1,12 @@
+// redux toolkit  imports
 import { createSlice } from '@reduxjs/toolkit'
 
+// utils imports
+import { getStorage, setStorage } from '@utils/localStorage'
+
 const initialState = {
-  mode: 'dark',
-  user: null,
+  mode: getStorage('mode', 'light'),
+  user: getStorage('user'),
 }
 
 export const mainSlice = createSlice({
@@ -11,9 +15,11 @@ export const mainSlice = createSlice({
   reducers: {
     toggleMode: state => {
       state.mode = state.mode === 'dark' ? 'light' : 'dark'
+      setStorage('mode', state.mode)
     },
     setUser: (state, userDetails) => {
       state.user = userDetails
+      setStorage('user', state.user)
     }
   },
 })
