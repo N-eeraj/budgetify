@@ -10,7 +10,7 @@ export default function Dashboard() {
 
   return (
     <Paper>
-      <Button variant='contained' onClick={() => dispatch(toggleMode())}>
+      <Button variant="contained" onClick={() => dispatch(toggleMode())}>
         Toggle Mode
       </Button>
     </Paper>

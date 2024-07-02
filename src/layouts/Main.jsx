@@ -1,4 +1,4 @@
-// react-router-dom imports
+// react router imports
 import { Outlet } from 'react-router'
 
 // redux toolkit & store imports

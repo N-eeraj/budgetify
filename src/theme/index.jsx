@@ -32,7 +32,7 @@ export default function Theme({ children }) {
 
   return (
     <ThemeProvider theme={theme}>
-      {children}
+      { children }
     </ThemeProvider>
   )
 }

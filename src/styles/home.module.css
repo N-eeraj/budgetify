@@ -1,0 +1,14 @@
+.decorationImage {
+  align-self: flex-end;
+  max-width: min(70vw, 320px);
+  max-height: 35vh;
+}
+
+@media screen and (min-width: 900px) {
+  .decorationImage {
+    align-self: center;
+    max-width: 55vw;
+    max-height: 50vh;
+    margin-top: 40vh;
+  }
+}
