@@ -1,3 +1,7 @@
+.cta {
+  width: 100%;
+}
+
 .decorationImage {
   align-self: flex-end;
   max-width: min(70vw, 320px);
@@ -5,6 +9,10 @@
 }
 
 @media screen and (min-width: 900px) {
+  .cta {
+    width: fit-content;
+  }
+
   .decorationImage {
     align-self: center;
     max-width: 55vw;

@@ -8,12 +8,17 @@ import store from '@store'
 // theme imports
 import Theme from '@theme'
 
+// material ui imports
+import { Paper } from '@mui/material'
+
 export default function Main() {
 
   return (
     <Provider store={store}>
       <Theme>
-        <Outlet />
+        <Paper square component='main'>
+          <Outlet />
+        </Paper>
       </Theme>
     </Provider>
   )

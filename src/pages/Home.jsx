@@ -1,3 +1,6 @@
+// react router imports
+import { Link } from 'react-router-dom'
+
 // material ui imports
 import {
   Container,
@@ -8,9 +11,6 @@ import {
 
 // style imports
 import style from '@style/home.module.css'
-
-// theme import
-import colors from '@theme/colors'
 
 // asset imports
 import decoration from '@image/decoration.svg'
@@ -38,7 +38,6 @@ export default function () {
         xs: '5vh',
         md: '10vh',
       },
-      ...colors,
     }}>
 
       <Stack spacing={2} maxWidth="md" alignItems="self-start">
@@ -48,11 +47,11 @@ export default function () {
         <Typography variant="subtitle1" component="h2">
           Personal budgeting is the secret to financial freedom. Start your journey today.
         </Typography>
-        <Button variant="contained" href="/sign-in" sx={({ breakpoints }) => ({
-          [breakpoints.down('md')]: { width: 1 },
-        })}>
-          Sign In
-        </Button>
+        <Link to='/sign-in' className={style.cta}>
+          <Button fullWidth variant="contained">
+            Sign In
+          </Button>
+        </Link>
       </Stack>
 
       <img src={decoration} alt="decoration" className={style.decorationImage} />

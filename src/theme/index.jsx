@@ -24,8 +24,8 @@ export default function Theme({ children }) {
         styleOverrides: {
           root: {
             textTransform: 'none'
-          }
-        }
+          },
+        },
       },
     }
   }), [mode])
