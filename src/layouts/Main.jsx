@@ -16,7 +16,7 @@ export default function Main() {
   return (
     <Provider store={store}>
       <Theme>
-        <Paper square component='main'>
+        <Paper square component="main">
           <Outlet />
         </Paper>
       </Theme>

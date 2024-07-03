@@ -47,9 +47,9 @@ export default function () {
         <Typography variant="subtitle1" component="h2">
           Personal budgeting is the secret to financial freedom. Start your journey today.
         </Typography>
-        <Link to='/sign-in' className={style.cta}>
-          <Button fullWidth variant="contained">
-            Sign In
+        <Link to="/sign-in" className={style.cta}>
+          <Button fullWidth variant="contained" sx={{ borderRadius: 5 }}>
+            Sign in
           </Button>
         </Link>
       </Stack>

@@ -16,14 +16,17 @@ export default function Theme({ children }) {
 
   const theme = useMemo(() => createTheme({
     palette: {
-      mode: mode,
+      mode,
       ...(mode === 'dark' ? darkTheme : lightTheme),
+    },
+    typography: {
+      fontFamily: '"Google Sans",roboto,"Noto Sans Myanmar UI",arial,sans-serif',
     },
     components: {
       MuiButton: {
         styleOverrides: {
           root: {
-            textTransform: 'none'
+            textTransform: 'none',
           },
         },
       },
