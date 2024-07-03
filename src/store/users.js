@@ -28,4 +28,14 @@ export const usersSlice = createSlice({
 
 export const { createUser } = usersSlice.actions
 
+export const getUser = state => credentials => {
+  const user = state.find(({ email }) => email === credentials.email)
+  if (!user)
+    throw { email: 'User not found' }
+  if (user.password !== credentials.password)
+    throw { password: 'Incorrect Password' }
+  const { password, ...userDetails } = user
+  return userDetails
+}
+
 export default usersSlice.reducer

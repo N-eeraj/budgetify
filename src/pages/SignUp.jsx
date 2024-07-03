@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { createUser } from '@store/users'
 
 // material ui imports
-import { Grid, Card, Typography, alpha, Stack, TextField, Button, FormControlLabel, Checkbox } from '@mui/material'
+import { Grid, Card, Typography, Stack, TextField, Button, FormControlLabel, Checkbox } from '@mui/material'
 
 export default function SignUp() {
   const [name, setName] = useState('')
@@ -31,7 +31,7 @@ export default function SignUp() {
   return (
     <Grid container direction="column" alignItems="center" justifyContent="center" sx={{
       height: '100vh',
-      backgroundColor: ({ palette }) => alpha(palette.primary.main, 0.1),
+      backgroundColor: ({ palette }) => palette.primary.contrastText,
     }}>
       <Card elevation={0} sx={{
         display: 'grid',
@@ -50,7 +50,6 @@ export default function SignUp() {
           xs: 12,
           md: 2,
         },
-        backgroundColor: 'white',
         borderRadius: {
           md: '28px',
         },

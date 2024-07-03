@@ -1,24 +1,36 @@
 // react imports
 import { useState } from 'react'
 
+// redux toolkit imports
+import { useSelector } from 'react-redux'
+import { getUser } from '@store/users'
+
 // material ui imports
-import { Grid, Card, Typography, alpha, Stack, TextField, Button, FormControlLabel, Checkbox } from '@mui/material'
+import { Grid, Card, Typography, Stack, TextField, Button, FormControlLabel, Checkbox } from '@mui/material'
 
 export default function SignIn() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [errors, setErrors] = useState({})
 
-  const handleSignIn = (event) => {
+  const login = useSelector(({ users }) => getUser(users))
+
+  const handleSignIn = event => {
     event.preventDefault()
-    console.log(email)
-    console.log(password)
+    setErrors({})
+    try {
+      console.log(login({ email, password }))
+    }
+    catch (error) {
+      setErrors(error)
+    }
   }
 
   return (
     <Grid container direction="column" alignItems="center" justifyContent="center" sx={{
       height: '100vh',
-      backgroundColor: ({ palette }) => alpha(palette.primary.main, 0.1),
+      backgroundColor: ({ palette }) => palette.primary.contrastText,
     }}>
       <Card elevation={0} sx={{
         display: 'grid',
@@ -37,7 +49,6 @@ export default function SignIn() {
           xs: 12,
           md: 2,
         },
-        backgroundColor: 'white',
         borderRadius: {
           md: '28px',
         },
@@ -68,6 +79,8 @@ export default function SignIn() {
                 type="email"
                 required
                 autoFocus
+                error={!!errors.email}
+                helperText={errors.email}
                 onChange={({ target }) => setEmail(target.value)} />
               <Stack>
                 <TextField
@@ -76,6 +89,8 @@ export default function SignIn() {
                   variant="outlined"
                   type={showPassword ? 'text' : 'password'}
                   required
+                  error={!!errors.password}
+                  helperText={errors.password}
                   onChange={({ target }) => setPassword(target.value)} />
                 <FormControlLabel control={
                     <Checkbox checked={showPassword} onChange={({ target }) => setShowPassword(target.checked)} />
@@ -90,7 +105,7 @@ export default function SignIn() {
                 paddingX: 4,
                 borderRadius: 5,
               }}>
-                Sign In
+                Sign in
               </Button>
             </Stack>
           </form>
