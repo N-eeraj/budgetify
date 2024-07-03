@@ -1,6 +1,10 @@
 // react imports
 import { useState } from 'react'
 
+// redux toolkit & store imports
+import { useDispatch } from 'react-redux'
+import { createUser } from '@store/users'
+
 // material ui imports
 import { Grid, Card, Typography, alpha, Stack, TextField, Button, FormControlLabel, Checkbox } from '@mui/material'
 
@@ -9,11 +13,19 @@ export default function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [errors, setErrors] = useState({})
 
-  const handleSignUp = (event) => {
+  const dispatch = useDispatch()
+
+  const handleSignUp = event => {
     event.preventDefault()
-    console.log(email)
-    console.log(password)
+    setErrors({})
+    try {
+      dispatch(createUser({ name, email, password }))
+    }
+    catch (error) {
+      setErrors(error)
+    }
   }
 
   return (
@@ -68,6 +80,8 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 autoFocus
+                error={!!errors.name}
+                helperText={errors.name}
                 onChange={({ target }) => setName(target.value)} />
               <TextField
                 value={email}
@@ -75,6 +89,8 @@ export default function SignUp() {
                 variant="outlined"
                 type="email"
                 required
+                error={!!errors.email}
+                helperText={errors.email}
                 onChange={({ target }) => setEmail(target.value)} />
               <Stack>
                 <TextField
@@ -83,6 +99,8 @@ export default function SignUp() {
                   variant="outlined"
                   type={showPassword ? 'text' : 'password'}
                   required
+                  error={!!errors.password}
+                  helperText={errors.password}
                   onChange={({ target }) => setPassword(target.value)} />
                 <FormControlLabel control={
                     <Checkbox checked={showPassword} onChange={({ target }) => setShowPassword(target.checked)} />
@@ -97,7 +115,7 @@ export default function SignUp() {
                 paddingX: 4,
                 borderRadius: 5,
               }}>
-                Sign In
+                Sign up
               </Button>
             </Stack>
           </form>

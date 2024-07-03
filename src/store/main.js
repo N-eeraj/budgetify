@@ -1,4 +1,4 @@
-// redux toolkit  imports
+// redux toolkit imports
 import { createSlice } from '@reduxjs/toolkit'
 
 // utils imports
