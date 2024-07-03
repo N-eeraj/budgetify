@@ -1,7 +1,20 @@
+// react imports
+import { useState } from 'react'
+
 // material ui imports
 import { Grid, Card, Typography, alpha, Stack, TextField, Button, FormControlLabel, Checkbox } from '@mui/material'
 
 export default function SignIn() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleSignIn = (event) => {
+    event.preventDefault()
+    console.log(email)
+    console.log(password)
+  }
+
   return (
     <Grid container direction="column" alignItems="center" justifyContent="center" sx={{
       height: '100vh',
@@ -46,22 +59,29 @@ export default function SignIn() {
             Sign in
           </Typography>
 
-          <form>
+          <form onSubmit={handleSignIn}>
             <Stack rowGap={2} minWidth={{ md: 'max(30vw, 400px)' }} maxWidth={400}>
               <TextField
+                value={email}
                 label="Email"
                 variant="outlined"
-                name="email"
-                autoFocus />
+                type="email"
+                required
+                autoFocus
+                onChange={({ target }) => setEmail(target.value)} />
               <Stack>
                 <TextField
+                  value={password}
                   label="Password"
                   variant="outlined"
-                  type="password"
-                  name="password" />
-                <FormControlLabel control={<Checkbox />} label="Show Password" />
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  onChange={({ target }) => setPassword(target.value)} />
+                <FormControlLabel control={
+                    <Checkbox checked={showPassword} onChange={({ target }) => setShowPassword(target.checked)} />
+                  } label="Show Password" />
               </Stack>
-              <Button variant="contained" sx={{
+              <Button variant="contained" type="submit" sx={{
                 width: {
                   xs: '100%',
                   md: 'fit-content',
