@@ -12,7 +12,6 @@ import Theme from '@theme'
 import { Paper } from '@mui/material'
 
 export default function Main() {
-
   return (
     <Provider store={store}>
       <Theme>

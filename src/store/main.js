@@ -17,8 +17,8 @@ export const mainSlice = createSlice({
       state.mode = state.mode === 'dark' ? 'light' : 'dark'
       setStorage('mode', state.mode)
     },
-    setUser: (state, userDetails) => {
-      state.user = userDetails
+    setUser: (state, { payload }) => {
+      state.user = payload
       setStorage('user', state.user)
     }
   },

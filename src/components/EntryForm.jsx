@@ -1,17 +1,23 @@
 // react router imports
 import { useNavigate } from 'react-router'
 
+// redux toolkit imports
+import { useDispatch } from 'react-redux'
+import { setUser } from '@store/main'
+
 // material ui imports
 import { Grid, Card, Typography, Stack, Button, Divider } from '@mui/material'
 
 export default function EntryForm({ title, tagline, actionText, redirect, onSubmit, children }) {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleSubmit = event => {
     event.preventDefault()
     const userData = onSubmit()
     if (userData) {
-      console.log(userData)
+      dispatch(setUser(userData))
+      navigate('/dashboard')
     }
   }
 
