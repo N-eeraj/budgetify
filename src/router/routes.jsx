@@ -8,6 +8,7 @@ import Home from '@page/Home'
 import SignIn from '@page/SignIn'
 import SignUp from '@page/SignUp'
 import Dashboard from '@page/Dashboard'
+import Profile from '@page/Dashboard/Profile'
 
 const routes = [
   {
@@ -32,13 +33,17 @@ const routes = [
         ],
       },
       {
-        path: 'dashboard',
+        path: 'dashboard/',
         element: <DashboardLayout />,
         children: [
           {
             index: true,
-            element: <Dashboard />
-          }
+            element: <Dashboard />,
+          },
+          {
+            path: 'profile',
+            element: <Profile />,
+          },
         ],
       },
     ],

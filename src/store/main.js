@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 // utils imports
-import { getStorage, setStorage } from '@utils/localStorage'
+import { getStorage, setStorage, removeStorage } from '@utils/localStorage'
 
 const initialState = {
   mode: getStorage('mode', 'light'),
@@ -19,8 +19,11 @@ export const mainSlice = createSlice({
     },
     setUser: (state, { payload }) => {
       state.user = payload
-      setStorage('user', state.user)
-    }
+      if (payload)
+        setStorage('user', state.user)
+      else
+        removeStorage('user')
+    },
   },
 })
 

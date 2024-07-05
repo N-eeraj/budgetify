@@ -15,10 +15,8 @@ export default function EntryForm({ title, tagline, actionText, redirect, onSubm
   const handleSubmit = event => {
     event.preventDefault()
     const userData = onSubmit()
-    if (userData) {
+    if (userData)
       dispatch(setUser(userData))
-      navigate('/dashboard')
-    }
   }
 
   return (

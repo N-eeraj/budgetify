@@ -15,7 +15,7 @@ export default function Dashboard() {
       <Stack alignItems="flex-end">
         <ProfileMenu />
       </Stack>
-      <Typography component="h1" sx={{ typography: { xs: 'h3', md: 'h2' } }}>
+      <Typography component="h1" sx={{ typography: { xs: 'h4', md: 'h3' } }}>
         Welcome { userName }
       </Typography>
     </>
