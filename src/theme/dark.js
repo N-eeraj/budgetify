@@ -5,4 +5,7 @@ export default {
     dark: '#478E54',
     contrastText: '#000',
   },
+  text: {
+    secondary: '#CCC',
+  }
 }

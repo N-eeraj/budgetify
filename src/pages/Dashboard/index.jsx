@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux'
 import { Stack, Typography } from '@mui/material'
 
 // component imports
-import ProfileMenu from '@component/ProfileMenu'
+import ProfileMenu from '@components/ProfileMenu'
+import GradientText from '@components/GradientText'
 
 export default function Dashboard() {
   const userName = useSelector(({ main }) => main.user.name)
@@ -15,9 +16,12 @@ export default function Dashboard() {
       <Stack alignItems="flex-end">
         <ProfileMenu />
       </Stack>
-      <Typography component="h1" sx={{ typography: { xs: 'h4', md: 'h3' } }}>
-        Welcome { userName }
-      </Typography>
+      <Stack direction="row" columnGap={1}>
+        <Typography component="h1" color="text.secondary" sx={{ typography: { xs: 'h4', md: 'h3' } }}>
+          Welcome
+        </Typography>
+        <GradientText text={userName} component="h1" sx={{ typography: { xs: 'h4', md: 'h3' } }} />
+      </Stack>
     </>
   )
 }

@@ -16,7 +16,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LogoutIcon from '@mui/icons-material/Logout'
 
 // component imports
-import ProfileMenuItem from '@component/ProfileMenu/Item'
+import ProfileMenuItem from '@components/ProfileMenu/Item'
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -28,6 +28,10 @@ export default function ProfileMenu() {
   const { image, name, mode } = useSelector(({ main }) => ({ ...main.user, mode: main.mode }))
 
   const modeIcon = mode === 'dark' ? <WbSunnyIcon /> : <DarkModeIcon />
+  const handleToggleMode = () => {
+    dispatch(toggleMode())
+    setAnchorEl(null)
+  }
 
   return (
     <>
@@ -50,7 +54,7 @@ export default function ProfileMenu() {
         }}
         onClose={() => setAnchorEl(null)}>
         <ProfileMenuItem text="Profile" icon={<PersonIcon />} onClick={() => navigate('/dashboard/profile')} />
-        <ProfileMenuItem text="Mode" icon={modeIcon} onClick={() => dispatch(toggleMode())} />
+        <ProfileMenuItem text="Mode" icon={modeIcon} onClick={handleToggleMode} />
         <ProfileMenuItem text="Logout" icon={<LogoutIcon />} onClick={() => dispatch(setUser())} />
       </Menu>
     </>

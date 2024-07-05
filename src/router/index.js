@@ -1,7 +1,7 @@
-// react-router-dom imports
+// react router imports
 import { createBrowserRouter } from 'react-router-dom'
 
-// router import
+// router imports
 import routes from '@router/routes'
 
 const router = createBrowserRouter(routes)

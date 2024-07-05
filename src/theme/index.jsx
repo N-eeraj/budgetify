@@ -24,6 +24,9 @@ export default function Theme({ children }) {
     },
     components: {
       MuiButton: {
+        defaultProps: {
+          disableElevation: true,
+        },
         styleOverrides: {
           root: {
             textTransform: 'none',

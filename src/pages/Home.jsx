@@ -10,10 +10,13 @@ import {
 } from '@mui/material'
 
 // style imports
-import style from '@style/home.module.css'
+import style from '@styles/home.module.css'
 
 // asset imports
-import decoration from '@image/decoration.svg'
+import decoration from '@images/decoration.svg'
+
+// component imports
+import GradientText from '@components/GradientText'
 
 export default function () {
   return (
@@ -40,10 +43,8 @@ export default function () {
       },
     }}>
 
-      <Stack spacing={2} maxWidth="md" alignItems="self-start">
-        <Typography variant="h3" component="h1" color="primary">
-          Take Control of Your Money
-        </Typography>
+      <Stack spacing={{ xs: 2, md: 1 }} maxWidth="md" alignItems="self-start">
+        <GradientText text="Take Control of Your Money" variant="h3" component="h1" color="primary" />
         <Typography variant="subtitle1" component="h2">
           Personal budgeting is the secret to financial freedom. Start your journey today.
         </Typography>

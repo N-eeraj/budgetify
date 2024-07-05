@@ -11,6 +11,7 @@
 @media screen and (min-width: 900px) {
   .cta {
     width: fit-content;
+    min-width: 125px;
   }
 
   .decorationImage {

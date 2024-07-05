@@ -1,8 +1,8 @@
 // react router imports
 import { Outlet, Navigate } from 'react-router'
 
-// hooks import
-import { useAuthenticated } from '@hooks/isAuthenticated'
+// hooks imports
+import { useAuthenticated } from '@hooks/useAuthenticated'
 
 export default function Guest() {
   const isAuthenticated = useAuthenticated()

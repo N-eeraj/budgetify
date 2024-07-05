@@ -1,14 +1,14 @@
 // layout imports
-import MainWrapper from '@layout/Main'
-import DashboardLayout from '@layout/Dashboard'
-import GuestWrapper from '@layout/Guest'
+import MainWrapper from '@layouts/Main'
+import DashboardLayout from '@layouts/Dashboard'
+import GuestWrapper from '@layouts/Guest'
 
 // page imports
-import Home from '@page/Home'
-import SignIn from '@page/SignIn'
-import SignUp from '@page/SignUp'
-import Dashboard from '@page/Dashboard'
-import Profile from '@page/Dashboard/Profile'
+import Home from '@pages/Home'
+import SignIn from '@pages/SignIn'
+import SignUp from '@pages/SignUp'
+import Dashboard from '@pages/Dashboard'
+import Profile from '@pages/Dashboard/Profile'
 
 const routes = [
   {

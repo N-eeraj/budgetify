@@ -9,7 +9,7 @@ import { createUser } from '@store/users'
 import { Stack, TextField, FormControlLabel, Checkbox } from '@mui/material'
 
 // component imports
-import EntryForm from '@component/EntryForm'
+import EntryForm from '@components/EntryForm'
 
 export default function SignUp() {
   const [name, setName] = useState('')
