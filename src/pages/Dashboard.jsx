@@ -1,9 +1,23 @@
+// redux toolkit imports
+import { useSelector } from 'react-redux'
+
 // material ui imports
-import { Button, Paper } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
+
+// component imports
+import ProfileMenu from '@component/ProfileMenu'
 
 export default function Dashboard() {
+  const userName = useSelector(({ main }) => main.user.name)
+
   return (
     <>
+      <Stack alignItems="flex-end">
+        <ProfileMenu />
+      </Stack>
+      <Typography component="h1" sx={{ typography: { xs: 'h3', md: 'h2' } }}>
+        Welcome { userName }
+      </Typography>
     </>
   )
 }
