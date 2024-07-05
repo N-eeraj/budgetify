@@ -1,33 +1,20 @@
-// react imports
-import { useState } from 'react'
-
-// redux toolkit imports
-import { useSelector } from 'react-redux'
-import { getUser } from '@store/users'
-
 // material ui imports
-import { Stack, TextField, FormControlLabel, Checkbox } from '@mui/material'
+import TextField from '@mui/material/TextField'
 
 // component imports
 import EntryForm from '@components/EntryForm'
+import Password from '@components/Password'
+
+// hooks imports
+import useEntryForm from '@hooks/useEntryForm'
 
 export default function SignIn() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [errors, setErrors] = useState({})
-
-  const login = useSelector(({ users }) => getUser(users))
-
-  const handleSignIn = () => {
-    setErrors({})
-    try {
-      return login({ email, password })
-    }
-    catch (error) {
-      setErrors(error)
-    }
-  }
+  const {
+    email, setEmail,
+    password, setPassword,
+    errors,
+    handleSignIn,
+  } = useEntryForm()
 
   return (
     <EntryForm
@@ -49,20 +36,12 @@ export default function SignIn() {
         error={!!errors.email}
         helperText={errors.email}
         onChange={({ target }) => setEmail(target.value)} />
-      <Stack>
-        <TextField
-          value={password}
-          label="Password"
-          variant="outlined"
-          type={showPassword ? 'text' : 'password'}
-          required
-          error={!!errors.password}
-          helperText={errors.password}
-          onChange={({ target }) => setPassword(target.value)} />
-        <FormControlLabel control={
-            <Checkbox checked={showPassword} onChange={({ target }) => setShowPassword(target.checked)} />
-          } label="Show Password" />
-      </Stack>
+      <Password
+        value={password}
+        error={!!errors.password}
+        helperText={errors.password}
+        independentToggle
+        onChange={setPassword} />
     </EntryForm>
   )
 }

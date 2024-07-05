@@ -1,35 +1,21 @@
-// react imports
-import { useState } from 'react'
-
-// redux toolkit & store imports
-import { useDispatch } from 'react-redux'
-import { createUser } from '@store/users'
-
 // material ui imports
-import { Stack, TextField, FormControlLabel, Checkbox } from '@mui/material'
+import TextField from '@mui/material/TextField'
 
 // component imports
 import EntryForm from '@components/EntryForm'
+import Password from '@components/Password'
+
+// hooks imports
+import useEntryForm from '@hooks/useEntryForm'
 
 export default function SignUp() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [errors, setErrors] = useState({})
-
-  const dispatch = useDispatch()
-
-  const handleSignUp = () => {
-    setErrors({})
-    try {
-      const { payload } = dispatch(createUser({ name, email, password }))
-      return payload
-    }
-    catch (error) {
-      setErrors(error)
-    }
-  }
+  const {
+    name, setName,
+    email, setEmail,
+    password, setPassword,
+    errors,
+    handleSignUp,
+  } = useEntryForm()
 
   return (
     <EntryForm
@@ -59,20 +45,12 @@ export default function SignUp() {
         error={!!errors.email}
         helperText={errors.email}
         onChange={({ target }) => setEmail(target.value)} />
-      <Stack>
-        <TextField
-          value={password}
-          label="Password"
-          variant="outlined"
-          type={showPassword ? 'text' : 'password'}
-          required
-          error={!!errors.password}
-          helperText={errors.password}
-          onChange={({ target }) => setPassword(target.value)} />
-        <FormControlLabel control={
-            <Checkbox checked={showPassword} onChange={({ target }) => setShowPassword(target.checked)} />
-          } label="Show Password" />
-      </Stack>
+      <Password
+        value={password}
+        error={!!errors.password}
+        helperText={errors.password}
+        independentToggle
+        onChange={setPassword} />
     </EntryForm>
   )
 }
