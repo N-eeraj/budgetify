@@ -15,7 +15,7 @@ export default function Main() {
   return (
     <Provider store={store}>
       <Theme>
-        <Paper square component="main">
+        <Paper square component="main" sx={{ minHeight: '100vh' }}>
           <Outlet />
         </Paper>
       </Theme>

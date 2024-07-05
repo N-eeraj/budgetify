@@ -17,7 +17,7 @@ import decoration from '@image/decoration.svg'
 
 export default function () {
   return (
-    <Container component="main" maxWidth="false" sx={{
+    <Container component="section" maxWidth="false" sx={{
       display: 'flex',
       flexDirection: {
         xs: 'column',
@@ -30,7 +30,7 @@ export default function () {
       rowGap: '10vh',
       columnGap: '50px',
       alignItems: 'center',
-      minHeight: '100vh',
+      height: '100vh',
       paddingX: {
         md: 'max(calc(50vw - 600px), 50px)',
       },
