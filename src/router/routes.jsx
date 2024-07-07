@@ -43,6 +43,10 @@ const routes = [
             element: <Dashboard />,
             children: [
               {
+                index: true,
+                element: <Navigate to="budgets" />,
+              },
+              {
                 path: 'budgets',
                 element: <Budgets />,
               },
@@ -52,7 +56,7 @@ const routes = [
               },
               {
                 path: '*',
-                element: <Navigate to="budgets" />
+                element: <Navigate to="budgets" />,
               }
             ],
           },
@@ -62,6 +66,10 @@ const routes = [
           },
         ],
       },
+      {
+        path: '*',
+        element: <>Page Not Found</>,
+      }
     ],
   },
 ]

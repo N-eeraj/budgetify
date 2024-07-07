@@ -3,4 +3,3 @@ export default function Budgets() {
     <div>Budgets</div>
   )
 }
-

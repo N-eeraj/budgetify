@@ -1,5 +1,5 @@
 // react router imports
-import { Navigate, Outlet, useLocation } from 'react-router'
+import { Outlet } from 'react-router'
 
 // redux toolkit imports
 import { useSelector } from 'react-redux'
@@ -14,10 +14,6 @@ import DashboardTabs from '@components/Dashboard/Tabs'
 import { SmallScreen } from '@components/Breakpoints'
 
 export default function Dashboard() {
-  const { pathname } = useLocation()
-  const tab = pathname.split('/').at(-1)
-  console.log('hi')
-
   const userName = useSelector(({ main }) => main.user.name)
 
   return (
