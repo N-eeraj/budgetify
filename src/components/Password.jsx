@@ -25,15 +25,15 @@ export default function Password({ independentToggle = false, ...props }) {
   )
 }
 
-function InlineToggle({ showPassword, setShowPassword }) {
+const InlineToggle = ({ showPassword, setShowPassword }) => {
   return (
-  <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
-    { showPassword ? <VisibilityOff /> : <Visibility /> }
-  </IconButton>
+    <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
+      { showPassword ? <VisibilityOff /> : <Visibility /> }
+    </IconButton>
   )
 }
 
-function IndependentToggle({ showPassword, setShowPassword }) {
+const IndependentToggle = ({ showPassword, setShowPassword }) => {
   return (
     <FormControlLabel label="Show Password" control={
       <Checkbox checked={showPassword} onChange={({ target }) => setShowPassword(target.checked)} />

@@ -5,7 +5,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { getStorage, setStorage, removeStorage } from '@utils/localStorage'
 
 const initialState = {
-  mode: getStorage('mode', 'light'),
+  mode: getStorage('mode', 'dark'),
   user: getStorage('user'),
 }
 

@@ -17,7 +17,7 @@ export default function Dashboard() {
         <ProfileMenu />
       </Stack>
       <Stack direction="row" columnGap={1}>
-        <Typography component="h1" color="text.secondary" sx={{ typography: { xs: 'h4', md: 'h3' } }}>
+        <Typography color="text.secondary" component="h1" sx={{ typography: { xs: 'h4', md: 'h3' } }}>
           Welcome
         </Typography>
         <GradientText text={userName} component="h1" sx={{ typography: { xs: 'h4', md: 'h3' } }} />

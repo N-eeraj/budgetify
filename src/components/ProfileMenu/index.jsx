@@ -25,13 +25,31 @@ export default function ProfileMenu() {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  const { image, name, mode } = useSelector(({ main }) => ({ ...main.user, mode: main.mode }))
+  const { name, image, mode } = useSelector(({ main }) => ({ ...main.user, mode: main.mode }))
 
   const modeIcon = mode === 'dark' ? <WbSunnyIcon /> : <DarkModeIcon />
   const handleToggleMode = () => {
     dispatch(toggleMode())
     setAnchorEl(null)
   }
+
+  const menuItems = [
+    {
+      text: 'Profile',
+      icon: <PersonIcon />,
+      onClick: () => navigate('/dashboard/profile'),
+    },
+    {
+      text: `${ mode === 'dark' ? 'Light' : 'Dark' } Mode`,
+      icon: modeIcon,
+      onClick: handleToggleMode,
+    },
+    {
+      text: 'Logout',
+      icon: <LogoutIcon />,
+      onClick: () => dispatch(setUser()),
+    },
+  ]
 
   return (
     <>
@@ -53,9 +71,7 @@ export default function ProfileMenu() {
           horizontal: 'right',
         }}
         onClose={() => setAnchorEl(null)}>
-        <ProfileMenuItem text="Profile" icon={<PersonIcon />} onClick={() => navigate('/dashboard/profile')} />
-        <ProfileMenuItem text="Mode" icon={modeIcon} onClick={handleToggleMode} />
-        <ProfileMenuItem text="Logout" icon={<LogoutIcon />} onClick={() => dispatch(setUser())} />
+        { menuItems.map(item => <ProfileMenuItem {...item} key={item.text} />) }
       </Menu>
     </>
   )
