@@ -8,7 +8,10 @@ import Home from '@pages/Home'
 import SignIn from '@pages/SignIn'
 import SignUp from '@pages/SignUp'
 import Dashboard from '@pages/Dashboard'
+import Budgets from '@pages/Dashboard/Budgets'
+import Expenses from '@pages/Dashboard/Expenses'
 import Profile from '@pages/Dashboard/Profile'
+import { Navigate } from 'react-router'
 
 const routes = [
   {
@@ -37,8 +40,21 @@ const routes = [
         element: <DashboardLayout />,
         children: [
           {
-            index: true,
             element: <Dashboard />,
+            children: [
+              {
+                path: 'budgets',
+                element: <Budgets />,
+              },
+              {
+                path: 'expenses',
+                element: <Expenses />,
+              },
+              {
+                path: '*',
+                element: <Navigate to="budgets" />
+              }
+            ],
           },
           {
             path: 'profile',
