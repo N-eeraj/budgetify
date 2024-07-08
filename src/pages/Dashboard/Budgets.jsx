@@ -1,13 +1,14 @@
 // component imports
 import CreateFab from '@components/Dashboard/CreateFab'
-import BudgetCard from '@components/Dashboard/Budget/Card'
+import Budget from '@components/Dashboard/Budget'
 import CreateDialog from '@components/Dashboard/CreateDialog'
-import BudgetCreate from '@components/Dashboard/Budget/Create'
+import Create from '@components/Dashboard/Create'
+
+// hooks imports
+import useBudget from '@hooks/useBudget'
 
 export default function Budgets() {
-  const handleCreate = () => {
-    console.log('hello')
-  }
+  const { handleCreate, ...createProps } = useBudget()
 
   return (
     <>
@@ -15,10 +16,10 @@ export default function Budgets() {
       <CreateFab
         tooltip="Create New Budget"
         Modal={CreateDialog}
-        fields={<BudgetCreate />}
+        fields={<Create type="Budget" {...createProps} />}
         label="Create Budget"
         onSubmit={handleCreate} />
-      <BudgetCard />
+      <Budget />
     </>
   )
 }
