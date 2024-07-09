@@ -18,4 +18,5 @@ export const clearBudgets = () => {
       remaining[uuid] = budgets
     return remaining
   }, {})
+  setStorage('budgets', remaining)
 }

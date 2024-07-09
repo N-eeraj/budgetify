@@ -1,6 +1,10 @@
 // react imports
 import { useState } from 'react'
 
+// redux toolkit imports
+import { useDispatch, useSelector } from 'react-redux'
+import { createExpense } from '@store/expenses'
+
 const useExpense = defaultValues => {
   // form states
   const [name, setName] = useState(defaultValues?.name ?? '')
@@ -8,8 +12,23 @@ const useExpense = defaultValues => {
   const [budget, setBudget] = useState(defaultValues?.budget ?? null)
   const [errors, setErrors] = useState({})
 
+  const dispatch = useDispatch()
+  const { budgets, expenses } = useSelector(({ budgets, expenses }) => ({ budgets, expenses }))
+
   const handleCreate = () => {
-    console.log({ name, amount })
+    setErrors({})
+    try {
+      if (!budget)
+        throw { budget: 'Please select a budget' }
+      const { payload } = dispatch(createExpense({ name, amount, budget }))
+      setName('')
+      setAmount('')
+      setBudget(null)
+      return payload
+    }
+    catch(error) {
+      setErrors(error)
+    }
   }
 
   return {
@@ -17,6 +36,8 @@ const useExpense = defaultValues => {
     amount, setAmount,
     budget, setBudget,
     errors,
+    budgets,
+    expenses,
     handleCreate,
   }
 }

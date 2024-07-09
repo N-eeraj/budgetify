@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // redux toolkit imports
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createBudget } from '@store/budgets'
 
 const useBudget = defaultValues => {
@@ -12,11 +12,14 @@ const useBudget = defaultValues => {
   const [errors, setErrors] = useState({})
 
   const dispatch = useDispatch()
+  const budgets = useSelector(({ budgets }) => budgets)
 
   const handleCreate = () => {
     setErrors({})
     try {
       const { payload } = dispatch(createBudget({ name, amount }))
+      setName('')
+      setAmount('')
       return payload
     }
     catch(error) {
@@ -28,6 +31,7 @@ const useBudget = defaultValues => {
     name, setName,
     amount, setAmount,
     errors,
+    budgets,
     handleCreate,
   }
 }
