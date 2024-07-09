@@ -1,11 +1,17 @@
-// reduct toolkit imports
-import { useSelector } from 'react-redux'
+// react imports
+import { useEffect } from 'react'
 
 // material ui imports
 import { Autocomplete, TextField } from '@mui/material'
 
-export default function Create({ type, name, setName, amount, setAmount, setBudget, errors }) {
-  const budgets = useSelector(({ budgets }) => budgets)
+export default function Create({ type, name, setName, amount, setAmount, setBudget, errors, budgets }) {
+  const isExpense = type === 'Expense'
+  const singleBudget = budgets?.length === 1
+
+  useEffect(() => {
+    if (isExpense && singleBudget)
+      setBudget(budgets[0].id)
+  }, [])
 
   return (
     <>
@@ -29,16 +35,22 @@ export default function Create({ type, name, setName, amount, setAmount, setBudg
         helperText={errors.amount}
         onChange={({ target }) => setAmount(target.value)}  />
       {
-        type === 'Expense' &&
-        <Autocomplete
-          isOptionEqualToValue={({ id }, value) => id === value}
-          options={budgets}
-          getOptionLabel={({ name }) => name}
-          clearOnBlur
-          includeInputInList
-          renderInput={(params) => <TextField {...params} label="Select Budget" />}
-          onChange={(_, { id }) => setBudget(id)}
-        />
+        isExpense &&
+          <Autocomplete
+            defaultValue={singleBudget ? budgets[0] : null}
+            isOptionEqualToValue={({ id }, value) => id === value}
+            options={budgets}
+            getOptionLabel={({ name }) => name}
+            disabled={singleBudget}
+            clearOnBlur
+            includeInputInList
+            fullWidth
+            renderInput={params => <TextField
+              {...params}
+              label="Select Budget"
+              error={!!errors.budget}
+              helperText={errors.budget} />}
+            onChange={(_, { id }) => setBudget(id)} />
       }
     </>
   )
