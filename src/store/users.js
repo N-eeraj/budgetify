@@ -11,14 +11,15 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {
     createUser: (state, action) => {
-      const existingUser = state.find(({ email }) => email === action.payload.email)
+      const { name, email, password } = action.payload
+      const existingUser = state.find(user => user.email === email)
       if (existingUser)
         throw { email: 'Email already used' }
-      if (action.payload.name.length < 3)
+      if (name.length < 3)
         throw { name: 'Please enter a longer name' }
-      if (action.payload.name.length > 20)
+      if (name.length > 20)
         throw { name: 'Please enter a shorter name' }
-      if (action.payload.password.length < 6)
+      if (password.length < 6)
         throw { password: 'Please enter a longer password' }
       const id = crypto.randomUUID()
       const user = {
@@ -27,7 +28,7 @@ export const usersSlice = createSlice({
       }
       state.push(user)
       setStorage('users', state)
-      const { password, ...userDetails } = user
+      const { password: pswd, ...userDetails } = user
       action.payload = { id, ...userDetails }
     },
   },

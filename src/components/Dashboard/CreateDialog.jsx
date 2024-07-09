@@ -4,7 +4,8 @@ import { Dialog, Card, Stack, Button, Typography } from '@mui/material'
 export default function CreateDialog({ open, label, fields, onClose, onSubmit }) {
   const handleSubmit = event => {
     event.preventDefault()
-    onSubmit()
+    if (onSubmit())
+      onClose()
   }
 
   return (

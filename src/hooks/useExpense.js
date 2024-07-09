@@ -5,6 +5,7 @@ const useExpense = defaultValues => {
   // form states
   const [name, setName] = useState(defaultValues?.name ?? '')
   const [amount, setAmount] = useState(defaultValues?.amount ?? '')
+  const [budget, setBudget] = useState(defaultValues?.budget ?? null)
   const [errors, setErrors] = useState({})
 
   const handleCreate = () => {
@@ -14,6 +15,7 @@ const useExpense = defaultValues => {
   return {
     name, setName,
     amount, setAmount,
+    budget, setBudget,
     errors,
     handleCreate,
   }
