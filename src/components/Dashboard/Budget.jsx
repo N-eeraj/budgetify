@@ -27,7 +27,7 @@ export default function BudgetCard({ id, name, amount }) {
     {
       text: 'View',
       icon: <VisibilityIcon />,
-      onClick: () => navigate(id),
+      onClick: () => navigate(`/dashboard/budget/${id}`),
     },
     {
       text: 'Edit',
