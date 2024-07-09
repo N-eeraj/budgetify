@@ -16,7 +16,7 @@ import style from '@styles/home.module.css'
 import decoration from '@images/decoration.svg'
 
 // component imports
-import GradientText from '@components/GradientText'
+import GradientText from '@components/UI/GradientText'
 
 export default function () {
   return (

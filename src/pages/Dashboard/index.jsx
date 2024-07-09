@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import { Box, Stack, Typography } from '@mui/material'
 
 // component imports
-import GradientText from '@components/GradientText'
+import GradientText from '@components/UI/GradientText'
 import Navbar from '@components/Dashboard/Navbar'
 import DashboardTabs from '@components/Dashboard/Tabs'
 import { SmallScreen } from '@components/Breakpoints'

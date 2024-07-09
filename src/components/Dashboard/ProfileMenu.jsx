@@ -16,7 +16,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LogoutIcon from '@mui/icons-material/Logout'
 
 // component imports
-import MenuItem from '@components/Dashboard/MenuItem'
+import MenuItem from '@components/UI/MenuItem'
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = useState(null)

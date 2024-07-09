@@ -7,11 +7,12 @@ import Create from '@components/Dashboard/Create'
 import useExpense from '@hooks/useExpense'
 
 export default function Expenses() {
-  const { budgets, handleCreate, ...createProps } = useExpense()
+  const { budgets, expenses, handleCreate, ...createProps } = useExpense()
 
   return (
     <>
-      <div>Expenses</div>
+    { expenses.map(expense => <Expense {...expense} key={expense.id} />) }
+
       { !!budgets.length && (
           <CreateFab
             tooltip="Create New Expense"
@@ -19,7 +20,6 @@ export default function Expenses() {
             label="Create Expense"
             onSubmit={handleCreate} />
       ) }
-      <Expense />
     </>
   )
 }

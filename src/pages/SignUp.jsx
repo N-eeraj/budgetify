@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField'
 
 // component imports
 import EntryForm from '@components/EntryForm'
-import Password from '@components/Password'
+import Password from '@components/UI/Password'
 
 // hooks imports
 import useEntryForm from '@hooks/useEntryForm'
