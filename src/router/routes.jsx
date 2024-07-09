@@ -48,7 +48,16 @@ const routes = [
               },
               {
                 path: 'budgets',
-                element: <Budgets />,
+                children: [
+                  {
+                    index: true,
+                    element: <Budgets />,
+                  },
+                  {
+                    path: ':id',
+                    element: <></>,
+                  },
+                ]
               },
               {
                 path: 'expenses',

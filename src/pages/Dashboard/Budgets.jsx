@@ -13,17 +13,15 @@ export default function Budgets() {
   const { handleCreate, ...createProps } = useBudget()
 
   const budgets = useSelector(({ budgets }) => budgets)
-  console.log(budgets)
 
   return (
     <>
-      <div>Budgets</div>
+      { budgets.map(budget => <Budget {...budget} key={budget.id} />) }
       <CreateFab
         tooltip="Create New Budget"
         fields={<Create type="Budget" {...createProps} />}
         label="Create Budget"
         onSubmit={handleCreate} />
-      <Budget />
     </>
   )
 }

@@ -16,7 +16,7 @@ import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LogoutIcon from '@mui/icons-material/Logout'
 
 // component imports
-import ProfileMenuItem from '@components/Dashboard/ProfileMenu/Item'
+import MenuItem from '@components/Dashboard/MenuItem'
 
 export default function ProfileMenu() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -71,7 +71,7 @@ export default function ProfileMenu() {
           horizontal: 'right',
         }}
         onClose={() => setAnchorEl(null)}>
-        { menuItems.map(item => <ProfileMenuItem {...item} key={item.text} />) }
+        { menuItems.map(item => <MenuItem {...item} key={item.text} />) }
       </Menu>
     </>
   )

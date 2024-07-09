@@ -5,7 +5,7 @@ import { Outlet } from 'react-router'
 import { useSelector } from 'react-redux'
 
 // material ui imports
-import { Stack, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 
 // component imports
 import GradientText from '@components/GradientText'
@@ -29,6 +29,7 @@ export default function Dashboard() {
         <DashboardTabs />
       </SmallScreen>
       <Outlet />
+      <Box height={72} />
     </>
   )
 }

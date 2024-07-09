@@ -1,8 +1,11 @@
+// reduct toolkit imports
+import { useSelector } from 'react-redux'
+
 // material ui imports
 import { Autocomplete, TextField } from '@mui/material'
 
-export default function Create({ type, name, setName, amount, setAmount, budget, setBudget, errors }) {
-  const budgets = [{id: 1, name: 'text1'}, {id: 2, name: 'text 2'}]
+export default function Create({ type, name, setName, amount, setAmount, setBudget, errors }) {
+  const budgets = useSelector(({ budgets }) => budgets)
 
   return (
     <>
@@ -28,12 +31,13 @@ export default function Create({ type, name, setName, amount, setAmount, budget,
       {
         type === 'Expense' &&
         <Autocomplete
-          value={budget}
+          isOptionEqualToValue={({ id }, value) => id === value}
           options={budgets}
           getOptionLabel={({ name }) => name}
           clearOnBlur
+          includeInputInList
           renderInput={(params) => <TextField {...params} label="Select Budget" />}
-          onChange={(_, { id }) => console.log(id)}
+          onChange={(_, { id }) => setBudget(id)}
         />
       }
     </>
