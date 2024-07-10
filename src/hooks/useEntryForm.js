@@ -5,7 +5,6 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createUser, getUser } from '@store/users'
 
-
 const useEntryForm = () => {
   // form states
   const [name, setName] = useState('')
@@ -31,7 +30,8 @@ const useEntryForm = () => {
   const handleSignIn = () => {
     setErrors({})
     try {
-      return login({ email, password })
+      const user = login({ email, password })
+      return user
     }
     catch (error) {
       setErrors(error)

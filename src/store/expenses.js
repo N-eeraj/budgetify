@@ -5,15 +5,19 @@ import { createSlice } from '@reduxjs/toolkit'
 import { userExpenses, setUserExpenses } from '@utils/expense'
 import { userBudgets } from '@utils/budget'
 
-
 export const expensesSlice = createSlice({
   name: 'expenses',
-  initialState: userExpenses,
+  initialState: {
+    data: [],
+  },
   reducers: {
+    setExpenses: state => {
+      state.data = userExpenses()
+    },
     createExpense: (state, action) => {
       const { name, amount, budget } = action.payload
-      const { amount: budgetAmount } = userBudgets.find(({ id }) => id === budget)
-      const budgetSpent = state.reduce((total, expense) => {
+      const { amount: budgetAmount } = userBudgets().find(({ id }) => id === budget)
+      const budgetSpent = state.data.reduce((total, expense) => {
         if (expense.budget === budget)
           total += expense.amount
         return total
@@ -34,8 +38,8 @@ export const expensesSlice = createSlice({
         amount: expense,
         budget,
       }
-      state.push(latestExpense)
-      setUserExpenses(state)
+      state.data.push(latestExpense)
+      setUserExpenses(state.data)
       action.payload = latestExpense
     },
     updateExpense: (state, action) => {},
@@ -43,6 +47,6 @@ export const expensesSlice = createSlice({
   },
 })
 
-export const { createExpense, updateExpense, deleteExpense } = expensesSlice.actions
+export const { setExpenses, createExpense, updateExpense, deleteExpense } = expensesSlice.actions
 
 export default expensesSlice.reducer

@@ -4,14 +4,18 @@ import { createSlice } from '@reduxjs/toolkit'
 // utils imports
 import { userBudgets, setUserBudgets } from '@utils/budget'
 
-
 export const budgetsSlice = createSlice({
   name: 'budgets',
-  initialState: userBudgets,
+  initialState: {
+    data: [],
+  },
   reducers: {
+    setBudgets: state => {
+      state.data = userBudgets()
+    },
     createBudget: (state, action) => {
       const { name, amount } = action.payload
-      const existingBudget = state.find(budget => budget.name === name)
+      const existingBudget = state.data.find(budget => budget.name === name)
       if (existingBudget)
         throw { name: 'A budget with this name exists' }
       let budget = +amount
@@ -25,8 +29,8 @@ export const budgetsSlice = createSlice({
         name,
         amount: budget,
       }
-      state.push(latestBudget)
-      setUserBudgets(state)
+      state.data.push(latestBudget)
+      setUserBudgets(state.data)
       action.payload = latestBudget
     },
     updateBudget: (state, action) => {},
@@ -34,6 +38,6 @@ export const budgetsSlice = createSlice({
   },
 })
 
-export const { createBudget, updateBudget, deleteBudget } = budgetsSlice.actions
+export const { setBudgets, createBudget, updateBudget, deleteBudget } = budgetsSlice.actions
 
 export default budgetsSlice.reducer

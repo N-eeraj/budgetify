@@ -12,7 +12,7 @@ const useBudget = defaultValues => {
   const [errors, setErrors] = useState({})
 
   const dispatch = useDispatch()
-  const budgets = useSelector(({ budgets }) => budgets)
+  const budgets = useSelector(({ budgets }) => budgets.data)
 
   const handleCreate = () => {
     setErrors({})
