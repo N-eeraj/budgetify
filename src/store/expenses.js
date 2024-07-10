@@ -45,10 +45,13 @@ export const expensesSlice = createSlice({
       state.data = state.data.map(expense => expense.id === id ? { id, name, amount: expenseAmount, budget, time: expense.time } : expense)
       setUserExpenses(state.data)
     },
-    deleteExpense: (state, action) => {},
+    removeExpense: (state, { payload }) => {
+      state.data = state.data.filter(({ id }) => id !== payload)
+      setUserExpenses(state.data)
+    },
   },
 })
 
-export const { setExpenses, createExpense, updateExpense, deleteExpense } = expensesSlice.actions
+export const { setExpenses, createExpense, updateExpense, removeExpense } = expensesSlice.actions
 
 export default expensesSlice.reducer

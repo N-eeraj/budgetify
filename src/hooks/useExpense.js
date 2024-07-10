@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
-import { createExpense, updateExpense } from '@store/expenses'
+import { createExpense, updateExpense, removeExpense } from '@store/expenses'
 
 const useExpense = defaultValues => {
   // form states
@@ -64,7 +64,7 @@ const useExpense = defaultValues => {
   }
 
   const deleteExpense = () => {
-    console.log(deletingExpense)
+    dispatch(removeExpense(deletingExpense))
     setDeletingExpense(null)
   }
 

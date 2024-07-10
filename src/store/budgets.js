@@ -32,17 +32,20 @@ export const budgetsSlice = createSlice({
       setUserBudgets(state.data)
       action.payload = latestBudget
     },
-    updateBudget: (state, action) => {
-      const { id, name, amount } = action.payload
+    updateBudget: (state, { payload }) => {
+      const { id, name, amount } = payload
       checkDuplicate(state.data, name, id)
       const budgetAmount = amountValidation(amount)
       state.data = state.data.map(budget => budget.id === id ? { id, name, amount: budgetAmount } : budget)
       setUserBudgets(state.data)
     },
-    deleteBudget: (state, action) => {},
+    removeBudget: (state, { payload }) => {
+      state.data = state.data.filter(({ id }) => id !== payload)
+      setUserBudgets(state.data)
+    },
   },
 })
 
-export const { setBudgets, createBudget, updateBudget, deleteBudget } = budgetsSlice.actions
+export const { setBudgets, createBudget, updateBudget, removeBudget } = budgetsSlice.actions
 
 export default budgetsSlice.reducer
