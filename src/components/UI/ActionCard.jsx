@@ -12,6 +12,11 @@ export default function ActionCard({ title, actions, children }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
+  const handleItemClick = onClick => {
+    onClick()
+    setAnchorEl(null)
+  }
+
   return (
     <Card>
       <CardHeader
@@ -20,8 +25,7 @@ export default function ActionCard({ title, actions, children }) {
           <IconButton onClick={({ currentTarget }) => setAnchorEl(currentTarget)}>
             <MoreVertIcon />
           </IconButton>
-        }
-      />
+        }/>
       <Menu
         anchorEl={anchorEl}
         open={open}
@@ -35,7 +39,7 @@ export default function ActionCard({ title, actions, children }) {
           horizontal: 'right',
         }}
         onClose={() => setAnchorEl(null)}>
-        { actions.map(item => <MenuItem {...item} key={item.text} />) }
+        { actions.map(({ onClick, ...item }) => <MenuItem {...item} onClick={() => handleItemClick(onClick)} key={item.text} />) }
       </Menu>
       <CardContent>
         { children }

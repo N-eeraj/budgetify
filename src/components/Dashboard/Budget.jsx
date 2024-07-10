@@ -12,7 +12,7 @@ import ActionCard from '@components/UI/ActionCard'
 // utils imports
 import { formatAmount } from '@utils/formatter'
 
-export default function BudgetCard({ id, name, amount }) {
+export default function BudgetCard({ id, name, amount, onEdit, onDelete }) {
   const navigate = useNavigate()
 
   const actions = [
@@ -24,12 +24,12 @@ export default function BudgetCard({ id, name, amount }) {
     {
       text: 'Edit',
       icon: <EditIcon />,
-      onClick: () => alert('edit'),
+      onClick: () => onEdit(id),
     },
     {
       text: 'Delete',
       icon: <DeleteIcon />,
-      onClick: () => alert('del'),
+      onClick: () => onDelete(id),
     },
   ]
 
