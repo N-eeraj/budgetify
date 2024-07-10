@@ -12,6 +12,12 @@ export const setUserBudgets = budgetList => {
   setStorage('budgets', budgets)
 }
 
+export const checkDuplicate = (budgets, name, id) => {
+  const duplicateBudget = budgets.find(budget => budget.name === name && (id ? budget.id !== id : true))
+  if (duplicateBudget)
+    throw { name: 'A budget with this name exists' }
+}
+
 export const clearBudgets = () => {
   const remaining = Object.entries(allBudgets).reduce((remaining, [uuid, budgets]) => {
     if (uuid !== userId)

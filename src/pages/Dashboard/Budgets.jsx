@@ -14,40 +14,16 @@ import useBudget from '@hooks/useBudget'
 export default function Budgets() {
   const {
     budgets,
-    handleCreate,
-    editingBudget, setEditingBudget,
+    editingBudget,
     deletingBudget, setDeletingBudget,
-    setName, setAmount,
-    resetForm,
-    ...formStates
+    handleCreate,
+    handleEdit,
+    handleUpdate,
+    deleteBudget,
+    handleDialogClose,
+    ...createProps
   } = useBudget()
 
-  const createProps = {
-    setName,
-    setAmount,
-    ...formStates,
-  }
-
-  const handleDialogClose = () => {
-    setEditingBudget(null)
-    resetForm()
-  }
-
-  const handleEdit = id => {
-    setEditingBudget(id)
-    const { name, amount } = budgets.find(budget => budget.id === id)
-    setName(name)
-    setAmount(amount)
-  }
-
-  const handleUpdate = () => {
-    console.log('updated')
-  }
-
-  const deleteBudget = () => {
-    console.log(deletingBudget)
-    setDeletingBudget(null)
-  }
 
   return (
     <>

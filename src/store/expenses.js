@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit'
 // utils imports
 import { userExpenses, setUserExpenses } from '@utils/expense'
 import { userBudgets } from '@utils/budget'
+import { amountValidation } from '@utils/common'
 
 export const expensesSlice = createSlice({
   name: 'expenses',
@@ -22,11 +23,7 @@ export const expensesSlice = createSlice({
           total += expense.amount
         return total
       }, 0)
-      let expense = +amount
-      if (isNaN(expense))
-        throw { amount: 'Amount should be a number' }
-      if (expense <= 0)
-        throw { amount: 'Amount should be greater than 0' }
+      const expense = amountValidation(amount)
       if (budgetAmount < budgetSpent + expense)
         throw { amount: 'Amount exceeds budget balance' }
       const id = crypto.randomUUID()

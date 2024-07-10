@@ -2,7 +2,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 // utils imports
-import { userBudgets, setUserBudgets } from '@utils/budget'
+import {
+  userBudgets,
+  setUserBudgets,
+  checkDuplicate,
+} from '@utils/budget'
+import { amountValidation } from '@utils/common'
 
 export const budgetsSlice = createSlice({
   name: 'budgets',
@@ -15,14 +20,8 @@ export const budgetsSlice = createSlice({
     },
     createBudget: (state, action) => {
       const { name, amount } = action.payload
-      const existingBudget = state.data.find(budget => budget.name === name)
-      if (existingBudget)
-        throw { name: 'A budget with this name exists' }
-      let budget = +amount
-      if (isNaN(budget))
-        throw { amount: 'Amount should be a number' }
-      if (budget <= 0)
-        throw { amount: 'Amount should be greater than 0' }
+      checkDuplicate(state.data, name)
+      const budget = amountValidation(amount)
       const id = crypto.randomUUID()
       const latestBudget = {
         id,
@@ -33,7 +32,13 @@ export const budgetsSlice = createSlice({
       setUserBudgets(state.data)
       action.payload = latestBudget
     },
-    updateBudget: (state, action) => {},
+    updateBudget: (state, action) => {
+      const { id, name, amount } = action.payload
+      checkDuplicate(state.data, name, id)
+      const budgetAmount = amountValidation(amount)
+      state.data = state.data.map(budget => budget.id === id ? { id, name, amount: budgetAmount } : budget)
+      setUserBudgets(state.data)
+    },
     deleteBudget: (state, action) => {},
   },
 })

@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
-import { createBudget } from '@store/budgets'
+import { createBudget, updateBudget } from '@store/budgets'
 
 const useBudget = defaultValues => {
   // form states
@@ -19,6 +19,7 @@ const useBudget = defaultValues => {
   const resetForm = () => {
     setName('')
     setAmount('')
+    setErrors({})
   }
 
   const handleCreate = () => {
@@ -33,6 +34,34 @@ const useBudget = defaultValues => {
     }
   }
 
+  const handleEdit = id => {
+    setEditingBudget(id)
+    const { name, amount } = budgets.find(budget => budget.id === id)
+    setName(name)
+    setAmount(amount)
+  }
+
+  const handleUpdate = () => {
+    setErrors({})
+    try {
+      dispatch(updateBudget({ id: editingBudget, name, amount }))
+      setEditingBudget(null)
+    }
+    catch(error) {
+      setErrors(error)
+    }
+  }
+
+  const deleteBudget = () => {
+    console.log(deletingBudget)
+    setDeletingBudget(null)
+  }
+
+  const handleDialogClose = () => {
+    setEditingBudget(null)
+    resetForm()
+  }
+
   return {
     name, setName,
     amount, setAmount,
@@ -40,8 +69,11 @@ const useBudget = defaultValues => {
     budgets,
     editingBudget, setEditingBudget,
     deletingBudget, setDeletingBudget,
-    resetForm,
     handleCreate,
+    handleEdit,
+    handleUpdate,
+    deleteBudget,
+    handleDialogClose,
   }
 }
 
