@@ -63,10 +63,10 @@ const useBudget = defaultValues => {
   }
 
   return {
+    budgets,
     name, setName,
     amount, setAmount,
     errors,
-    budgets,
     editingBudget, setEditingBudget,
     deletingBudget, setDeletingBudget,
     handleCreate,

@@ -13,45 +13,17 @@ import useExpense from '@hooks/useExpense'
 
 export default function Expenses() {
   const {
-    budgets,
     expenses,
-    handleCreate,
-    editingExpense, setEditingExpense,
-    deletingExpense, setDeletingExpense,
-    setName, setAmount, setBudget,
-    resetForm,
-    ...formStates
-  } = useExpense()
-
-  const createProps = {
-    setName,
-    setAmount,
-    setBudget,
     budgets,
-    ...formStates,
-  }
-
-  const handleDialogClose = () => {
-    setEditingExpense(null)
-    resetForm()
-  }
-
-  const handleEdit = id => {
-    setEditingExpense(id)
-    const { name, amount, budget } = expenses.find(budget => budget.id === id)
-    setName(name)
-    setAmount(amount)
-    setBudget(budget)
-  }
-
-  const handleUpdate = () => {
-    console.log('updated')
-  }
-
-  const deleteExpense = () => {
-    console.log(deletingExpense)
-    setDeletingExpense(null)
-  }
+    editingExpense,
+    deletingExpense, setDeletingExpense,
+    handleCreate,
+    handleEdit,
+    handleUpdate,
+    deleteExpense,
+    handleDialogClose,
+    ...createProps
+  } = useExpense()
 
   return (
     <>
@@ -66,7 +38,7 @@ export default function Expenses() {
       { !!budgets.length && (
           <CreateFab
             tooltip="Create New Expense"
-            fields={<Create type="Expense" {...createProps} />}
+            fields={<Create type="Expense" {...createProps} budgets={budgets} />}
             label="Create Expense"
             onClose={handleDialogClose}
             onSubmit={handleCreate} />
@@ -76,7 +48,7 @@ export default function Expenses() {
         isUpdate
         label="Edit Expense"
         open={!!editingExpense}
-        fields={<Create type="Expense" {...createProps} />}
+        fields={<Create type="Expense" {...createProps} budgets={budgets} />}
         onClose={handleDialogClose}
         onSubmit={handleUpdate} />
 

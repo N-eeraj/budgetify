@@ -39,7 +39,12 @@ export const expensesSlice = createSlice({
       setUserExpenses(state.data)
       action.payload = latestExpense
     },
-    updateExpense: (state, action) => {},
+    updateExpense: (state, action) => {
+      const { id, name, amount, budget } = action.payload
+      const expenseAmount = amountValidation(amount)
+      state.data = state.data.map(expense => expense.id === id ? { id, name, amount: expenseAmount, budget, time: expense.time } : expense)
+      setUserExpenses(state.data)
+    },
     deleteExpense: (state, action) => {},
   },
 })

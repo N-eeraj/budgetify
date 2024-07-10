@@ -58,7 +58,7 @@ export default function Create({ type, name, setName, amount, setAmount, budget,
               label="Select Budget"
               error={!!errors.budget}
               helperText={errors.budget} />}
-            onChange={(_, { id }) => setBudget(id)} />
+            onChange={(_, value) => setBudget(value?.id)} />
       }
     </>
   )

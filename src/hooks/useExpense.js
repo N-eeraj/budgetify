@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
-import { createExpense } from '@store/expenses'
+import { createExpense, updateExpense } from '@store/expenses'
 
 const useExpense = defaultValues => {
   // form states
@@ -21,6 +21,7 @@ const useExpense = defaultValues => {
     setName('')
     setAmount('')
     setBudget(null)
+    setErrors({})
   }
   const handleCreate = () => {
     setErrors({})
@@ -36,17 +37,51 @@ const useExpense = defaultValues => {
     }
   }
 
+  const handleDialogClose = () => {
+    setEditingExpense(null)
+    resetForm()
+  }
+
+  const handleEdit = id => {
+    setEditingExpense(id)
+    const { name, amount, budget } = expenses.find(budget => budget.id === id)
+    setName(name)
+    setAmount(amount)
+    setBudget(budget)
+  }
+
+  const handleUpdate = () => {
+    setErrors({})
+    try {
+      if (!budget)
+        throw { budget: 'Please select a budget' }
+      dispatch(updateExpense({ id: editingExpense, name, amount, budget }))
+      setEditingExpense(null)
+    }
+    catch(error) {
+      setErrors(error)
+    }
+  }
+
+  const deleteExpense = () => {
+    console.log(deletingExpense)
+    setDeletingExpense(null)
+  }
+
   return {
+    expenses,
+    budgets,
     name, setName,
     amount, setAmount,
     budget, setBudget,
     errors,
-    budgets,
-    expenses,
     editingExpense, setEditingExpense,
     deletingExpense, setDeletingExpense,
-    resetForm,
     handleCreate,
+    handleEdit,
+    handleUpdate,
+    deleteExpense,
+    handleDialogClose,
   }
 }
 
