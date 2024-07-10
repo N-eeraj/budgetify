@@ -11,19 +11,24 @@ const useExpense = defaultValues => {
   const [amount, setAmount] = useState(defaultValues?.amount ?? '')
   const [budget, setBudget] = useState(defaultValues?.budget ?? null)
   const [errors, setErrors] = useState({})
+  const [editingExpense, setEditingExpense] = useState(null)
+  const [deletingExpense, setDeletingExpense] = useState(null)
 
   const dispatch = useDispatch()
   const { budgets, expenses } = useSelector(({ budgets, expenses }) => ({ budgets: budgets.data, expenses: expenses.data }))
 
+  const resetForm = () => {
+    setName('')
+    setAmount('')
+    setBudget(null)
+  }
   const handleCreate = () => {
     setErrors({})
     try {
       if (!budget)
         throw { budget: 'Please select a budget' }
       const { payload } = dispatch(createExpense({ name, amount, budget }))
-      setName('')
-      setAmount('')
-      setBudget(null)
+      resetForm()
       return payload
     }
     catch(error) {
@@ -38,6 +43,9 @@ const useExpense = defaultValues => {
     errors,
     budgets,
     expenses,
+    editingExpense, setEditingExpense,
+    deletingExpense, setDeletingExpense,
+    resetForm,
     handleCreate,
   }
 }

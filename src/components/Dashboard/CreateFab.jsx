@@ -6,12 +6,17 @@ import { Fab, Tooltip, lighten } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import CreateDialog from '@components/Dashboard/CreateDialog'
 
-export default function CreateFab({ tooltip, ...modalProps }) {
+export default function CreateFab({ tooltip, onClose, ...modalProps }) {
   const [openDialog, setOpenDialog] = useState(false)
+
+  const handleDialogClose = () => {
+    onClose()
+    setOpenDialog(false)
+  }
 
   return (
     <>
-      <CreateDialog {...modalProps} open={openDialog} onClose={() => setOpenDialog(false)} />
+      <CreateDialog {...modalProps} open={openDialog} onClose={handleDialogClose} />
       <Tooltip title={tooltip} placement="top-start">
         <Fab
           sx={{

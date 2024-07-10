@@ -4,9 +4,17 @@ import { useEffect } from 'react'
 // material ui imports
 import { Autocomplete, TextField } from '@mui/material'
 
-export default function Create({ type, name, setName, amount, setAmount, setBudget, errors, budgets }) {
+export default function Create({ type, name, setName, amount, setAmount, budget, setBudget, errors, budgets }) {
   const isExpense = type === 'Expense'
   const singleBudget = budgets?.length === 1
+
+  let value = null
+  if (isExpense) {
+    if (budget)
+      value = budgets.find(({ id }) => id === budget)
+    else if (singleBudget)
+      value = budgets[0]
+  }
 
   useEffect(() => {
     if (isExpense && singleBudget)
@@ -37,7 +45,7 @@ export default function Create({ type, name, setName, amount, setAmount, setBudg
       {
         isExpense &&
           <Autocomplete
-            defaultValue={singleBudget ? budgets[0] : null}
+            value={value}
             isOptionEqualToValue={({ id }, value) => id === value}
             options={budgets}
             getOptionLabel={({ name }) => name}

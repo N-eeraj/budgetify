@@ -1,7 +1,7 @@
 // material ui imports
 import { Dialog, Card, Stack, Button, Typography } from '@mui/material'
 
-export default function CreateDialog({ open, label, fields, onClose, onSubmit }) {
+export default function CreateDialog({ isUpdate, open, label, fields, onClose, onSubmit }) {
   const handleSubmit = event => {
     event.preventDefault()
     if (onSubmit())
@@ -27,7 +27,7 @@ export default function CreateDialog({ open, label, fields, onClose, onSubmit })
                 Cancel
               </Button>
               <Button type="submit" variant="contained">
-                Create
+                { isUpdate ? 'Update' : 'Create' }
               </Button>
             </Stack>
           </Stack>
