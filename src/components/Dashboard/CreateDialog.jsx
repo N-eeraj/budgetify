@@ -19,7 +19,7 @@ export default function CreateDialog({ isUpdate, open, label, fields, onClose, o
             <Typography variant="h6">
               { label }
             </Typography>
-            <Stack direction={{ md: 'row' }} gap={2}>
+            <Stack direction={{ md: 'row' }} gap={2} flexWrap="wrap">
               { fields }
             </Stack>
             <Stack direction="row" justifyContent="flex-end" columnGap={2}>

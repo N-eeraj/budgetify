@@ -1,9 +1,10 @@
 // component imports
+import DashboardGrid from '@components/Dashboard/Grid'
 import Expense from '@components/Dashboard/Expense'
 
 export default function List({ expenses }) {
   return (
-    expenses.map(expense => <Expense {...expense} key={expense.id} />)
+    <DashboardGrid items={expenses} Component={Expense} />
   )
 }
 

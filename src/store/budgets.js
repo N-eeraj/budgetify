@@ -7,7 +7,6 @@ import {
   setUserBudgets,
   checkDuplicate,
 } from '@utils/budget'
-import { amountValidation } from '@utils/common'
 
 export const budgetsSlice = createSlice({
   name: 'budgets',
@@ -21,7 +20,7 @@ export const budgetsSlice = createSlice({
     createBudget: (state, action) => {
       const { name, amount } = action.payload
       checkDuplicate(state.data, name)
-      const budget = amountValidation(amount)
+      const budget = +amount
       const id = crypto.randomUUID()
       const latestBudget = {
         id,
@@ -35,7 +34,7 @@ export const budgetsSlice = createSlice({
     updateBudget: (state, { payload }) => {
       const { id, name, amount } = payload
       checkDuplicate(state.data, name, id)
-      const budgetAmount = amountValidation(amount)
+      const budgetAmount = +amount
       state.data = state.data.map(budget => budget.id === id ? { id, name, amount: budgetAmount } : budget)
       setUserBudgets(state.data)
     },

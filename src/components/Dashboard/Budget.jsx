@@ -34,7 +34,7 @@ export default function BudgetCard({ id, name, amount, spent, onEdit, onDelete }
   ]
 
   return (
-    <ActionCard title={name} actions={actions}>
+    <ActionCard title={name} actions={actions} cardProps={{ variant: 'outlined' }}>
       { formatAmount(spent) }
       /
       { formatAmount(amount) }

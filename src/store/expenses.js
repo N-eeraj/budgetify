@@ -4,7 +4,6 @@ import { createSlice } from '@reduxjs/toolkit'
 // utils imports
 import { userExpenses, setUserExpenses } from '@utils/expense'
 import { userBudgets } from '@utils/budget'
-import { amountValidation } from '@utils/common'
 
 export const expensesSlice = createSlice({
   name: 'expenses',
@@ -23,7 +22,7 @@ export const expensesSlice = createSlice({
           total += expense.amount
         return total
       }, 0)
-      const expense = amountValidation(amount)
+      const expense = +amount
       if (budgetAmount < budgetSpent + expense)
         throw { amount: 'Amount exceeds budget balance' }
       const id = crypto.randomUUID()
@@ -41,7 +40,7 @@ export const expensesSlice = createSlice({
     },
     updateExpense: (state, action) => {
       const { id, name, amount, budget } = action.payload
-      const expenseAmount = amountValidation(amount)
+      const expenseAmount = +amount
       state.data = state.data.map(expense => expense.id === id ? { id, name, amount: expenseAmount, budget, time: expense.time } : expense)
       setUserExpenses(state.data)
     },

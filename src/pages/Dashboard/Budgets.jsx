@@ -2,6 +2,7 @@
 import { Typography } from '@mui/material'
 
 // component imports
+import DashboardGrid from '@components/Dashboard/Grid'
 import Budget from '@components/Dashboard/Budget'
 import CreateFab from '@components/Dashboard/CreateFab'
 import Create from '@components/Dashboard/Create'
@@ -27,13 +28,11 @@ export default function Budgets() {
 
   return (
     <>
-      { budgets.map(budget => (
-        <Budget
-          {...budget}
-          onEdit={handleEdit}
-          onDelete={id => setDeletingBudget(id)}
-          key={budget.id} />
-      )) }
+      <DashboardGrid
+        items={budgets}
+        Component={Budget}
+        onEdit={handleEdit}
+        onDelete={id => setDeletingBudget(id)} />
 
       <CreateFab
         tooltip="Create New Budget"

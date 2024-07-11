@@ -41,7 +41,7 @@ export default function ExpenseCard({ id, name, amount, time, budgetName }) {
 
   return (
     <>
-      <ActionCard title={name} actions={actions}>
+      <ActionCard title={name} actions={actions} cardProps={{ variant: 'outlined' }}>
         <div>{ formatAmount(amount) }</div>
         <div>{ time }</div>
         <div>{ budgetName }</div>

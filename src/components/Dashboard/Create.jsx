@@ -36,16 +36,29 @@ export default function Create({ type, name, setName, amount, setAmount, budget,
         fullWidth
         error={!!errors.name}
         helperText={errors.name}
+        sx={{
+          width: {
+            md: isExpense ? 1 : 'calc(50% - 8px)',
+          }
+        }}
         onChange={({ target }) => setName(target.value)}  />
       <TextField
         value={amount}
         label="Amount"
         variant="outlined"
         type="number"
+        inputProps={{
+          min: 0.01,
+          step: 0.01,
+        }}
         required
-        fullWidth
         error={!!errors.amount}
         helperText={errors.amount}
+        sx={{
+          width: {
+            md: 'calc(50% - 8px)',
+          }
+        }}
         onChange={({ target }) => setAmount(target.value)}  />
       {
         isExpense &&
@@ -57,7 +70,11 @@ export default function Create({ type, name, setName, amount, setAmount, budget,
             disabled={singleBudget}
             clearOnBlur
             includeInputInList
-            fullWidth
+            sx={{
+              width: {
+                md: 'calc(50% - 8px)',
+              }
+            }}
             renderInput={params => <TextField
               {...params}
               label="Select Budget"
