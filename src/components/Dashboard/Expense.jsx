@@ -8,8 +8,7 @@ import ActionCard from '@components/UI/ActionCard'
 // utils imports
 import { formatAmount } from '@utils/formatter'
 
-export default function ExpenseCard({ id, name, amount, time, budget, onEdit, onDelete }) {
-
+export default function ExpenseCard({ id, name, amount, time, budgetName, onEdit, onDelete }) {
   const actions = [
     {
       text: 'Edit',
@@ -27,7 +26,7 @@ export default function ExpenseCard({ id, name, amount, time, budget, onEdit, on
     <ActionCard title={name} actions={actions}>
       <div>{ formatAmount(amount) }</div>
       <div>{ time }</div>
-      <div>{ budget }</div>
+      <div>{ budgetName }</div>
     </ActionCard>
   )
 }

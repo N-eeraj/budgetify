@@ -4,6 +4,7 @@ import { useState } from 'react'
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
 import { createBudget, updateBudget, removeBudget } from '@store/budgets'
+import { getExpensesByBudget } from '@store/expenses'
 
 const useBudget = defaultValues => {
   // form states
@@ -14,7 +15,12 @@ const useBudget = defaultValues => {
   const [deletingBudget, setDeletingBudget] = useState(null)
 
   const dispatch = useDispatch()
-  const budgets = useSelector(({ budgets }) => budgets.data)
+  const budgets = useSelector(({ budgets, expenses }) => (
+    budgets.data.map(budget => ({
+      spent: getExpensesByBudget(expenses, budget.id).reduce((sum, { amount }) => sum + amount, 0),
+      ...budget,
+    }))
+  ))
 
   const resetForm = () => {
     setName('')

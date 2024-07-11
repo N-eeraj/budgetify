@@ -52,6 +52,8 @@ export const expensesSlice = createSlice({
   },
 })
 
+export const getExpensesByBudget = ({ data }, budget) => data.filter(expense => expense.budget === budget) ?? []
+
 export const { setExpenses, createExpense, updateExpense, removeExpense } = expensesSlice.actions
 
 export default expensesSlice.reducer

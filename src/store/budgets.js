@@ -46,6 +46,8 @@ export const budgetsSlice = createSlice({
   },
 })
 
+export const getBudget = ({ data }, id) => data.find(budget => budget.id === id)
+
 export const { setBudgets, createBudget, updateBudget, removeBudget } = budgetsSlice.actions
 
 export default budgetsSlice.reducer
