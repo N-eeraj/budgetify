@@ -48,6 +48,7 @@ export default function SignUp() {
       <Password
         value={password}
         error={!!errors.password}
+        required
         helperText={errors.password}
         independentToggle
         onChange={setPassword} />

@@ -4,9 +4,9 @@ import { Typography } from '@mui/material'
 // component imports
 import DashboardGrid from '@components/Dashboard/Grid'
 import Budget from '@components/Dashboard/Budget'
-import CreateFab from '@components/Dashboard/CreateFab'
+import CreateFab from '@components/Dashboard/Create/Fab'
 import Create from '@components/Dashboard/Create'
-import CreateDialog from '@components/Dashboard/CreateDialog'
+import CreateDialog from '@components/Dashboard/Create/Dialog'
 import Confirmation from '@components/UI/Confirmation'
 
 // hooks imports

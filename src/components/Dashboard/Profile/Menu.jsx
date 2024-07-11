@@ -9,13 +9,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toggleMode, setUser } from '@store/main'
 
 // material ui imports
-import { Avatar, Menu } from '@mui/material'
+import { Menu } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
 import WbSunnyIcon from '@mui/icons-material/WbSunny'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LogoutIcon from '@mui/icons-material/Logout'
 
 // component imports
+import ProfileAvatar from '@components/Dashboard/Profile/Avatar'
 import MenuItem from '@components/UI/MenuItem'
 
 export default function ProfileMenu() {
@@ -25,7 +26,7 @@ export default function ProfileMenu() {
   const navigate = useNavigate()
 
   const dispatch = useDispatch()
-  const { name, image, mode } = useSelector(({ main }) => ({ ...main.user, mode: main.mode }))
+  const { mode } = useSelector(({ main }) => ({ ...main.user, mode: main.mode }))
 
   const modeIcon = mode === 'dark' ? <WbSunnyIcon /> : <DarkModeIcon />
   const handleToggleMode = () => {
@@ -53,11 +54,8 @@ export default function ProfileMenu() {
 
   return (
     <>
-      <Avatar
-        src={image}
-        alt={name}
-        sx={{ cursor: 'pointer' }}
-        onClick={({ currentTarget }) => setAnchorEl(currentTarget)} />
+      <ProfileAvatar onClick={({ currentTarget }) => setAnchorEl(currentTarget)} />
+
       <Menu
         anchorEl={anchorEl}
         open={open}

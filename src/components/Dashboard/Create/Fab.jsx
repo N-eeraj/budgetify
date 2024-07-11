@@ -4,7 +4,7 @@ import { useState } from 'react'
 // material ui imports
 import { Fab, Tooltip, lighten } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import CreateDialog from '@components/Dashboard/CreateDialog'
+import CreateDialog from '@components/Dashboard/Create/Dialog'
 
 export default function CreateFab({ tooltip, onClose, ...modalProps }) {
   const [openDialog, setOpenDialog] = useState(false)

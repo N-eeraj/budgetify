@@ -2,7 +2,7 @@
 import { Stack } from '@mui/material'
 
 // component imports
-import ProfileMenu from '@components/Dashboard/ProfileMenu'
+import ProfileMenu from '@components/Dashboard/Profile/Menu'
 import DashboardTabs from '@components/Dashboard/Tabs'
 import { LargeScreen } from '@components/Breakpoints'
 

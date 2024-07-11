@@ -1,6 +1,6 @@
 // component imports
 import ExpenseList from '@components/Dashboard/Expense/List'
-import CreateFab from '@components/Dashboard/CreateFab'
+import CreateFab from '@components/Dashboard/Create/Fab'
 import Create from '@components/Dashboard/Create'
 
 // hooks imports

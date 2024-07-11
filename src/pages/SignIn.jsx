@@ -38,6 +38,7 @@ export default function SignIn() {
         onChange={({ target }) => setEmail(target.value)} />
       <Password
         value={password}
+        required
         error={!!errors.password}
         helperText={errors.password}
         independentToggle

@@ -11,7 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 // component imports
 import ActionCard from '@components/UI/ActionCard'
-import CreateDialog from '@components/Dashboard/CreateDialog'
+import CreateDialog from '@components/Dashboard/Create/Dialog'
 import Confirmation from '@components/UI/Confirmation'
 import Create from '@components/Dashboard/Create'
 
