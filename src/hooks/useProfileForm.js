@@ -15,6 +15,7 @@ const useProfileForm = () => {
   const [name, setName] = useState(user.name)
   const [email, setEmail] = useState(user.email)
   const [password, setPassword] = useState('')
+  const [showSnackbar, setShowSnackbar] = useState(false)
   const [errors, setErrors] = useState({})
 
   // profile updation function
@@ -24,6 +25,7 @@ const useProfileForm = () => {
     try {
       const { payload } = dispatch(updateUser({ id: user.id, name, email, password }))
       dispatch(setUser(payload))
+      setShowSnackbar(true)
     }
     catch (error) {
       setErrors(error)
@@ -34,6 +36,7 @@ const useProfileForm = () => {
     name, setName,
     email, setEmail,
     password, setPassword,
+    showSnackbar, setShowSnackbar,
     errors,
     handleUpdate,
   }

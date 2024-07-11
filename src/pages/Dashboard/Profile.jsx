@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router'
 
 // material ui imports
-import { Stack, IconButton, TextField, Button } from '@mui/material'
+import { Stack, IconButton, TextField, Button, Snackbar, Alert } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 // component imports
@@ -17,6 +17,7 @@ export default function Profile() {
     name, setName,
     email, setEmail,
     password, setPassword,
+    showSnackbar, setShowSnackbar,
     errors,
     handleUpdate,
   } = useProfileForm()
@@ -90,6 +91,27 @@ export default function Profile() {
           </Button>
         </Stack>
       </Stack>
+
+      <Snackbar
+        open={showSnackbar}
+        autoHideDuration={2000}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        onClose={() => setShowSnackbar(false)}>
+        <Alert
+          severity="success"
+          variant="filled"
+          color="primary"
+          sx={{
+            width: '100%',
+            color: 'white',
+          }}
+          onClose={() => setShowSnackbar(false)}>
+          Updated Profile!
+        </Alert>
+      </Snackbar>
     </>
   )
 }
