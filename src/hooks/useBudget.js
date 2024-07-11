@@ -15,6 +15,8 @@ const useBudget = defaultValues => {
   const [deletingBudget, setDeletingBudget] = useState(null)
 
   const dispatch = useDispatch()
+
+  // store values
   const budgets = useSelector(({ budgets, expenses }) => (
     budgets.data.map(budget => ({
       spent: getExpensesByBudget(expenses, budget.id).reduce((sum, { amount }) => sum + amount, 0),
@@ -22,12 +24,14 @@ const useBudget = defaultValues => {
     }))
   ))
 
+  // clearing form
   const resetForm = () => {
     setName('')
     setAmount('')
     setErrors({})
   }
 
+  // budget creation function
   const handleCreate = () => {
     setErrors({})
     try {
@@ -40,6 +44,7 @@ const useBudget = defaultValues => {
     }
   }
 
+  // open edit modal with prefilled values
   const handleEdit = id => {
     setEditingBudget(id)
     const { name, amount } = budgets.find(budget => budget.id === id)
@@ -47,6 +52,7 @@ const useBudget = defaultValues => {
     setAmount(amount)
   }
 
+  // budget updation function
   const handleUpdate = () => {
     setErrors({})
     try {
@@ -58,11 +64,13 @@ const useBudget = defaultValues => {
     }
   }
 
+  // budget deletion function
   const deleteBudget = () => {
     dispatch(removeBudget(deletingBudget))
     setDeletingBudget(null)
   }
 
+  // closing dialog & clear form states
   const handleDialogClose = () => {
     setEditingBudget(null)
     resetForm()

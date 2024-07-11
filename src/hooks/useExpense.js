@@ -16,6 +16,8 @@ const useExpense = defaultValues => {
   const [deletingExpense, setDeletingExpense] = useState(null)
 
   const dispatch = useDispatch()
+
+  // store values
   const { budgets, expenses } = useSelector(({ budgets, expenses }) => ({
     budgets: budgets.data,
     expenses: expenses.data.map((expense) => ({
@@ -24,12 +26,15 @@ const useExpense = defaultValues => {
     }))
   }))
 
+  // clearing form
   const resetForm = () => {
     setName('')
     setAmount('')
     setBudget(null)
     setErrors({})
   }
+
+  // expense creation function
   const handleCreate = () => {
     setErrors({})
     try {
@@ -44,11 +49,7 @@ const useExpense = defaultValues => {
     }
   }
 
-  const handleDialogClose = () => {
-    setEditingExpense(null)
-    resetForm()
-  }
-
+  // open edit modal with prefilled values
   const handleEdit = id => {
     setEditingExpense(id)
     const { name, amount, budget } = expenses.find(budget => budget.id === id)
@@ -57,6 +58,7 @@ const useExpense = defaultValues => {
     setBudget(budget)
   }
 
+  // expense updation function
   const handleUpdate = () => {
     setErrors({})
     try {
@@ -70,9 +72,16 @@ const useExpense = defaultValues => {
     }
   }
 
+  // expense deletion function
   const deleteExpense = () => {
     dispatch(removeExpense(deletingExpense))
     setDeletingExpense(null)
+  }
+
+  // closing dialog & clear form states
+  const handleDialogClose = () => {
+    setEditingExpense(null)
+    resetForm()
   }
 
   return {

@@ -4,15 +4,15 @@ import { createSlice } from '@reduxjs/toolkit'
 // utils imports
 import { getStorage, setStorage } from '@utils/localStorage'
 
-const initialState = getStorage('users', [])
-
 export const usersSlice = createSlice({
   name: 'users',
-  initialState,
+  initialState: {
+    data: getStorage('users', []),
+  },
   reducers: {
     createUser: (state, action) => {
       const { name, email, password } = action.payload
-      const existingUser = state.find(user => user.email === email)
+      const existingUser = state.data.find(user => user.email === email)
       if (existingUser)
         throw { email: 'Email already used' }
       if (name.length < 3)
@@ -26,19 +26,30 @@ export const usersSlice = createSlice({
         id,
         ...action.payload,
       }
-      state.push(user)
-      setStorage('users', state)
+      state.data.push(user)
+      setStorage('users', state.data)
       const { password: pswd, ...userDetails } = user
       action.payload = { id, ...userDetails }
+    },
+    updateUser: (state, action) => {
+      const { id, password } = action.payload
+      const userDetails = action.payload
+      state.data = state.data.map(user => {
+        if (user.id !== id) return user
+        userDetails.password = password || user.password
+        return userDetails
+      })
+      setStorage('users', state.data)
+      action.payload = userDetails
     },
   },
 })
 
-export const { createUser } = usersSlice.actions
+export const { createUser, updateUser } = usersSlice.actions
 
-export const getUser = state => (
+export const getUser = ({ data }) => (
   credentials => {
-    const user = state.find(({ email }) => email === credentials.email)
+    const user = data.find(({ email }) => email === credentials.email)
     if (!user)
       throw { email: 'User not found' }
     if (user.password !== credentials.password)
