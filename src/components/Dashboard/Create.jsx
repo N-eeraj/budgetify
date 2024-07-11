@@ -1,10 +1,15 @@
 // react imports
 import { useEffect } from 'react'
 
+// redux toolkit imports
+import { useSelector } from 'react-redux'
+
 // material ui imports
 import { Autocomplete, TextField } from '@mui/material'
 
-export default function Create({ type, name, setName, amount, setAmount, budget, setBudget, errors, budgets }) {
+export default function Create({ type, name, setName, amount, setAmount, budget, setBudget, errors }) {
+  const budgets = useSelector(({ budgets }) => budgets.data)
+
   const isExpense = type === 'Expense'
   const singleBudget = budgets?.length === 1
 
