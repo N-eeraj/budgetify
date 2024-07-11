@@ -20,7 +20,7 @@ export default function Theme({ children }) {
       ...(mode === 'dark' ? darkTheme : lightTheme),
     },
     typography: {
-      fontFamily: '"Google Sans",roboto,"Noto Sans Myanmar UI",arial,sans-serif',
+      fontFamily: '"Google Sans", roboto, "Noto Sans Myanmar UI", arial, sans-serif',
     },
     components: {
       MuiButton: {
@@ -33,6 +33,11 @@ export default function Theme({ children }) {
           },
         },
       },
+      MuiChip: {
+        defaultProps: {
+          variant: mode === 'dark' ? 'outlined' : 'filled'
+        },
+      }
     }
   }), [mode])
 

@@ -1,5 +1,11 @@
+// react router imports
+import { useNavigate } from 'react-router'
+
+// redux toolkit imports
+import { useSelector } from 'react-redux'
+
 // material ui imports
-import { Typography } from '@mui/material'
+import { Chip, Grid, Typography } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 
@@ -13,9 +19,9 @@ import Create from '@components/Dashboard/Create'
 import useExpense from '@hooks/useExpense'
 
 // utils imports
-import { formatAmount } from '@utils/formatter'
+import { formatAmount, formatDate } from '@utils/formatter'
 
-export default function ExpenseCard({ id, name, amount, time, budgetName }) {
+export default function ExpenseCard({ id, name, amount, time: timeStamp, budget, budgetName }) {
   const {
     editingExpense,
     deletingExpense, setDeletingExpense,
@@ -25,6 +31,12 @@ export default function ExpenseCard({ id, name, amount, time, budgetName }) {
     handleDialogClose,
     ...createProps
   } = useExpense()
+
+  const navigate = useNavigate()
+
+  const { mode } = useSelector(({ main }) => main)
+
+  const { date, time} = formatDate(timeStamp)
 
   const actions = [
     {
@@ -41,10 +53,42 @@ export default function ExpenseCard({ id, name, amount, time, budgetName }) {
 
   return (
     <>
-      <ActionCard title={name} actions={actions} cardProps={{ variant: 'outlined' }}>
-        <div>{ formatAmount(amount) }</div>
-        <div>{ time }</div>
-        <div>{ budgetName }</div>
+      <ActionCard
+        title={name}
+        actions={actions}
+        cardProps={{
+        variant: mode === 'dark' ? 'filled' : 'outlined',
+          sx: {
+            borderRadius: 3,
+            backgroundColor: ({ palette }) => palette.primary.contrastText,
+          }
+        }}>
+        <Grid container>
+          <Grid item xs={6}>
+          <Chip
+            label={budgetName}
+            color="primary"
+            size="small"
+            sx={{ paddingX: 1 }}
+            onClick={() => navigate(`/dashboard/budget/${budget}`)} />
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="h6" align="right" color="error">
+            { formatAmount(amount) }
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography
+              variant="body2"
+              component="span"
+              noWrap
+              sx={{
+                color: ({ palette }) => palette.text[palette.mode === 'dark' ? 'disabled' : 'secondary']
+              }}>
+              { date }, { time }
+            </Typography>
+          </Grid>
+        </Grid>
       </ActionCard>
 
       <CreateDialog
