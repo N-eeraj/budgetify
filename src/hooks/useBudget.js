@@ -4,7 +4,7 @@ import { useState } from 'react'
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
 import { createBudget, updateBudget, removeBudget } from '@store/budgets'
-import { getExpensesByBudget } from '@store/expenses'
+import { getExpensesByBudget, removeExpensesByBudget } from '@store/expenses'
 
 const useBudget = defaultValues => {
   // form states
@@ -67,6 +67,7 @@ const useBudget = defaultValues => {
   // budget deletion function
   const deleteBudget = () => {
     dispatch(removeBudget(deletingBudget))
+    dispatch(removeExpensesByBudget(deletingBudget))
     setDeletingBudget(null)
   }
 

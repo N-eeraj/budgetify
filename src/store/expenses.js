@@ -48,11 +48,21 @@ export const expensesSlice = createSlice({
       state.data = state.data.filter(({ id }) => id !== payload)
       setUserExpenses(state.data)
     },
+    removeExpensesByBudget: (state, { payload }) => {
+      state.data = state.data.filter(({ budget }) => budget !== payload)
+      setUserExpenses(state.data)
+    },
   },
 })
 
 export const getExpensesByBudget = ({ data }, budget) => data.filter(expense => expense.budget === budget) ?? []
 
-export const { setExpenses, createExpense, updateExpense, removeExpense } = expensesSlice.actions
+export const {
+  setExpenses,
+  createExpense,
+  updateExpense,
+  removeExpense,
+  removeExpensesByBudget,
+} = expensesSlice.actions
 
 export default expensesSlice.reducer

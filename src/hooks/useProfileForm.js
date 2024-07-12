@@ -6,6 +6,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateUser, deleteUser } from '@store/users'
 import { setUser } from '@store/main'
 
+// utils imports
+import { clearBudgets } from '@utils/budget'
+import { clearExpenses } from '@utils/expense'
+
 const useProfileForm = () => {
   // store values
   const { user } = useSelector(({ main }) => main)
@@ -35,6 +39,8 @@ const useProfileForm = () => {
 
   // delete profile function
   const handleDelete = () => {
+    clearBudgets()
+    clearExpenses()
     dispatch(deleteUser(user.id))
     dispatch(setUser(null))
     setDeleteConfirmation(false)
