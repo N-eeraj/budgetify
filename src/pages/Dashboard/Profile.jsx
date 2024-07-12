@@ -2,12 +2,13 @@
 import { useNavigate } from 'react-router'
 
 // material ui imports
-import { Stack, IconButton, TextField, Button, Snackbar, Alert } from '@mui/material'
+import { Stack, IconButton, TextField, Button, Snackbar, Alert, Typography } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 // component imports
 import ProfilePicture from '@components/Dashboard/Profile/Picture'
 import Password from '@components/UI/Password'
+import Confirmation from '@components/UI/Confirmation'
 
 // hooks imports
 import useProfileForm from '@hooks/useProfileForm'
@@ -19,7 +20,9 @@ export default function Profile() {
     password, setPassword,
     showSnackbar, setShowSnackbar,
     errors,
+    deleteConfirmation, setDeleteConfirmation,
     handleUpdate,
+    handleDelete,
   } = useProfileForm()
 
   const navigate = useNavigate()
@@ -86,11 +89,28 @@ export default function Profile() {
           <Button
             variant="outlined"
             color="error"
-            sx={{ height: 56, width: halfWidth }}>
+            sx={{ height: 56, width: halfWidth }}
+            onClick={() => setDeleteConfirmation(true)}>
             Delete Account
           </Button>
         </Stack>
       </Stack>
+
+      <Confirmation
+        open={deleteConfirmation}
+        title="Delete Confimation"
+        actionText="Delete my account"
+        actionColor="error"
+        onClose={() => setDeleteConfirmation(false)}
+        onConfirm={handleDelete}>
+        <Typography variant="body2" color="text.disabled">
+          You are about to delete your account.
+          This action is reversible!
+        </Typography>
+        <Typography variant="body1" component="span" color="text.secondary">
+          Are you sure you want to continue ?
+        </Typography>
+      </Confirmation>
 
       <Snackbar
         open={showSnackbar}

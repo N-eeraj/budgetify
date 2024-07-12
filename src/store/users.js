@@ -42,10 +42,14 @@ export const usersSlice = createSlice({
       setStorage('users', state.data)
       action.payload = userDetails
     },
+    deleteUser: (state, { payload }) => {
+      state.data = state.data.filter(({ id }) => id !== payload)
+      setStorage('users', state.data)
+    },
   },
 })
 
-export const { createUser, updateUser } = usersSlice.actions
+export const { createUser, updateUser, deleteUser } = usersSlice.actions
 
 export const getUser = ({ data }) => (
   credentials => {
