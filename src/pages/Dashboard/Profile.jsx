@@ -47,7 +47,14 @@ export default function Profile() {
         columnGap={10}
         paddingTop={{ xs: 5, md: 10 }}
         onSubmit={handleUpdate}>
-        <Stack direction="row" justifyContent="center" alignItems="center" rowGap={{ xs: 2, md: 3 }} columnGap={5} flexWrap="wrap" maxWidth="md">
+        <Stack
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+          rowGap={{ xs: 2, md: 3 }}
+          columnGap={5}
+          flexWrap="wrap"
+          maxWidth="md">
           <Stack alignItems="center" width={1}>
             <ProfilePicture />
           </Stack>
