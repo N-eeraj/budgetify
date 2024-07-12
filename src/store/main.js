@@ -24,9 +24,17 @@ export const mainSlice = createSlice({
       else
         removeStorage('user')
     },
+    setProfilePicture: (state, action) => {
+      if (action.payload === null)
+        delete state.user.image
+      else
+        state.user.image = action.payload
+      setStorage('user', state.user)
+      action.payload = { ...state.user }
+    },
   },
 })
 
-export const { toggleMode, setUser } = mainSlice.actions
+export const { toggleMode, setUser, setProfilePicture } = mainSlice.actions
 
 export default mainSlice.reducer

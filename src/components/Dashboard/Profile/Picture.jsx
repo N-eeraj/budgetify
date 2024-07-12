@@ -1,9 +1,3 @@
-// react imports
-import { useState } from 'react'
-
-// redux toolkit imports
-import { useSelector } from 'react-redux'
-
 // material ui imports
 import { Dialog, Card, CardHeader, CardActions, Button, IconButton, CardContent, Grid, Badge } from '@mui/material'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
@@ -12,12 +6,16 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 // component imports
 import ProfileAvatar from '@components/Dashboard/Profile/Avatar'
 
-// utils imports
-import profileImages from '@utils/profileImages'
+// hooks imports
+import useProfilePicture from '@hooks/useProfilePicture'
 
 export default function ProfilePicture() {
-  const [open, setOpen] = useState(false)
-  const { image } = useSelector(({ main }) => main.user)
+  const {
+    open, setOpen,
+    image,
+    profileImages,
+    changeProfilePicture
+  } = useProfilePicture()
 
   return (
     <>
@@ -37,6 +35,7 @@ export default function ProfilePicture() {
               <CloseRoundedIcon />
             </IconButton>
             }/>
+
           <CardContent sx={{ paddingY: 0 }}>
             <Grid container spacing={2}>
               { profileImages.map((src, index) => (
@@ -61,7 +60,7 @@ export default function ProfilePicture() {
                         width: '100%',
                         padding: 0,
                       }}
-                      onClick={() => console.log(index)}>
+                      onClick={() => changeProfilePicture(index)}>
                       <img src={src} width="100%" />
                     </IconButton>
                   </Badge>
@@ -69,8 +68,13 @@ export default function ProfilePicture() {
               )) }
             </Grid>
           </CardContent>
+
           <CardActions sx={{ padding: 3 }}>
-            <Button variant="outlined" fullWidth color="error">
+            <Button
+              variant="outlined"
+              fullWidth
+              color="error"
+              onClick={() => changeProfilePicture(null)}>
               Remove Picture
             </Button>
           </CardActions>
