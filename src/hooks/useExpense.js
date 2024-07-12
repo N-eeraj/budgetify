@@ -1,5 +1,8 @@
 // react imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+// react router imports
+import { useLocation } from 'react-router'
 
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +17,14 @@ const useExpense = defaultValues => {
   const [errors, setErrors] = useState({})
   const [editingExpense, setEditingExpense] = useState(null)
   const [deletingExpense, setDeletingExpense] = useState(null)
+
+  const { state: budgetExpense } = useLocation()
+  window.history.replaceState({}, '')
+  useEffect(() => {
+    if (budgetExpense) {
+      setBudget(budgetExpense.budget)
+    }
+  }, [])
 
   const dispatch = useDispatch()
 

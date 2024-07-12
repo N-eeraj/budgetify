@@ -1,5 +1,8 @@
 // react imports
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+// react router imports
+import { useLocation } from 'react-router'
 
 // material ui imports
 import { Fab, Tooltip, lighten } from '@mui/material'
@@ -8,6 +11,14 @@ import CreateDialog from '@components/Dashboard/Create/Dialog'
 
 export default function CreateFab({ tooltip, onClose, ...modalProps }) {
   const [openDialog, setOpenDialog] = useState(false)
+
+  const { state: budgetExpense } = useLocation()
+
+  useEffect(() => {
+    if (budgetExpense) {
+      setOpenDialog(true)
+    }
+  }, [])
 
   const handleDialogClose = () => {
     onClose()

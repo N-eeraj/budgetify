@@ -1,5 +1,5 @@
 // react imports
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // react router imports
 import { useNavigate, useLocation } from 'react-router'
@@ -15,6 +15,10 @@ export default function DashboardTabs() {
   const navigate = useNavigate()
 
   const [currentTab, setCurrentTab] = useState(tab ?? 'budgets')
+
+  useEffect(() => {
+    setCurrentTab(tab)
+  }, [pathname])
 
   const handleTabChange = (_, value) => {
     setCurrentTab(value)

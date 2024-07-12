@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux'
 import { LinearProgress, Stack, Typography } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import EditIcon from '@mui/icons-material/Edit'
+import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 // component imports
@@ -33,6 +34,11 @@ export default function BudgetCard({ id, name, amount, spent, onEdit, onDelete }
       text: 'View',
       icon: <VisibilityIcon />,
       onClick: () => navigate(`/dashboard/budget/${id}`),
+    },
+    {
+      text: 'New Expense',
+      icon: <AddIcon />,
+      onClick: () => navigate('../expenses', { state: { budget: id } }),
     },
     {
       text: 'Edit',
@@ -74,13 +80,17 @@ export default function BudgetCard({ id, name, amount, spent, onEdit, onDelete }
             <Typography>
               Spent
             </Typography>
-            { formatAmount(spent) }
+            <Typography>
+              { formatAmount(spent) }
+            </Typography>
           </Stack>
           <Stack>
             <Typography>
               Remaining
             </Typography>
-            { formatAmount(amount - spent) }
+            <Typography>
+              { formatAmount(amount - spent) }
+            </Typography>
           </Stack>
         </Stack>
       </Stack>
