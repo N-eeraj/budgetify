@@ -28,12 +28,6 @@ export default function ProfileMenu() {
   const dispatch = useDispatch()
   const { mode } = useSelector(({ main }) => ({ ...main.user, mode: main.mode }))
 
-  const modeIcon = mode === 'dark' ? <WbSunnyIcon /> : <DarkModeIcon />
-  const handleToggleMode = () => {
-    dispatch(toggleMode())
-    setAnchorEl(null)
-  }
-
   const menuItems = [
     {
       text: 'Profile',
@@ -42,8 +36,8 @@ export default function ProfileMenu() {
     },
     {
       text: `${ mode === 'dark' ? 'Light' : 'Dark' } Mode`,
-      icon: modeIcon,
-      onClick: handleToggleMode,
+      icon: mode === 'dark' ? <WbSunnyIcon /> : <DarkModeIcon />,
+      onClick: () => dispatch(toggleMode()),
     },
     {
       text: 'Logout',

@@ -23,10 +23,10 @@ export default function CreateDialog({ isUpdate, open, label, fields, onClose, o
               { fields }
             </Stack>
             <Stack direction="row" justifyContent="flex-end" columnGap={2}>
-              <Button type="button" onClick={onClose}>
+              <Button type="button" onClick={onClose} sx={{ borderRadius: '20px' }}>
                 Cancel
               </Button>
-              <Button type="submit" variant="contained">
+              <Button type="submit" variant="contained" sx={{ borderRadius: '20px' }}>
                 { isUpdate ? 'Update' : 'Create' }
               </Button>
             </Stack>

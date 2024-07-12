@@ -56,10 +56,12 @@ export default function ProfilePicture() {
                       vertical: 'bottom',
                       horizontal: 'right',
                     }}>
-                    <IconButton sx={{
-                      width: '100%',
-                      padding: 0,
-                    }}>
+                    <IconButton
+                      sx={{
+                        width: '100%',
+                        padding: 0,
+                      }}
+                      onClick={() => console.log(index)}>
                       <img src={src} width="100%" />
                     </IconButton>
                   </Badge>

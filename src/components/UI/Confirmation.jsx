@@ -10,10 +10,16 @@ export default function Confirmation({ open, title, actionText='Continue', actio
           { children }
         </CardContent>
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button color="inherit" onClick={onClose}>
+          <Button
+            color="inherit"
+            sx={{ borderRadius: '20px' }}
+            onClick={onClose}>
             Cancel
           </Button>
-          <Button color={actionColor} onClick={onConfirm}>
+          <Button
+            color={actionColor}
+            sx={{ borderRadius: '20px' }}
+            onClick={onConfirm}>
             { actionText }
           </Button>
         </CardActions>

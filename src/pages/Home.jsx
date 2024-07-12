@@ -43,8 +43,15 @@ export default function () {
       },
     }}>
 
-      <Stack spacing={{ xs: 2, md: 1 }} maxWidth="md" alignItems="self-start">
-        <GradientText text="Take Control of Your Money" variant="h3" component="h1" color="primary" />
+      <Stack
+        spacing={{ xs: 2, md: 1 }}
+        maxWidth="md"
+        alignItems="self-start">
+        <GradientText
+          text="Take Control of Your Money"
+          variant="h3"
+          component="h1"
+          color="primary" />
         <Typography variant="subtitle1" component="h2">
           Personal budgeting is the secret to financial freedom. Start your journey today.
         </Typography>
@@ -55,7 +62,10 @@ export default function () {
         </Link>
       </Stack>
 
-      <img src={decoration} alt="decoration" className={style.decorationImage} />
+      <img
+        src={decoration}
+        alt="decoration"
+        className={style.decorationImage} />
     </Container>
   )
 }
