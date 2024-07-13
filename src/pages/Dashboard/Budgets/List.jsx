@@ -12,7 +12,7 @@ import Confirmation from '@components/UI/Confirmation'
 // hooks imports
 import useBudget from '@hooks/useBudget'
 
-export default function Budgets() {
+export default function BudgetList() {
   const {
     budgets,
     editingBudget,

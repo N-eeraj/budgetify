@@ -6,7 +6,8 @@ import DashboardLayout from '@layouts/Dashboard'
 
 // page imports
 import Dashboard from '@pages/Dashboard'
-import Budgets from '@pages/Dashboard/Budgets'
+import BudgetList from '@pages/Dashboard/Budgets/List'
+import Budget from '@pages/Dashboard/Budgets'
 import Expenses from '@pages/Dashboard/Expenses'
 import Profile from '@pages/Dashboard/Profile'
 
@@ -23,7 +24,7 @@ export default {
         },
         {
           path: 'budgets',
-          element: <Budgets />,
+          element: <BudgetList />,
         },
         {
           path: 'expenses',
@@ -37,7 +38,7 @@ export default {
     },
     {
       path: 'budget/:id',
-      element: <>View Budget</>,
+      element: <Budget />,
     },
     {
       path: 'profile',

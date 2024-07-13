@@ -12,10 +12,10 @@ import CreateDialog from '@components/Dashboard/Create/Dialog'
 export default function CreateFab({ tooltip, onClose, ...modalProps }) {
   const [openDialog, setOpenDialog] = useState(false)
 
+  // open dialog for expense creation via budgets page
   const { state: budgetExpense } = useLocation()
-
   useEffect(() => {
-    if (budgetExpense) {
+    if (budgetExpense?.budget) {
       setOpenDialog(true)
     }
   }, [])

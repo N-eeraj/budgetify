@@ -32,11 +32,12 @@ export const usersSlice = createSlice({
       action.payload = { id, ...userDetails }
     },
     updateUser: (state, action) => {
-      const { id, password } = action.payload
+      const { id, password, image } = action.payload
       const userDetails = action.payload
       state.data = state.data.map(user => {
         if (user.id !== id) return user
         userDetails.password = password || user.password
+        userDetails.image = image || user.image
         return userDetails
       })
       setStorage('users', state.data)

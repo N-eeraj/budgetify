@@ -1,5 +1,8 @@
 // react imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+// react router imports
+import { useLocation } from 'react-router'
 
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,6 +17,15 @@ const useBudget = defaultValues => {
   const [errors, setErrors] = useState({})
   const [editingBudget, setEditingBudget] = useState(null)
   const [deletingBudget, setDeletingBudget] = useState(null)
+
+  // edit budget via budget page
+  const { state: budget } = useLocation()
+  window.history.replaceState({}, '')
+  useEffect(() => {
+    if (budget) {
+      handleEdit(budget.id)
+    }
+  }, [])
 
   const dispatch = useDispatch()
 

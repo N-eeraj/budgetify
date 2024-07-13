@@ -19,6 +19,7 @@ const useExpense = defaultValues => {
   const [editingExpense, setEditingExpense] = useState(null)
   const [deletingExpense, setDeletingExpense] = useState(null)
 
+  // select budget for expense creation via budgets page
   const { state: budgetExpense } = useLocation()
   window.history.replaceState({}, '')
   useEffect(() => {
