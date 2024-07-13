@@ -8,6 +8,7 @@ import { useLocation } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 import { createExpense, updateExpense, removeExpense } from '@store/expenses'
 import { getBudget } from '@store/budgets'
+import { setToast } from '@store/main'
 
 const useExpense = defaultValues => {
   // form states
@@ -87,6 +88,11 @@ const useExpense = defaultValues => {
   const deleteExpense = () => {
     dispatch(removeExpense(deletingExpense))
     setDeletingExpense(null)
+    dispatch(setToast({
+      show: true,
+      type: 'success',
+      text: 'Deleted Expense',
+    }))
   }
 
   // closing dialog & clear form states

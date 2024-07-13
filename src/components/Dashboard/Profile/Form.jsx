@@ -1,5 +1,5 @@
 // material ui imports
-import { Stack, TextField, Button, Snackbar, Alert, Typography } from '@mui/material'
+import { Stack, TextField, Button, Typography } from '@mui/material'
 
 // component imports
 import Password from '@components/UI/Password'
@@ -13,7 +13,6 @@ export default function Form() {
     name, setName,
     email, setEmail,
     password, setPassword,
-    showSnackbar, setShowSnackbar,
     errors,
     deleteConfirmation, setDeleteConfirmation,
     handleUpdate,
@@ -97,26 +96,6 @@ export default function Form() {
           Are you sure you want to continue ?
         </Typography>
       </Confirmation>
-
-      <Snackbar
-        open={showSnackbar}
-        autoHideDuration={2000}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        onClose={() => setShowSnackbar(false)}>
-        <Alert
-          severity="success"
-          variant="filled"
-          sx={{
-            width: '100%',
-            color: 'white',
-          }}
-          onClose={() => setShowSnackbar(false)}>
-          Updated Profile!
-        </Alert>
-      </Snackbar>
     </>
   )
 }

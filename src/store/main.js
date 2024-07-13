@@ -7,6 +7,11 @@ import { getStorage, setStorage, removeStorage } from '@utils/localStorage'
 const initialState = {
   mode: getStorage('mode', 'dark'),
   user: getStorage('user'),
+  toast: {
+    show: false,
+    type: null,
+    text: null,
+  },
 }
 
 export const mainSlice = createSlice({
@@ -32,9 +37,17 @@ export const mainSlice = createSlice({
       setStorage('user', state.user)
       action.payload = { ...state.user }
     },
+    setToast: (state, { payload }) => {
+      state.toast = payload ?? { show: false }
+    },
   },
 })
 
-export const { toggleMode, setUser, setProfilePicture } = mainSlice.actions
+export const {
+  toggleMode,
+  setUser,
+  setProfilePicture,
+  setToast,
+} = mainSlice.actions
 
 export default mainSlice.reducer

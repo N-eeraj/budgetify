@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { createBudget, updateBudget, removeBudget } from '@store/budgets'
 import { getExpensesByBudget, removeExpensesByBudget } from '@store/expenses'
+import { setToast } from '@store/main'
 
 const useBudget = defaultValues => {
   // form states
@@ -69,6 +70,11 @@ const useBudget = defaultValues => {
     dispatch(removeBudget(deletingBudget))
     dispatch(removeExpensesByBudget(deletingBudget))
     setDeletingBudget(null)
+    dispatch(setToast({
+      show: true,
+      type: 'success',
+      text: 'Deleted Budget',
+    }))
   }
 
   // closing dialog & clear form states

@@ -11,6 +11,9 @@ import Theme from '@theme'
 // material ui imports
 import { Paper } from '@mui/material'
 
+// component imports
+import Toast from '@components/UI/Toast'
+
 export default function Main() {
   return (
     <Provider store={store}>
@@ -18,6 +21,8 @@ export default function Main() {
         <Paper square component="main" sx={{ minHeight: '100vh' }}>
           <Outlet />
         </Paper>
+
+        <Toast />
       </Theme>
     </Provider>
   )

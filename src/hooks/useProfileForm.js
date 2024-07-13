@@ -4,7 +4,7 @@ import { useState } from 'react'
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUser, deleteUser } from '@store/users'
-import { setUser } from '@store/main'
+import { setUser, setToast } from '@store/main'
 
 // utils imports
 import { clearBudgets } from '@utils/budget'
@@ -19,7 +19,6 @@ const useProfileForm = () => {
   const [name, setName] = useState(user.name)
   const [email, setEmail] = useState(user.email)
   const [password, setPassword] = useState('')
-  const [showSnackbar, setShowSnackbar] = useState(false)
   const [errors, setErrors] = useState({})
   const [deleteConfirmation, setDeleteConfirmation] = useState(false)
 
@@ -30,7 +29,11 @@ const useProfileForm = () => {
     try {
       const { payload } = dispatch(updateUser({ id: user.id, name, email, password }))
       dispatch(setUser(payload))
-      setShowSnackbar(true)
+      dispatch(setToast({
+        show: true,
+        type: 'success',
+        text: 'Updated Profile!',
+      }))
     }
     catch (error) {
       setErrors(error)
@@ -50,7 +53,6 @@ const useProfileForm = () => {
     name, setName,
     email, setEmail,
     password, setPassword,
-    showSnackbar, setShowSnackbar,
     errors,
     deleteConfirmation, setDeleteConfirmation,
     handleUpdate,
