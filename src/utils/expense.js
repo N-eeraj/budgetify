@@ -4,7 +4,7 @@ import { getStorage, setStorage } from '@utils/localStorage'
 const userId = () => getStorage('user')?.id
 const allExpenses = getStorage('expenses', {})
 
-export const userExpenses = () => getStorage('expenses', {})[getStorage('user')?.id] ?? []
+export const userExpenses = () => getStorage('expenses', {})[userId()] ?? []
 
 export const setUserExpenses = expenseList => {
   const expenses = allExpenses

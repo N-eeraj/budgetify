@@ -8,9 +8,13 @@ import CreateFab from '@components/Dashboard/Create/Fab'
 import Create from '@components/Dashboard/Create'
 import CreateDialog from '@components/Dashboard/Create/Dialog'
 import Confirmation from '@components/UI/Confirmation'
+import EmptyState from '@components/UI/EmptyState'
 
 // hooks imports
 import useBudget from '@hooks/useBudget'
+
+// asset imports
+import emptyImage from '@images/illustrations/budget.svg'
 
 export default function BudgetList() {
   const {
@@ -31,6 +35,12 @@ export default function BudgetList() {
       <DashboardGrid
         items={budgets}
         Component={BudgetCard}
+        emptyState={
+          <EmptyState
+            image={emptyImage}
+            title="No Budgets"
+            body="Click on the plus button to create a budget" />
+        }
         onEdit={handleEdit}
         onDelete={id => setDeletingBudget(id)} />
 

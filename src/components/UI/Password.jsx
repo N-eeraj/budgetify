@@ -34,8 +34,12 @@ const InlineToggle = ({ showPassword, setShowPassword }) => {
 
 const IndependentToggle = ({ showPassword, setShowPassword }) => {
   return (
-    <FormControlLabel label="Show Password" control={
-      <Checkbox checked={showPassword} onChange={({ target }) => setShowPassword(target.checked)} />
-    } />
+    <FormControlLabel
+      label="Show Password"
+      control={
+        <Checkbox
+          checked={showPassword}
+          onChange={({ target }) => setShowPassword(target.checked)} />
+      } />
   )
 }

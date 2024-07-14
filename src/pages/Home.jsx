@@ -13,7 +13,7 @@ import {
 import style from '@styles/home.module.css'
 
 // asset imports
-import decoration from '@images/decoration.svg'
+import decoration from '@images/illustrations/decoration.svg'
 
 // component imports
 import GradientText from '@components/UI/GradientText'

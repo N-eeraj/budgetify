@@ -1,4 +1,4 @@
-// redux toolkit & store imports
+// redux toolkit imports
 import { configureStore } from '@reduxjs/toolkit'
 import mainReducer from '@store/main'
 import usersReducer from '@store/users'

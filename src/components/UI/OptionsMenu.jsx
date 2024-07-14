@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // material ui imports
-import { IconButton, Menu } from '@mui/material'
+import { IconButton, Menu, Tooltip } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 // component imports
@@ -19,9 +19,12 @@ export default function OptionsMenu({ actions }) {
 
   return (
     <>
-      <IconButton onClick={({ currentTarget }) => setAnchorEl(currentTarget)}>
-        <MoreVertIcon />
-      </IconButton>
+      <Tooltip title="Options" placement="left">
+        <IconButton onClick={({ currentTarget }) => setAnchorEl(currentTarget)}>
+          <MoreVertIcon />
+        </IconButton>
+      </Tooltip>
+
       <Menu
         anchorEl={anchorEl}
         open={open}

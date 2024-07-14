@@ -1,7 +1,7 @@
 // react router imports
 import { Outlet } from 'react-router'
 
-// redux toolkit & store imports
+// redux toolkit imports
 import { Provider } from 'react-redux'
 import store from '@store'
 

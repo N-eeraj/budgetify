@@ -76,7 +76,9 @@ export default function Budget() {
           <Typography variant="h6" component="strong" color="text.disabled">
             Expenses
           </Typography>
-          <ExpenseList expenses={expenses} />
+          <ExpenseList
+            expenses={expenses}
+            fallbackText="Create an expense for this budget to show here" />
         </Stack>
       </Stack>
 
