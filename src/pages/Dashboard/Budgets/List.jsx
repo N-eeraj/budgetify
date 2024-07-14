@@ -3,7 +3,7 @@ import { Typography } from '@mui/material'
 
 // component imports
 import DashboardGrid from '@components/Dashboard/Grid'
-import Budget from '@components/Dashboard/Budget'
+import BudgetCard from '@components/Dashboard/Budget'
 import CreateFab from '@components/Dashboard/Create/Fab'
 import Create from '@components/Dashboard/Create'
 import CreateDialog from '@components/Dashboard/Create/Dialog'
@@ -30,7 +30,7 @@ export default function BudgetList() {
     <>
       <DashboardGrid
         items={budgets}
-        Component={Budget}
+        Component={BudgetCard}
         onEdit={handleEdit}
         onDelete={id => setDeletingBudget(id)} />
 

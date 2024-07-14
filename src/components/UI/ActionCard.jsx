@@ -6,14 +6,19 @@ import OptionsMenu from '@components/UI/OptionsMenu'
 
 export default function ActionCard({ title, actions, cardProps, children }) {
   return (
-    <Card {...cardProps}>
+    <Card
+      {...cardProps}
+      sx={{ 
+        maxWidth: '420px',
+        ...cardProps.sx,
+      }}>
       <CardHeader
         title={title}
         titleTypographyProps={{
           variant: 'h5',
           component: 'h2',
         }}
-        action={ <OptionsMenu actions={actions} /> }/>
+        action={ !!actions?.length && <OptionsMenu actions={actions} /> }/>
       <CardContent sx={{ paddingY: 0 }}>
         { children }
       </CardContent>

@@ -64,24 +64,25 @@ export default function ExpenseCard({ id, name, amount, time: timeStamp, budget,
           }
         }}>
         <Grid container>
+          { budgetName &&
+            <Grid item xs={6}>
+              <Chip
+                label={budgetName}
+                color="primary"
+                size="small"
+                sx={{ paddingX: 1 }}
+                onClick={() => navigate(`/dashboard/budget/${budget}`)} />
+            </Grid>
+          }
           <Grid item xs={6}>
-          <Chip
-            label={budgetName}
-            color="primary"
-            size="small"
-            sx={{ paddingX: 1 }}
-            onClick={() => navigate(`/dashboard/budget/${budget}`)} />
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant="h6" align="right" color="error">
+            <Typography variant="h6" align={ budgetName && 'right' } color="error">
             { formatAmount(amount) }
             </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <Typography
               variant="body2"
               component="span"
-              noWrap
               sx={{
                 color: ({ palette }) => palette.text[palette.mode === 'dark' ? 'disabled' : 'secondary']
               }}>

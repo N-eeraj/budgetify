@@ -30,12 +30,18 @@ const useBudget = defaultValues => {
   const dispatch = useDispatch()
 
   // store values
-  const budgets = useSelector(({ budgets, expenses }) => (
-    budgets.data.map(budget => ({
+  const { budgets, getExpenses } = useSelector(({ budgets, expenses }) => ({
+    budgets: budgets.data.map(budget => ({
       spent: getExpensesByBudget(expenses, budget.id).reduce((sum, { amount }) => sum + amount, 0),
       ...budget,
-    }))
-  ))
+    })),
+    getExpenses: id => (
+      getExpensesByBudget(expenses, id)
+    )
+  }))
+
+  // function to get budget details by id
+  const getBudget = id => budgets.find(budget => budget.id === id)
 
   // clearing form
   const resetForm = () => {
@@ -102,6 +108,7 @@ const useBudget = defaultValues => {
     errors,
     editingBudget, setEditingBudget,
     deletingBudget, setDeletingBudget,
+    getBudget, getExpenses,
     handleCreate,
     handleEdit,
     handleUpdate,

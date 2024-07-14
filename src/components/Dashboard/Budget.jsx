@@ -17,7 +17,7 @@ import ActionCard from '@components/UI/ActionCard'
 // utils imports
 import { formatAmount } from '@utils/formatter'
 
-export default function BudgetCard({ id, name, amount, spent, onEdit, onDelete }) {
+export default function BudgetCard({ id, name, amount, spent, hasActions=true, onEdit, onDelete }) {
   const navigate = useNavigate()
 
   const { mode } = useSelector(({ main }) => main)
@@ -29,28 +29,31 @@ export default function BudgetCard({ id, name, amount, spent, onEdit, onDelete }
   else if (precentage > 50)
     color = 'warning'
 
-  const actions = [
-    {
-      text: 'View',
-      icon: <VisibilityIcon />,
-      onClick: () => navigate(`/dashboard/budget/${id}`),
-    },
-    {
-      text: 'New Expense',
-      icon: <AddIcon />,
-      onClick: () => navigate('../expenses', { state: { budget: id } }),
-    },
-    {
-      text: 'Edit',
-      icon: <EditIcon />,
-      onClick: () => onEdit(id),
-    },
-    {
-      text: 'Delete',
-      icon: <DeleteIcon />,
-      onClick: () => onDelete(id),
-    },
-  ]
+  let actions
+  if (hasActions) {
+    actions = [
+      {
+        text: 'View',
+        icon: <VisibilityIcon />,
+        onClick: () => navigate(`/dashboard/budget/${id}`),
+      },
+      {
+        text: 'New Expense',
+        icon: <AddIcon />,
+        onClick: () => navigate('../expenses', { state: { budget: id } }),
+      },
+      {
+        text: 'Edit',
+        icon: <EditIcon />,
+        onClick: () => onEdit(id),
+      },
+      {
+        text: 'Delete',
+        icon: <DeleteIcon />,
+        onClick: () => onDelete(id),
+      },
+    ]
+  }
 
   return (
     <ActionCard
@@ -59,9 +62,9 @@ export default function BudgetCard({ id, name, amount, spent, onEdit, onDelete }
       cardProps={{
         variant: mode === 'dark' ? 'filled' : 'outlined',
         sx: {
-          borderRadius: 3,
           backgroundColor: ({ palette }) => palette.primary.contrastText,
-         }
+          borderRadius: 3,
+        }
       }}>
       <Stack rowGap={1}>
         <Typography component="strong" variant="h6">
