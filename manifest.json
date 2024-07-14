@@ -1,0 +1,21 @@
+{
+  "name": "Budgetify",
+  "short_name": "Budgetify",
+  "description": "Track expenses, set financial goals, and create budgets with ease using this user-friendly budgeting app.",
+  "theme_color": "#66CC79",
+  "background_color": "#1E1E1E",
+  "orientation": "portrait",
+  "display": "fullscreen",
+  "icons": [
+    {
+      "src": "/192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

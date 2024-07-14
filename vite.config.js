@@ -1,10 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
+import { VitePWA } from 'vite-plugin-pwa'
 import * as path from 'path'
+import manifest from './manifest.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      manifest,
+      devOptions: {
+        enabled: true,
+      },
+    }),
+  ],
   server: {
     port: 5174
   },
