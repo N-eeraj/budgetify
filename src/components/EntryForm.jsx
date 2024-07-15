@@ -26,7 +26,7 @@ export default function EntryForm({ title, tagline, actionText, redirect, onSubm
       alignItems="center"
       justifyContent="center"
       sx={{
-        height: '100vh',
+        height: '100dvh',
         backgroundColor: 'primary.contrastText',
       }}>
       <Card elevation={0} sx={{

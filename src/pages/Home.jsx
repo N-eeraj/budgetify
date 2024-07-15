@@ -33,7 +33,7 @@ export default function () {
       rowGap: '10vh',
       columnGap: '50px',
       alignItems: 'center',
-      height: '100vh',
+      height: '100dvh',
       paddingX: {
         md: 'max(calc(50vw - 600px), 50px)',
       },
