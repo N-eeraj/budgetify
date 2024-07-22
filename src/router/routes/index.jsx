@@ -5,6 +5,9 @@ import MainWrapper from '@layouts/Main'
 import guestRoutes from '@router/routes/guest'
 import userRoutes from '@router/routes/user'
 
+// page imports
+import Error from '@pages/Error'
+
 const routes = [
   {
     path: '/',
@@ -14,7 +17,10 @@ const routes = [
       userRoutes,
       {
         path: '*',
-        element: <>Page Not Found</>,
+        errorElement: <Error />,
+        loader: () => {
+          throw 'Page Not Found'
+        },
       },
     ],
   },

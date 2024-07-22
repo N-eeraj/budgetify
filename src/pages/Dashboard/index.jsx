@@ -5,7 +5,7 @@ import { Outlet } from 'react-router'
 import { useSelector } from 'react-redux'
 
 // material ui imports
-import { Box, Stack, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 
 // component imports
 import GradientText from '@components/UI/GradientText'
@@ -19,12 +19,17 @@ export default function Dashboard() {
   return (
     <>
       <Navbar />
-      <Stack direction="row" columnGap={1}>
-        <Typography color="text.secondary" component="h1" sx={{ typography: { xs: 'h4', md: 'h3' } }}>
-          Welcome
-        </Typography>
-        <GradientText text={userName} component="h1" sx={{ typography: { xs: 'h4', md: 'h3' } }} />
-      </Stack>
+      <Typography
+        color="text.secondary"
+        component="h1"
+        sx={{ typography: { xs: 'h4', md: 'h3' } }}>
+        Welcome
+        <GradientText
+          text={userName}
+          component="span"
+          marginLeft={1}
+          sx={{ typography: { xs: 'h4', md: 'h3' } }} />
+      </Typography>
       <SmallScreen>
         <DashboardTabs />
       </SmallScreen>

@@ -10,6 +10,7 @@ import BudgetList from '@pages/Dashboard/Budgets/List'
 import Budget from '@pages/Dashboard/Budgets'
 import Expenses from '@pages/Dashboard/Expenses'
 import Profile from '@pages/Dashboard/Profile'
+import Error from '@pages/Error'
 
 export default {
   path: 'dashboard/',
@@ -39,6 +40,7 @@ export default {
     {
       path: 'budget/:id',
       element: <Budget />,
+      errorElement: <Error />,
     },
     {
       path: 'profile',

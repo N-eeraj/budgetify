@@ -41,7 +41,11 @@ const useBudget = defaultValues => {
   }))
 
   // function to get budget details by id
-  const getBudget = id => budgets.find(budget => budget.id === id)
+  const getBudget = id => {
+    const budget = budgets.find(budget => budget.id === id)
+    if (budget) return budget
+    throw 'Budget Not Found'
+  }
 
   // clearing form
   const resetForm = () => {
