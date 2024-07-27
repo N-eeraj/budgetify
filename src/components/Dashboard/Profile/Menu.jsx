@@ -6,7 +6,11 @@ import { useNavigate } from 'react-router'
 
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleMode, setUser } from '@store/main'
+import {
+  toggleMode,
+  setUser,
+  setToast,
+} from '@store/main'
 
 // material ui imports
 import { Menu } from '@mui/material'
@@ -14,6 +18,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import WbSunnyIcon from '@mui/icons-material/WbSunny'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 import LogoutIcon from '@mui/icons-material/Logout'
+import ShareIcon from '@mui/icons-material/Share'
 
 // component imports
 import ProfileAvatar from '@components/Dashboard/Profile/Avatar'
@@ -38,6 +43,30 @@ export default function ProfileMenu() {
       text: `${ mode === 'dark' ? 'Light' : 'Dark' } Mode`,
       icon: mode === 'dark' ? <WbSunnyIcon /> : <DarkModeIcon />,
       onClick: () => dispatch(toggleMode()),
+    },
+    {
+      text: 'Share App',
+      icon: <ShareIcon />,
+      onClick: async () => {
+        const url = location.origin
+        if (navigator.share) {
+            const shareData = {
+              url,
+              title: 'Budgetify Invitation',
+              text: `Your friend is inviting you to try out the Budgetify expense tracking app.`,
+            }
+            await navigator.share(shareData)
+        }
+        else {
+          navigator.clipboard.writeText(url)
+          dispatch(setToast({
+            show: true,
+            type: 'info',
+            text: 'Copied Invitation Link!',
+          }))
+        }
+        setAnchorEl(null)
+      },
     },
     {
       text: 'Logout',
