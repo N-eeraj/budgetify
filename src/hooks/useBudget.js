@@ -79,6 +79,9 @@ const useBudget = defaultValues => {
   const handleUpdate = () => {
     setErrors({})
     try {
+      const { spent } = budgets.find(({ id }) => id === editingBudget)
+      if (spent > amount)
+        throw { amount: 'Budget amount cannot be lower than spent amount' }
       dispatch(updateBudget({ id: editingBudget, name, amount }))
       setEditingBudget(null)
     }
