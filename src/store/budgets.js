@@ -11,7 +11,7 @@ import {
 export const budgetsSlice = createSlice({
   name: 'budgets',
   initialState: {
-    data: [],
+    data: null,
   },
   reducers: {
     setBudgets: state => {
@@ -45,7 +45,7 @@ export const budgetsSlice = createSlice({
   },
 })
 
-export const getBudget = ({ data }, id) => data.find(budget => budget.id === id)
+export const getBudget = ({ data }, id) => data?.find(budget => budget.id === id)
 
 export const {
   setBudgets,

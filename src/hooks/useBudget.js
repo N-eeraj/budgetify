@@ -31,7 +31,7 @@ const useBudget = defaultValues => {
 
   // store values
   const { budgets, getExpenses } = useSelector(({ budgets, expenses }) => ({
-    budgets: budgets.data.map(budget => ({
+    budgets: budgets.data?.map(budget => ({
       spent: getExpensesByBudget(expenses, budget.id).reduce((sum, { amount }) => sum + amount, 0),
       ...budget,
     })),
@@ -42,6 +42,7 @@ const useBudget = defaultValues => {
 
   // function to get budget details by id
   const getBudget = id => {
+    if (!budgets) return
     const budget = budgets.find(budget => budget.id === id)
     if (budget) return budget
     throw 'Budget Not Found'

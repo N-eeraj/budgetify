@@ -15,7 +15,7 @@ export default function Expenses() {
     ...createProps
   } = useExpense()
 
-  const fallbackText = budgets.length ? 'Create an expense and it will show here' : 'Create a budget to add an expense to it'
+  const fallbackText = budgets?.length ? 'Create an expense and it will show here' : 'Create a budget to add an expense to it'
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function Expenses() {
         expenses={expenses}
         fallbackText={fallbackText} />
 
-      { !!budgets.length &&
+      { !!budgets?.length &&
         <CreateFab
           tooltip="Create New Expense"
           fields={<Create type="Expense" {...createProps} />}
