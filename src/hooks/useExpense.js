@@ -65,7 +65,7 @@ const useExpense = defaultValues => {
   // open edit modal with prefilled values
   const handleEdit = id => {
     setEditingExpense(id)
-    const { name, amount, budget } = expenses.find(budget => budget.id === id)
+    const { name, amount, budget } = expenses.find(expense => expense.id === id)
     setName(name)
     setAmount(amount)
     setBudget(budget)
@@ -77,6 +77,14 @@ const useExpense = defaultValues => {
     try {
       if (!budget)
         throw { budget: 'Please select a budget' }
+      const { amount: budgetAmount } = getBudget({ data: budgets }, budget)
+      const spentAmount = expenses.reduce((total, expense) => {
+        if (expense.budget === budget && expense.id !== editingExpense)
+          total += expense.amount
+        return total
+      }, 0)
+      if (budgetAmount < spentAmount + Number(amount))
+        throw { amount: 'Amount exceeds budget balance' }
       dispatch(updateExpense({ id: editingExpense, name, amount, budget }))
       setEditingExpense(null)
     }
