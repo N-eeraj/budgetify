@@ -1,3 +1,6 @@
+// react router imports
+import { useNavigate } from 'react-router'
+
 // material ui imports
 import { Typography } from '@mui/material'
 
@@ -17,6 +20,8 @@ import useBudget from '@hooks/useBudget'
 import emptyImage from '@images/illustrations/budget.svg'
 
 export default function BudgetList() {
+  const navigate = useNavigate()
+
   const {
     budgets,
     editingBudget,
@@ -41,6 +46,7 @@ export default function BudgetList() {
             title="No Budgets"
             body="Click on the plus button to create a budget" />
         }
+        onClick={id => navigate(`/dashboard/budget/${id}`)}
         onEdit={handleEdit}
         onDelete={id => setDeletingBudget(id)} />
 

@@ -17,7 +17,7 @@ import ActionCard from '@components/UI/ActionCard'
 // utils imports
 import { formatAmount } from '@utils/formatter'
 
-export default function BudgetCard({ id, name, amount, spent, hasActions=true, onEdit, onDelete }) {
+export default function BudgetCard({ id, name, amount, spent, hasActions=true, onEdit, onDelete, onClick }) {
   const navigate = useNavigate()
 
   const { mode } = useSelector(({ main }) => main)
@@ -64,7 +64,9 @@ export default function BudgetCard({ id, name, amount, spent, hasActions=true, o
         sx: {
           backgroundColor: ({ palette }) => palette.primary.contrastText,
           borderRadius: 3,
-        }
+          cursor: onClick && 'pointer'
+        },
+        onClick: () => onClick && onClick(id)
       }}>
       <Stack rowGap={1}>
         <Typography component="strong" variant="h6">

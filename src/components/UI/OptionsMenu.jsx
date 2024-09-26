@@ -17,10 +17,16 @@ export default function OptionsMenu({ actions }) {
     setAnchorEl(null)
   }
 
+  const handleIconBtn = (event) => {
+    event.stopPropagation()
+    const { currentTarget } = event
+    setAnchorEl(currentTarget)
+  }
+
   return (
     <>
       <Tooltip title="Options" placement="left">
-        <IconButton onClick={({ currentTarget }) => setAnchorEl(currentTarget)}>
+        <IconButton onClick={handleIconBtn}>
           <MoreVertIcon />
         </IconButton>
       </Tooltip>
@@ -37,7 +43,8 @@ export default function OptionsMenu({ actions }) {
           vertical: 'top',
           horizontal: 'right',
         }}
-        onClose={() => setAnchorEl(null)}>
+        onClose={() => setAnchorEl(null)}
+        onClick={event => event.stopPropagation()}>
         { actions.map(({ onClick, ...item }) => <MenuItem {...item} onClick={() => handleItemClick(onClick)} key={item.text} />) }
       </Menu>
     </>
