@@ -8,6 +8,7 @@ import { Outlet, Navigate } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { setBudgets } from '@store/budgets'
 import { setExpenses } from '@store/expenses'
+import { setAllocations } from '@store/allocations'
 
 // material ui imports
 import { Container } from '@mui/material'
@@ -23,6 +24,7 @@ export default function Dashboard() {
     if (isAuthenticated) {
       dispatch(setBudgets())
       dispatch(setExpenses())
+      dispatch(setAllocations())
     }
   }, [])
 

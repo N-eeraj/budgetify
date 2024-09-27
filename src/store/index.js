@@ -4,6 +4,7 @@ import mainReducer from '@store/main'
 import usersReducer from '@store/users'
 import budgetsReducer from '@store/budgets'
 import expensesReducer from '@store/expenses'
+import allocationsReducer from '@store/allocations'
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     users: usersReducer,
     budgets: budgetsReducer,
     expenses: expensesReducer,
+    allocations: allocationsReducer,
   },
 })
 
