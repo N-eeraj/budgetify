@@ -14,7 +14,7 @@ export default function DashboardTabs() {
   const tab = pathname.split('/').at(-1)
   const navigate = useNavigate()
 
-  const [currentTab, setCurrentTab] = useState(tab ?? 'budgets')
+  const [currentTab, setCurrentTab] = useState()
 
   useEffect(() => {
     setCurrentTab(tab)
@@ -32,7 +32,7 @@ export default function DashboardTabs() {
             <Tab
               label={tab}
               value={tab.toLowerCase()}
-              sx={{ textTransform: { md: 'none' }, }}
+              sx={{ textTransform: { md: 'none' } }}
               key={tab} />
         )) }
       </Tabs>

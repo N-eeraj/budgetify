@@ -24,16 +24,19 @@ export default function BudgetList() {
 
   const {
     budgets,
+    getBudget,
+    allocatingBudget, setAllocatingBudget,
     editingBudget,
     deletingBudget, setDeletingBudget,
     handleCreate,
+    allocatingBudgetName,
+    handleAllocate,
     handleEdit,
     handleUpdate,
     deleteBudget,
     handleDialogClose,
     ...createProps
   } = useBudget()
-
 
   return (
     <>
@@ -47,6 +50,7 @@ export default function BudgetList() {
             body="Click on the plus button to create a budget" />
         }
         onClick={id => navigate(`/dashboard/budget/${id}`)}
+        onAllocate={id => setAllocatingBudget(id)}
         onEdit={handleEdit}
         onDelete={id => setDeletingBudget(id)} />
 
@@ -56,6 +60,13 @@ export default function BudgetList() {
         label="Create Budget"
         onClose={handleDialogClose}
         onSubmit={handleCreate} />
+
+      <CreateDialog
+        label={`Allocate Fund for ${allocatingBudgetName}`}
+        open={!!allocatingBudget}
+        fields={<Create type="Allocation" {...createProps} />}
+        onClose={() => setAllocatingBudget(null)}
+        onSubmit={handleAllocate} />
 
       <CreateDialog
         isUpdate

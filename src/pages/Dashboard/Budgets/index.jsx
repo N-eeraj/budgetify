@@ -1,3 +1,6 @@
+// react imports
+import { useState } from 'react'
+
 // material ui imports
 import { Stack, Typography } from '@mui/material'
 
@@ -5,9 +8,12 @@ import { Stack, Typography } from '@mui/material'
 import { useParams, useNavigate } from 'react-router'
 
 // material ui imports
+import { Tabs, Tab } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
+import ArrowDropUp from '@mui/icons-material/ArrowDropUp'
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown'
 
 // component imports
 import BudgetCard from '@components/Dashboard/Budget'
@@ -18,6 +24,9 @@ import Confirmation from '@components/UI/Confirmation'
 
 // hooks imports
 import useBudget from '@hooks/useBudget'
+
+const tabs = [ 'Expenses', 'Allocations' ]
+const checkIsExpenses = value => value === 'Expenses'
 
 export default function Budget() {
   const {
@@ -31,6 +40,8 @@ export default function Budget() {
   const { id } = useParams()
   const navigate = useNavigate()
 
+  const [currentTab, setCurrentTab] = useState(tabs[0])
+
   const budgetDetails = getBudget(id)
   const expenses = getExpenses(id)
 
@@ -39,6 +50,11 @@ export default function Budget() {
       text: 'New Expense',
       icon: <AddIcon />,
       onClick: () => navigate('/dashboard/expenses', { state: { budget: id } }),
+    },
+    {
+      text: 'New Allocation',
+      icon: <AddIcon />,
+      onClick: () => console.log('open'),
     },
     {
       text: 'Edit',
@@ -73,12 +89,46 @@ export default function Budget() {
         </Stack>
 
         <Stack>
-          <Typography variant="h6" component="strong" color="text.disabled">
-            Expenses
-          </Typography>
-          <ExpenseList
-            expenses={expenses}
-            fallbackText="Create an expense for this budget to show here" />
+          <Tabs
+            variant="fullWidth"
+            value={currentTab}
+            sx={{
+              '& .MuiTabs-indicator': {
+                backgroundColor: ({ palette }) => checkIsExpenses(currentTab) ? palette.error.main : palette.success.main
+              }
+            }}
+            onChange={(_, tab) => setCurrentTab(tab)}>
+            { tabs.map(tab => (
+                <Tab
+                  label={(
+                    <Stack direction="row" alignItems="center">
+                      <span>
+                        {tab}
+                      </span>
+                      {checkIsExpenses(tab) ? <ArrowDropDown /> : <ArrowDropUp />}
+                    </Stack>
+                  )}
+                  value={tab}
+                  sx={{
+                    textTransform: { md: 'none' },
+                    color: ({ palette }) => checkIsExpenses(tab) ? palette.error.main : palette.success.main,
+                    '&.Mui-selected': {
+                      color: ({ palette }) => checkIsExpenses(tab) ? palette.error.main : palette.success.main
+                    }
+                  }}
+                  key={tab} />
+              ))
+            }
+          </Tabs>
+          {
+            checkIsExpenses(currentTab) ?
+              <ExpenseList
+                expenses={expenses}
+                fallbackText="Create an expense for this budget to show here" /> :
+              <>
+                Allocation List
+              </>
+          }
         </Stack>
       </Stack>
 
