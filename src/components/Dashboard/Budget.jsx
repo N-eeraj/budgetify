@@ -9,6 +9,7 @@ import { LinearProgress, Stack, Typography } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 // component imports
@@ -17,16 +18,16 @@ import ActionCard from '@components/UI/ActionCard'
 // utils imports
 import { formatAmount } from '@utils/formatter'
 
-export default function BudgetCard({ id, name, amount, spent, hasActions=true, onEdit, onDelete, onClick }) {
+export default function BudgetCard({ id, name, amount, spent, hasActions=true, onAllocate, onEdit, onDelete, onClick }) {
   const navigate = useNavigate()
 
   const { mode } = useSelector(({ main }) => main)
 
-  const precentage = spent * 100 / amount
+  const percentage = spent * 100 / amount
   let color
-  if (precentage > 75)
+  if (percentage > 75)
     color = 'error'
-  else if (precentage > 50)
+  else if (percentage > 50)
     color = 'warning'
 
   let actions
@@ -41,6 +42,11 @@ export default function BudgetCard({ id, name, amount, spent, hasActions=true, o
         text: 'New Expense',
         icon: <AddIcon />,
         onClick: () => navigate('../expenses', { state: { budget: id } }),
+      },
+      {
+        text: 'New Allocation',
+        icon: <MonetizationOnIcon />,
+        onClick: () => onAllocate(id),
       },
       {
         text: 'Edit',
@@ -74,7 +80,7 @@ export default function BudgetCard({ id, name, amount, spent, hasActions=true, o
         </Typography>
         <LinearProgress
           variant="determinate"
-          value={precentage}
+          value={percentage}
           color={color}
           sx={{
             height: 8,

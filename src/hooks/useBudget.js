@@ -15,6 +15,7 @@ const useBudget = defaultValues => {
   const [name, setName] = useState(defaultValues?.name ?? '')
   const [amount, setAmount] = useState(defaultValues?.amount ?? '')
   const [errors, setErrors] = useState({})
+  const [allocatingBudget, setAllocatingBudget] = useState(null)
   const [editingBudget, setEditingBudget] = useState(null)
   const [deletingBudget, setDeletingBudget] = useState(null)
 
@@ -42,7 +43,7 @@ const useBudget = defaultValues => {
 
   // function to get budget details by id
   const getBudget = id => {
-    if (!budgets) return
+    if (!budgets || !id) return
     const budget = budgets.find(budget => budget.id === id)
     if (budget) return budget
     throw 'Budget Not Found'
@@ -68,10 +69,19 @@ const useBudget = defaultValues => {
     }
   }
 
+  // name of the budget to allocate fund to
+  const allocatingBudgetName = getBudget(allocatingBudget)?.name
+
+  // allocation creation function
+  const handleAllocate = () => {
+    console.log(name)
+    console.log(amount)
+  }
+
   // open edit modal with prefilled values
   const handleEdit = id => {
     setEditingBudget(id)
-    const { name, amount } = budgets.find(budget => budget.id === id)
+    const { name, amount } = getBudget(id)
     setName(name)
     setAmount(amount)
   }
@@ -80,7 +90,7 @@ const useBudget = defaultValues => {
   const handleUpdate = () => {
     setErrors({})
     try {
-      const { spent } = budgets.find(({ id }) => id === editingBudget)
+      const { spent } = getBudget(editingBudget)
       if (spent > amount)
         throw { amount: 'Budget amount cannot be lower than spent amount' }
       dispatch(updateBudget({ id: editingBudget, name, amount }))
@@ -114,10 +124,13 @@ const useBudget = defaultValues => {
     name, setName,
     amount, setAmount,
     errors,
+    allocatingBudget, setAllocatingBudget,
     editingBudget, setEditingBudget,
     deletingBudget, setDeletingBudget,
     getBudget, getExpenses,
     handleCreate,
+    allocatingBudgetName,
+    handleAllocate,
     handleEdit,
     handleUpdate,
     deleteBudget,
