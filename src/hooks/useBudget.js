@@ -7,6 +7,7 @@ import { useLocation } from 'react-router'
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
 import { createBudget, updateBudget, removeBudget } from '@store/budgets'
+import { createAllocation } from '@store/allocations'
 import { getExpensesByBudget, removeExpensesByBudget } from '@store/expenses'
 import { setToast } from '@store/main'
 
@@ -74,8 +75,14 @@ const useBudget = defaultValues => {
 
   // allocation creation function
   const handleAllocate = () => {
-    console.log(name)
-    console.log(amount)
+    setErrors({})
+    try {
+      dispatch(createAllocation({ budget: allocatingBudget, name, amount }))
+      setAllocatingBudget(null)
+    }
+    catch(error) {
+      setErrors(error)
+    }
   }
 
   // open edit modal with prefilled values
