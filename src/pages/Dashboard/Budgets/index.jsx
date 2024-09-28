@@ -1,14 +1,11 @@
 // react imports
 import { useState } from 'react'
 
-// material ui imports
-import { Stack, Typography } from '@mui/material'
-
 // react router imports
 import { useParams, useNavigate } from 'react-router'
 
 // material ui imports
-import { Tabs, Tab } from '@mui/material'
+import { Stack, Grid, Typography, Tabs, Tab } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
 import EditIcon from '@mui/icons-material/Edit'
@@ -136,9 +133,17 @@ export default function Budget() {
               <ExpenseList
                 expenses={expenses}
                 fallbackText="Create an expense for this budget to show here" /> :
-              <Stack>
-                { allocations.map(({ id, budget, ...details }) => <Allocation key={id} {...details} />)}
-              </Stack>
+              <Grid
+                container
+                justifyContent="space-evenly"
+                gap={3}
+                marginTop={3}>
+                { allocations.map(({ id, budget, ...details }) => (
+                  <Grid item xs={12} md={4} key={id}>
+                    <Allocation {...details} />
+                  </Grid>
+                ))}
+              </Grid>
           }
         </Stack>
       </Stack>
