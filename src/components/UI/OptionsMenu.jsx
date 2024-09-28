@@ -2,7 +2,9 @@
 import { useState } from 'react'
 
 // material ui imports
-import { IconButton, Menu, Tooltip } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import Tooltip from '@mui/material/Tooltip'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 
 // component imports

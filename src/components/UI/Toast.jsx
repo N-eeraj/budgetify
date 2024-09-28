@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setToast } from '@store/main'
 
 // material ui imports
-import { Snackbar, Alert } from '@mui/material'
+import Snackbar from '@mui/material/Snackbar'
+import Alert from '@mui/material/Alert'
 
 export default function Toast() {
   const { show, type, text } = useSelector(({ main }) => main.toast)

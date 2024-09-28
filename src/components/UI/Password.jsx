@@ -2,8 +2,13 @@
 import { useState } from 'react'
 
 // material ui imports
-import { Stack, TextField, FormControlLabel, Checkbox, IconButton } from '@mui/material'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
+import IconButton from '@mui/material/IconButton'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 
 export default function Password({ independentToggle = false, containerProps, ...props }) {
   const [showPassword, setShowPassword] = useState(false)
@@ -27,7 +32,7 @@ export default function Password({ independentToggle = false, containerProps, ..
 const InlineToggle = ({ showPassword, setShowPassword }) => {
   return (
     <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
-      { showPassword ? <VisibilityOff /> : <Visibility /> }
+      { showPassword ? <VisibilityOffIcon /> : <VisibilityIcon /> }
     </IconButton>
   )
 }

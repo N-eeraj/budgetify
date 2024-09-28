@@ -2,7 +2,11 @@
 import { useSelector } from 'react-redux'
 
 // material ui imports
-import { Card, CardHeader, CardContent, Stack, Typography } from '@mui/material'
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 
 // utils imports
 import { formatAmount, formatDate } from '@utils/formatter'

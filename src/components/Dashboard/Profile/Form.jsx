@@ -1,5 +1,8 @@
 // material ui imports
-import { Stack, TextField, Button, Typography } from '@mui/material'
+import Stack from '@mui/material/Stack'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 
 // component imports
 import Password from '@components/UI/Password'

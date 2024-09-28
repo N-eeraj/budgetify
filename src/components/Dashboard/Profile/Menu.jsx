@@ -13,7 +13,7 @@ import {
 } from '@store/main'
 
 // material ui imports
-import { Menu } from '@mui/material'
+import Menu from '@mui/material/Menu'
 import PersonIcon from '@mui/icons-material/Person'
 import WbSunnyIcon from '@mui/icons-material/WbSunny'
 import DarkModeIcon from '@mui/icons-material/DarkMode'

@@ -5,7 +5,9 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router'
 
 // material ui imports
-import { Fab, Tooltip, lighten } from '@mui/material'
+import Fab from '@mui/material/Fab'
+import Tooltip from '@mui/material/Tooltip'
+import { lighten } from '@mui/system'
 import AddIcon from '@mui/icons-material/Add'
 import CreateDialog from '@components/Dashboard/Create/Dialog'
 

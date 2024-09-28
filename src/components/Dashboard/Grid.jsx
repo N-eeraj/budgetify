@@ -1,5 +1,5 @@
 // material ui imports
-import { Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 export default function DashboardGrid({ items, Component, emptyState, ...actions }) {
   return (

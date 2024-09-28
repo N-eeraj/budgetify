@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router'
 
 // material ui imports
-import { Typography } from '@mui/material'
+import Typography from '@mui/material/Typography'
 
 // component imports
 import DashboardGrid from '@components/Dashboard/Grid'

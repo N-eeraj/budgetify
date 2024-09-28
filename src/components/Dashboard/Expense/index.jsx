@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 
 // material ui imports
-import { Chip, Grid, Typography } from '@mui/material'
+import Chip from '@mui/material/Chip'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 

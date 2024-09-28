@@ -11,7 +11,7 @@ import { setExpenses } from '@store/expenses'
 import { setAllocations } from '@store/allocations'
 
 // material ui imports
-import { Container } from '@mui/material'
+import Container from '@mui/material/Container'
 
 // hooks imports
 import { useAuthenticated } from '@hooks/useAuthenticated'
@@ -33,7 +33,7 @@ export default function Dashboard() {
       <Container sx={{
         paddingX: {
           xs: 2,
-          md: 0,
+          md: 3,
         },
         paddingY: {
           xs: 2,

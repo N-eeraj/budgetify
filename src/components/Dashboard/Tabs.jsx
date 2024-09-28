@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router'
 
 // material ui imports
-import { Tabs, Tab } from '@mui/material'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 
 const tabs = [ 'Budgets', 'Expenses' ]
 
