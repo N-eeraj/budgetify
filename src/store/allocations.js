@@ -32,6 +32,8 @@ export const allocationsSlice = createSlice({
   },
 })
 
+export const getAllocationsByBudget = ({ data }, budget) => data.filter(allocation => allocation.budget === budget) ?? []
+
 export const {
   setAllocations,
   createAllocation,

@@ -10,6 +10,7 @@ import { useParams, useNavigate } from 'react-router'
 // material ui imports
 import { Tabs, Tab } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ArrowDropUp from '@mui/icons-material/ArrowDropUp'
@@ -18,8 +19,11 @@ import ArrowDropDown from '@mui/icons-material/ArrowDropDown'
 // component imports
 import BudgetCard from '@components/Dashboard/Budget'
 import ExpenseList from '@components/Dashboard/Expense/List'
+import Allocation from '@components/Dashboard/Allocation'
 import BackNavigation from '@components/UI/BackNavigation'
 import OptionsMenu from '@components/UI/OptionsMenu'
+import Create from '@components/Dashboard/Create'
+import CreateDialog from '@components/Dashboard/Create/Dialog'
 import Confirmation from '@components/UI/Confirmation'
 
 // hooks imports
@@ -32,9 +36,15 @@ export default function Budget() {
   const {
     getBudget,
     getExpenses,
+    getAllocations,
+    allocatingBudgetName,
+    allocatingBudget,
+    setAllocatingBudget,
+    handleAllocate,
     deletingBudget,
     setDeletingBudget,
     deleteBudget,
+    ...createProps
   } = useBudget()
 
   const { id } = useParams()
@@ -44,6 +54,7 @@ export default function Budget() {
 
   const budgetDetails = getBudget(id)
   const expenses = getExpenses(id)
+  const allocations = getAllocations(id)
 
   const actions = [
     {
@@ -53,8 +64,8 @@ export default function Budget() {
     },
     {
       text: 'New Allocation',
-      icon: <AddIcon />,
-      onClick: () => console.log('open'),
+      icon: <MonetizationOnIcon />,
+      onClick: () => setAllocatingBudget(id),
     },
     {
       text: 'Edit',
@@ -125,12 +136,20 @@ export default function Budget() {
               <ExpenseList
                 expenses={expenses}
                 fallbackText="Create an expense for this budget to show here" /> :
-              <>
-                Allocation List
-              </>
+              <Stack>
+                { allocations.map(({ id, budget, ...details }) => <Allocation key={id} {...details} />)}
+              </Stack>
           }
         </Stack>
       </Stack>
+
+
+      <CreateDialog
+        label={`Allocate Fund for ${allocatingBudgetName}`}
+        open={!!allocatingBudget}
+        fields={<Create type="Allocation" {...createProps} />}
+        onClose={() => setAllocatingBudget(null)}
+        onSubmit={handleAllocate} />
 
       <Confirmation
         open={!!deletingBudget}

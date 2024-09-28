@@ -38,6 +38,12 @@ export const budgetsSlice = createSlice({
       state.data = state.data.map(budget => budget.id === id ? { id, name, amount: budgetAmount } : budget)
       setUserBudgets(state.data)
     },
+    allocateFund: (state, { payload }) => {
+      const { id, amount } = payload
+      const allocation = +amount
+      state.data = state.data.map(budget => budget.id === id ? { ...budget, amount: budget.amount + allocation } : budget)
+      setUserBudgets(state.data)
+    },
     removeBudget: (state, { payload }) => {
       state.data = state.data.filter(({ id }) => id !== payload)
       setUserBudgets(state.data)
@@ -51,6 +57,7 @@ export const {
   setBudgets,
   createBudget,
   updateBudget,
+  allocateFund,
   removeBudget,
 } = budgetsSlice.actions
 
