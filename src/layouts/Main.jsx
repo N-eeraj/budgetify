@@ -9,7 +9,7 @@ import store from '@store'
 import Theme from '@theme'
 
 // material ui imports
-import { Paper } from '@mui/material'
+import Paper from '@mui/material/Paper'
 
 // component imports
 import Toast from '@components/UI/Toast'
@@ -23,7 +23,6 @@ export default function Main() {
           component="main"
           sx={{
             minHeight: '100dvh',
-            paddingX: { md: 3 },
           }}>
           <Outlet />
         </Paper>

@@ -5,7 +5,8 @@ import { Outlet } from 'react-router'
 import { useSelector } from 'react-redux'
 
 // material ui imports
-import { Box, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
 
 // component imports
 import GradientText from '@components/UI/GradientText'

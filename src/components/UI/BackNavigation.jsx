@@ -2,7 +2,8 @@
 import { useNavigate } from 'react-router'
 
 // material ui imports
-import { IconButton, Tooltip } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import Tooltip from '@mui/material/Tooltip'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 export default function BackNavigation() {

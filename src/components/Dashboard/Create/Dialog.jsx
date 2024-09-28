@@ -1,5 +1,9 @@
 // material ui imports
-import { Dialog, Card, Stack, Button, Typography } from '@mui/material'
+import Dialog from '@mui/material/Dialog'
+import Card from '@mui/material/Card'
+import Stack from '@mui/material/Stack'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
 
 export default function CreateDialog({ isUpdate, open, label, fields, onClose, onSubmit }) {
   const handleSubmit = event => {

@@ -1,5 +1,13 @@
 // material ui imports
-import { Dialog, Card, CardHeader, CardActions, Button, IconButton, CardContent, Grid, Badge } from '@mui/material'
+import Dialog from '@mui/material/Dialog'
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardActions from '@mui/material/CardActions'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import CardContent from '@mui/material/CardContent'
+import Grid from '@mui/material/Grid'
+import Badge from '@mui/material/Badge'
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 

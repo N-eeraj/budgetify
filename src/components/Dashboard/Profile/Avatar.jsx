@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux'
 
 // material ui imports
-import { Avatar } from '@mui/material'
+import Avatar from '@mui/material/Avatar'
 
 // utils imports
 import profileImages from '@utils/profileImages'

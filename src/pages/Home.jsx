@@ -2,12 +2,10 @@
 import { Link } from 'react-router-dom'
 
 // material ui imports
-import {
-  Container,
-  Stack,
-  Typography,
-  Button,
-} from '@mui/material'
+import Container from '@mui/material/Container'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 
 // style imports
 import style from '@styles/home.module.css'

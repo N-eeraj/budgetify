@@ -5,7 +5,11 @@ import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
 
 // material ui imports
-import { Stack, Grid, Typography, Tabs, Tab } from '@mui/material'
+import Stack from '@mui/material/Stack'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
+import Tabs from '@mui/material/Tabs'
+import Tab from '@mui/material/Tab'
 import AddIcon from '@mui/icons-material/Add'
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
 import EditIcon from '@mui/icons-material/Edit'

@@ -6,7 +6,12 @@ import { useDispatch } from 'react-redux'
 import { setUser } from '@store/main'
 
 // material ui imports
-import { Grid, Card, Typography, Stack, Button, Divider } from '@mui/material'
+import Grid from '@mui/material/Grid'
+import Card from '@mui/material/Card'
+import Typography from '@mui/material/Typography'
+import Stack from '@mui/material/Stack'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
 
 export default function EntryForm({ title, tagline, actionText, redirect, onSubmit, children }) {
   const navigate = useNavigate()

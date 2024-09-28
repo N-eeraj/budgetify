@@ -5,7 +5,8 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 // material ui imports
-import { Autocomplete, TextField } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
+import TextField from '@mui/material/TextField'
 
 export default function Create({ type, name, setName, amount, setAmount, budget, setBudget, errors }) {
   const budgets = useSelector(({ budgets }) => budgets.data)

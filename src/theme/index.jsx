@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 
 // material ui imports
-import { ThemeProvider, createTheme } from '@mui/material'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 
 // theme imports
 import darkTheme from '@theme/dark'

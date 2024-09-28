@@ -1,5 +1,10 @@
 // material ui imports
-import { Dialog, Card, CardHeader, CardContent, CardActions, Button } from '@mui/material'
+import Dialog from '@mui/material/Dialog'
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
+import CardActions from '@mui/material/CardActions'
+import Button from '@mui/material/Button'
 
 export default function Confirmation({ open, title, actionText='Continue', actionColor='primary', onClose, onConfirm, children }) {
   return (

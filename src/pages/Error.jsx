@@ -2,7 +2,9 @@
 import { useNavigate, useRouteError } from 'react-router'
 
 // material ui imports
-import { Stack, Typography, Button } from '@mui/material'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 
 export default function Error() {
   const error = useRouteError()

@@ -5,7 +5,9 @@ import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 
 // material ui imports
-import { LinearProgress, Stack, Typography } from '@mui/material'
+import LinearProgress from '@mui/material/LinearProgress'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
