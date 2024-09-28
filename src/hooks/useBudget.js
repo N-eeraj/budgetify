@@ -6,8 +6,8 @@ import { useLocation } from 'react-router'
 
 // redux toolkit imports
 import { useDispatch, useSelector } from 'react-redux'
-import { createBudget, updateBudget, removeBudget } from '@store/budgets'
-import { createAllocation } from '@store/allocations'
+import { createBudget, updateBudget, allocateFund, removeBudget } from '@store/budgets'
+import { getAllocationsByBudget, createAllocation } from '@store/allocations'
 import { getExpensesByBudget, removeExpensesByBudget } from '@store/expenses'
 import { setToast } from '@store/main'
 
@@ -32,13 +32,16 @@ const useBudget = defaultValues => {
   const dispatch = useDispatch()
 
   // store values
-  const { budgets, getExpenses } = useSelector(({ budgets, expenses }) => ({
+  const { budgets, getExpenses, getAllocations } = useSelector(({ budgets, expenses, allocations }) => ({
     budgets: budgets.data?.map(budget => ({
       spent: getExpensesByBudget(expenses, budget.id).reduce((sum, { amount }) => sum + amount, 0),
       ...budget,
     })),
     getExpenses: id => (
       getExpensesByBudget(expenses, id)
+    ),
+    getAllocations: id => (
+      getAllocationsByBudget(allocations, id)
     )
   }))
 
@@ -78,6 +81,7 @@ const useBudget = defaultValues => {
     setErrors({})
     try {
       dispatch(createAllocation({ budget: allocatingBudget, name, amount }))
+      dispatch(allocateFund({ id: allocatingBudget, amount }))
       setAllocatingBudget(null)
     }
     catch(error) {
@@ -134,7 +138,7 @@ const useBudget = defaultValues => {
     allocatingBudget, setAllocatingBudget,
     editingBudget, setEditingBudget,
     deletingBudget, setDeletingBudget,
-    getBudget, getExpenses,
+    getBudget, getExpenses, getAllocations,
     handleCreate,
     allocatingBudgetName,
     handleAllocate,
