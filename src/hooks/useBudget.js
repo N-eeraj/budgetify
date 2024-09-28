@@ -83,6 +83,7 @@ const useBudget = defaultValues => {
       dispatch(createAllocation({ budget: allocatingBudget, name, amount }))
       dispatch(allocateFund({ id: allocatingBudget, amount }))
       setAllocatingBudget(null)
+      resetForm()
     }
     catch(error) {
       setErrors(error)
