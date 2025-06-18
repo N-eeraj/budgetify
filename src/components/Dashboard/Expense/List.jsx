@@ -9,7 +9,7 @@ import emptyImage from '@images/illustrations/expense.svg'
 export default function List({ expenses, fallbackText }) {
   return (
     <DashboardGrid
-      items={expenses.toReversed()}
+      items={expenses?.toReversed()}
       Component={Expense}
       emptyState={
         <EmptyState

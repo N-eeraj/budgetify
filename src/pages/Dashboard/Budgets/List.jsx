@@ -41,7 +41,7 @@ export default function BudgetList() {
   return (
     <>
       <DashboardGrid
-        items={budgets.toReversed()}
+        items={budgets?.toReversed()}
         Component={BudgetCard}
         emptyState={
           <EmptyState
