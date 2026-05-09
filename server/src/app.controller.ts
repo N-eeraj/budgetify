@@ -9,11 +9,4 @@ export class AppController {
   getHealth(): ReturnType<typeof this.appService.getHealth> {
     return this.appService.getHealth();
   }
-
-  @All('*')
-  handle404(@Req() req) {
-    throw new NotFoundException('Route not found', {
-      description: `Could not find path: ${req.originalUrl}`,
-    })
-  }
 }
