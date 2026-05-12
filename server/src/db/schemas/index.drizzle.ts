@@ -1,0 +1,1 @@
+export { usersTable as users } from './users.drizzle';
