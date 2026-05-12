@@ -1,25 +1,21 @@
-import { integer, pgTable, varchar, timestamp } from 'drizzle-orm/pg-core';
+import { integer, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
 
-export const usersTable = pgTable('users', {
+export const verificationEmailsTable = pgTable('verification_emails', {
   id: integer('id')
     .primaryKey()
     .generatedAlwaysAsIdentity(),
-  name: varchar('name', {
-    length: 255,
-  })
-    .notNull(),
   email: varchar('email', {
     length: 255,
   })
     .notNull()
     .unique(),
-  password: varchar('password', {
+  otp: varchar('otp', {
     length: 255,
   })
+    .notNull()
+    .unique(),
+  expiresAt: timestamp('expires_at')
     .notNull(),
-  avatarUrl: varchar('avatar_url', {
-    length: 255,
-  }),
   createdAt: timestamp('created_at')
     .defaultNow()
     .notNull(),
@@ -27,4 +23,4 @@ export const usersTable = pgTable('users', {
     .defaultNow()
     .notNull()
     .$onUpdate(() => new Date()),
-});
+})

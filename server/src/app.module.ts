@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { EmailService } from './services/email.service';
 import { join } from 'path';
 
@@ -17,6 +18,7 @@ import { join } from 'path';
         fallthrough: false,
       },
     }),
+    AuthModule,
   ],
   controllers: [
     AppController,
