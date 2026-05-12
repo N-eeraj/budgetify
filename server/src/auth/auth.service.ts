@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { eq } from 'drizzle-orm';
 import { db } from 'src/db/index.drizzle';
-import { verificationEmails } from 'src/db/schemas/index.drizzle';
+import { users, verificationEmails } from 'src/db/schemas/index.drizzle';
 import { EmailService } from 'src/services/email.service';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
@@ -14,6 +15,18 @@ export class AuthService {
   private readonly BYPASS_OTP = process.env.BYPASS_OTP === 'true';
 
   constructor(private readonly emailService: EmailService) {}
+
+  async enureUserExists(email: string): Promise<boolean> {
+    const existingUser = await db
+      .select({
+        id: users.id,
+      })
+      .from(users)
+      .where(
+        eq(users.email, email)
+      );
+    return Boolean(existingUser.length)
+  }
 
   async sendVerificationMail(email: string) {
     // generates OTP, expires at and read HTML email template
@@ -61,4 +74,6 @@ export class AuthService {
       },
     });
   }
+
+  
 }
