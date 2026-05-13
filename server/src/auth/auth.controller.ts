@@ -2,6 +2,7 @@ import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { AuthService, type UserLogin } from './auth.service';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { CreateUserDto } from './dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
 import { ApiOperation } from '@nestjs/swagger';
 
 interface UserLoginResponse {
@@ -25,7 +26,7 @@ export class AuthController {
     await this.authService.sendVerificationMail(verifyEmailDto.email);
     return {
       success: true,
-      message: 'Send verification email',
+      message: 'Send Verification Email',
     };
   }
 
@@ -41,6 +42,21 @@ export class AuthController {
     return {
       success: true,
       message: 'Registration Successful',
+      data,
+    };
+  }
+
+  @ApiOperation({
+    summary: 'Login user',
+    description: 'Authenticates a user using email and password',
+  })
+  @Post('login')
+  async login(@Body() loginDto: LoginDto): Promise<UserLoginResponse> {
+    const data = await this.authService.login(loginDto);
+
+    return {
+      success: true,
+      message: 'Login Successful',
       data,
     };
   }

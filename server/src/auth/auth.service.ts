@@ -10,6 +10,7 @@ import crypto from 'crypto';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 import { CreateUserDto } from './dto/create-user.dto';
+import { LoginDto } from './dto/login.dto';
 
 export interface UserLogin extends Pick<CreateUserDto, 'email' | 'name'> {
   id: number;
@@ -121,7 +122,7 @@ export class AuthService {
     });
   }
 
-  async insertAuthToken(
+  async createSessionToken(
     userId: number,
     tx?: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>
   ): Promise<string> {
@@ -194,7 +195,7 @@ export class AuthService {
           });
 
         // create auth token
-        const token = await this.insertAuthToken(user.id, tx);
+        const token = await this.createSessionToken(user.id, tx);
 
         await tx
           .delete(verificationEmails)
@@ -209,5 +210,43 @@ export class AuthService {
       })
 
     return data;
+  }
+
+  async login({ email, password }: LoginDto): Promise<UserLogin> {
+    const [user] = await db
+      .select({
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        avatarUrl: users.avatarUrl,
+        password: users.password,
+      })
+      .from(users)
+      .where(
+        eq(users.email, email)
+      );
+
+    // verify login credentials
+    const matchingPassword = user.password
+      ? await bcrypt.compare(password, user.password ?? '')
+      : false;
+    if (!matchingPassword) {
+      throw new UnauthorizedException({
+        success: false,
+        message: 'Incorrect credentials',
+      });
+    }
+    const {
+      password: _hashedPassword,
+      ...data
+    } = user;
+
+    // create auth token
+    const token = await this.createSessionToken(user.id);
+
+    return {
+      ...data,
+      token,
+    };
   }
 }
