@@ -34,6 +34,7 @@ export class BadRequestFilter implements ExceptionFilter {
     return res.status(400).json({
       success: false,
       message: response.message || 'Bad Request',
+      errors: response.errors,
     });
   }
 }

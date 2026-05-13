@@ -1,12 +1,21 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { eq } from 'drizzle-orm';
+import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { and, eq, gt, type ExtractTablesWithRelations } from 'drizzle-orm';
+import { PgTransaction } from 'drizzle-orm/pg-core';
+import { NodePgQueryResultHKT } from 'drizzle-orm/node-postgres';
 import { db } from 'src/db/index.drizzle';
-import { users, verificationEmails } from 'src/db/schemas/index.drizzle';
+import { authTokens, users, verificationEmails } from 'src/db/schemas/index.drizzle';
 import { EmailService } from 'src/services/email.service';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { CreateUserDto } from './dto/create-user.dto';
+
+export interface UserLogin extends Pick<CreateUserDto, 'email' | 'name'> {
+  id: number;
+  token: string;
+  avatarUrl?: string | null;
+}
 
 @Injectable()
 export class AuthService {
@@ -17,7 +26,7 @@ export class AuthService {
 
   constructor(private readonly emailService: EmailService) {}
 
-  async enureUserExists(email: string): Promise<boolean> {
+  async ensureUniqueEmail(email: string) {
     const existingUser = await db
       .select({
         id: users.id,
@@ -26,10 +35,22 @@ export class AuthService {
       .where(
         eq(users.email, email)
       );
-    return Boolean(existingUser.length)
+    if (existingUser.length) {
+      throw new ConflictException({
+        success: false,
+        message: 'Account already exists, please login',
+        errors: {
+          email: [
+            'Email is already in use',
+          ],
+        },
+      });
+    }
   }
 
   async sendVerificationMail(email: string) {
+    if (this.BYPASS_OTP) return;
+
     const [existingEntry] = await db
       .select({
         updatedAt: verificationEmails.updatedAt,
@@ -86,7 +107,6 @@ export class AuthService {
         },
       });
 
-    if (this.BYPASS_OTP) return;
     // send verification email
     this.emailService.sendMail({
       recipients: [
@@ -101,5 +121,93 @@ export class AuthService {
     });
   }
 
-  
+  async insertAuthToken(
+    userId: number,
+    tx?: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>
+  ): Promise<string> {
+    const token = crypto.randomBytes(32).toString('hex');
+    const hashedToken = await bcrypt.hash(token, this.SALT_ROUNDS);
+
+    await (tx ?? db)
+      .insert(authTokens)
+      .values({
+        token: hashedToken,
+        userId,
+      });
+
+    return token;
+  }
+
+  async verifyOtp({ email, otp }: Pick<CreateUserDto, 'email' | 'otp'>) {
+    if (this.BYPASS_OTP) return;
+
+    const [verificationRecord] = await db
+      .select()
+      .from(verificationEmails)
+      .where(
+        and(
+          eq(verificationEmails.email, email),
+          gt(verificationEmails.expiresAt, new Date()),
+        )
+      );
+    // check if valid otp exists
+    if (!verificationRecord) {
+      throw new UnauthorizedException({
+        success: false,
+        message: 'Please request a verification a new code',
+      });
+    }
+
+    // check if otp matches
+    const matchingOtp = await bcrypt.compare(otp, verificationRecord.otp);
+    if (!matchingOtp) {
+      throw new UnauthorizedException({
+        success: false,
+        message: 'Incorrect OTP',
+        errors: {
+          otp: [
+            'Incorrect OTP',
+          ],
+        },
+      });
+    }
+  }
+
+  async createUser({ email, name, password }: Omit<CreateUserDto, 'otp'>): Promise<UserLogin> {
+    const hashedPassword = await bcrypt.hash(password, this.SALT_ROUNDS);
+
+    const data = await db
+      .transaction(async (tx) => {
+        // create user
+        const [user] = await tx
+          .insert(users)
+          .values({
+            email,
+            name,
+            password: hashedPassword,
+          })
+          .returning({
+            id: users.id,
+            email: users.email,
+            name: users.name,
+            avatarUrl: users.avatarUrl,
+          });
+
+        // create auth token
+        const token = await this.insertAuthToken(user.id, tx);
+
+        await tx
+          .delete(verificationEmails)
+          .where(
+            eq(verificationEmails.email, email)
+          );
+
+        return {
+          ...user,
+          token,
+        };
+      })
+
+    return data;
+  }
 }
