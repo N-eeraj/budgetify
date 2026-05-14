@@ -42,7 +42,10 @@
       font-size: 14px;
       color: #b7c2bd;
       line-height: 1.6;
-      margin-bottom: 26px;
+
+      &.ghost {
+        opacity: 0.75;
+      }
     }
 
     .otp-box {
@@ -55,43 +58,37 @@
       background: rgba(62, 207, 142, 0.08);
       border: 1px solid rgba(62, 207, 142, 0.35);
       border-radius: 10px;
-      margin-bottom: 26px;
-    }
-
-    .footer {
-      font-size: 12px;
-      color: #6b7a75;
-      margin-top: 18px;
-    }
-
-    .highlight {
-      color: #3ecf8e;
+      margin: 26px auto;
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="logo">Your App</div>
+    <div class="logo">
+      Budgetify
+    </div>
 
-    <div class="title">Verify your email</div>
+    <div class="title">
+      Budgetify
+    </div>
 
     <div class="message">
       Use the one-time password (OTP) below to complete your sign-in.
       This code will expire shortly for security reasons.
     </div>
 
-    <!-- Replace dynamically -->
-    <div class="otp-box">{{OTP}}</div>
+    <div class="otp-box">
+      {{otp}}
+    </div>
 
     <div class="message">
+      This OTP is valid for 15 minutes.
+    </div>
+
+    <div class="message ghost">
       If you didn’t request this, you can safely ignore this email.
     </div>
-
-    <div class="footer">
-      Powered by <span class="highlight">Supabase-style Auth</span>
-    </div>
   </div>
-
 </body>
 </html>
