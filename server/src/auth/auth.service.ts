@@ -4,11 +4,9 @@ import { PgTransaction } from 'drizzle-orm/pg-core';
 import { NodePgQueryResultHKT } from 'drizzle-orm/node-postgres';
 import { db } from 'src/db/index.drizzle';
 import { authTokens, users, verificationEmails } from 'src/db/schemas/index.drizzle';
-import { EmailService } from 'src/services/email.service';
+import { MailerService } from '@nestjs-modules/mailer';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 
@@ -25,7 +23,7 @@ export class AuthService {
   private readonly EMAIL_OTP_RETRY = 3_00_000; // 5 minutes in ms
   private readonly BYPASS_OTP = process.env.BYPASS_OTP === 'true';
 
-  constructor(private readonly emailService: EmailService) {}
+  constructor(private readonly mailerService: MailerService) {}
 
   async ensureUniqueEmail(email: string) {
     const existingUser = await db
@@ -82,13 +80,6 @@ export class AuthService {
       .toString()
       .padStart(6, '0');
 
-    const templatePath = join(
-      process.cwd(),
-      'src/assets/templates/email-verification.html',
-    );
-    let html = readFileSync(templatePath, 'utf-8');
-    html = html.replace('{{OTP}}', otp);
-
     const expiresAt = new Date(Date.now() + this.EMAIL_OTP_VALIDITY);
     const hashedOtp = await bcrypt.hash(otp, this.SALT_ROUNDS);
 
@@ -109,15 +100,12 @@ export class AuthService {
       });
 
     // send verification email
-    this.emailService.sendMail({
-      recipients: [
-        { email },
-      ],
-      category: 'Email Verification',
+    await this.mailerService.sendMail({
+      to: email,
       subject: 'Email Verification',
-      body: {
-        type: 'html',
-        content: html,
+      template: 'email-verification',
+      context: {
+        otp,
       },
     });
   }
