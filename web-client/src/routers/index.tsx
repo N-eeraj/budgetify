@@ -3,7 +3,7 @@ import { useRoutes } from 'react-router';
 import Homepage from '../pages/home'
 import Register from '../pages/register'
 import Login from '../pages/login'
-import Error from '../pages/404'
+import Error from '../pages/*'
 
 
 function appRouter() {
@@ -21,7 +21,7 @@ function appRouter() {
             element: <Login />
         },
         {
-            path: '/404',
+            path: '/*',
             element: <Error />
         },
     ])
