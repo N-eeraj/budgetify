@@ -1,10 +1,10 @@
-import { index, integer, pgTable, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { index, integer, pgTable, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
 import { users } from './index.drizzle';
 
 export const resetPasswordTokensTable = pgTable('reset_password_tokens', {
-  id: integer('id')
-    .primaryKey()
-    .generatedAlwaysAsIdentity(),
+  id: uuid('id')
+    .defaultRandom()
+    .primaryKey(),
   userId: integer('user_id')
     .notNull()
     .references(() => users.id, {

@@ -3,7 +3,7 @@ import { and, eq, gt, type ExtractTablesWithRelations } from 'drizzle-orm';
 import { PgTransaction } from 'drizzle-orm/pg-core';
 import { NodePgQueryResultHKT } from 'drizzle-orm/node-postgres';
 import { db } from 'src/db/index.drizzle';
-import { authTokens, users, verificationEmails } from 'src/db/schemas/index.drizzle';
+import { authTokens, resetPasswordTokens, users, verificationEmails } from 'src/db/schemas/index.drizzle';
 import { MailerService } from '@nestjs-modules/mailer';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
@@ -15,13 +15,18 @@ export interface UserLogin extends Pick<CreateUserDto, 'email' | 'name'> {
   token: string;
   avatarUrl?: string | null;
 }
+interface PasswordResetRequest {
+  uuid: string;
+  token: string;
+}
 
 @Injectable()
 export class AuthService {
   private readonly SALT_ROUNDS = 12;
   private readonly EMAIL_OTP_VALIDITY = 9_00_000; // 15 minutes in ms
   private readonly EMAIL_OTP_RETRY = 3_00_000; // 5 minutes in ms
-  private readonly BYPASS_OTP = process.env.BYPASS_OTP === 'true';
+  private readonly RESET_PASSWORD_TOKEN_VALIDITY = 36_00_000; // 1 hour in ms
+  private readonly RESET_PASSWORD_URL = 'reset-password';
 
   constructor(private readonly mailerService: MailerService) {}
 
@@ -245,5 +250,80 @@ export class AuthService {
       ...data,
       token,
     };
+  }
+
+  async ensureUserExist(email: UserLogin['email']): Promise<Pick<UserLogin, 'id' | 'email'>> {
+    const user = await this.getUserByEmail(email);
+
+    // ensure user exists
+    if (!user) {
+      throw new BadRequestException({
+        success: false,
+        message: 'Unable to process the request',
+      });
+    }
+
+    return user;
+  }
+
+  async ensureNoPasswordResetRequest(userId: UserLogin['id']) {
+    const [existingRequest] = await db
+      .select({
+        expiresAt: resetPasswordTokens.expiresAt,
+      })
+      .from(resetPasswordTokens)
+      .where(
+        and(
+          eq(resetPasswordTokens.userId, userId),
+          gt(resetPasswordTokens.expiresAt, new Date()),
+        )
+      );
+
+    if (existingRequest) {
+      const secondsRemaining = Math.floor((existingRequest.expiresAt.getTime() - Date.now()) / 1_000);
+      throw new BadRequestException({
+        success: false,
+        message: 'Request already sent, please try again later',
+        errors: {
+          retryIn: secondsRemaining,
+        }
+      });
+    }
+  }
+
+  async generatePasswordResetToken(userId: UserLogin['id']): Promise<PasswordResetRequest> {
+    const token = crypto.randomBytes(32).toString('hex');
+    const hashedToken = await bcrypt.hash(token, this.SALT_ROUNDS);
+
+    const expiresAt = new Date(Date.now() + this.RESET_PASSWORD_TOKEN_VALIDITY);
+
+    const [resetPasswordRequest] = await db
+      .insert(resetPasswordTokens)
+      .values({
+        userId,
+        token: hashedToken,
+        expiresAt,
+      })
+      .returning({
+        id: resetPasswordTokens.id,
+      });
+
+    return {
+      uuid: resetPasswordRequest.id,
+      token,
+    };
+  }
+
+  async sendPasswordResetTokenMail(email: UserLogin['email'], { uuid, token }: PasswordResetRequest) {
+    const resetPasswordUrl = `${process.env.CLIENT_URL}/${this.RESET_PASSWORD_URL}/${token}?id=${uuid}`;
+
+    await this.mailerService.sendMail({
+      to: email,
+      subject: 'Email Verification',
+      template: 'reset-password',
+      context: {
+        resetPasswordUrl,
+      },
+    });
   }
 }
