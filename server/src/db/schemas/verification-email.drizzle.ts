@@ -23,4 +23,4 @@ export const verificationEmailsTable = pgTable('verification_emails', {
     .defaultNow()
     .notNull()
     .$onUpdate(() => new Date()),
-})
+});
