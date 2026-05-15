@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Input } from '@/components/ui/input'
+import Input from "@/components/base/Input"
 import { Field } from '@/components/ui/field'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
