@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Icon } from "@iconify/react"
 import { Button } from "../ui/button"
+import { cn } from "@/lib/utils"
 
 interface BaseInputProps
     extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -38,7 +39,7 @@ const BaseInput = ({
                     type={inputType}
                     placeholder={placeholder}
                     value={value}
-                    className={className}
+                    className={cn(className, 'placeholder:text-xs text-sm')}
                     {...props}
                 />
 

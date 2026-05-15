@@ -15,7 +15,7 @@ function register() {
 
   return (
     <main className='w-screen h-screen flex flex-col items-center justify-center bg-background gap-10'>
-      <div className='w-90 flex flex-col items-center min-h-50 border border-primary bg-card rounded-md p-10'>
+      <div className='w-90 flex flex-col items-center justify-center min-h-50 md:border border-primary bg-background md:bg-card rounded-md p-10'>
         <h1 className='text-lg text-primary font-black'>
           Budgetify
         </h1>
@@ -44,12 +44,7 @@ function register() {
                 <Icon icon="maki:arrow" width="24" height="24" />
               </Button>
             </div>
-            <div className='w-full flex items-center gap-3 pt-6 text-muted-foreground'>
-              <span className='h-[.5px] flex-1 bg-accent'/>
-              or
-              <span className='h-[.5px] flex-1 bg-accent' />
-            </div>
-            <div className='text-sm text-muted-foreground pt-5'>
+            <div className='text-sm text-muted-foreground pt-10'>
               Already have an account?
               <Link to="/login" className='text-primary font-black text-sm pl-2 underline'>
                 Login
