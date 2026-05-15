@@ -1,6 +1,6 @@
 import { Config, defineConfig } from 'drizzle-kit';
 
-if (!process.env.DATABASE_URL) throw new Error("Missing env variable: DATABASE_URL")
+if (!process.env.DATABASE_URL) throw new Error('Missing env variable: DATABASE_URL')
 
 export default defineConfig({
   out: './drizzle',

@@ -25,16 +25,23 @@ export class AuthService {
 
   constructor(private readonly mailerService: MailerService) {}
 
-  async ensureUniqueEmail(email: string) {
-    const existingUser = await db
+  async getUserByEmail(email: UserLogin['email']): Promise<Pick<UserLogin, 'id' | 'email'> | undefined> {
+    const [user] = await db
       .select({
         id: users.id,
+        email: users.email,
       })
       .from(users)
       .where(
         eq(users.email, email)
       );
-    if (existingUser.length) {
+
+    return user;
+  }
+
+  async ensureUniqueEmail(email: UserLogin['email']) {
+    const existingUser = await this.getUserByEmail(email);
+    if (existingUser) {
       throw new ConflictException({
         success: false,
         message: 'Account already exists, please login',
@@ -47,9 +54,7 @@ export class AuthService {
     }
   }
 
-  async sendVerificationMail(email: string) {
-    if (this.BYPASS_OTP) return;
-
+  async ensureVerificationCoolDownComplete(email: UserLogin['email']) {
     const [existingEntry] = await db
       .select({
         updatedAt: verificationEmails.updatedAt,
@@ -59,7 +64,7 @@ export class AuthService {
         eq(verificationEmails.email, email)
       );
 
-    // check if the retry cooldown period has elapsed
+    // check if the retry cool-down period has elapsed
     if (existingEntry?.updatedAt) {
       const retryTime = new Date(existingEntry.updatedAt.getTime() + this.EMAIL_OTP_RETRY);
       const now = new Date();
@@ -74,7 +79,9 @@ export class AuthService {
         });
       }
     }
+  }
 
+  async generateVerificationOtp(email: UserLogin['email']): Promise<string> {
     // generates OTP, expires at and read HTML email template
     const otp = crypto.randomInt(0, 999_999)
       .toString()
@@ -99,7 +106,10 @@ export class AuthService {
         },
       });
 
-    // send verification email
+    return otp;
+  }
+
+  async sendVerificationMail(email: UserLogin['email'], otp: string) {
     await this.mailerService.sendMail({
       to: email,
       subject: 'Email Verification',
@@ -110,26 +120,7 @@ export class AuthService {
     });
   }
 
-  async createSessionToken(
-    userId: number,
-    tx?: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>
-  ): Promise<string> {
-    const token = crypto.randomBytes(32).toString('hex');
-    const hashedToken = await bcrypt.hash(token, this.SALT_ROUNDS);
-
-    await (tx ?? db)
-      .insert(authTokens)
-      .values({
-        token: hashedToken,
-        userId,
-      });
-
-    return token;
-  }
-
   async verifyOtp({ email, otp }: Pick<CreateUserDto, 'email' | 'otp'>) {
-    if (this.BYPASS_OTP) return;
-
     const [verificationRecord] = await db
       .select()
       .from(verificationEmails)
@@ -162,6 +153,23 @@ export class AuthService {
     }
   }
 
+  async createSessionToken(
+    userId: number,
+    tx?: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>
+  ): Promise<string> {
+    const token = crypto.randomBytes(32).toString('hex');
+    const hashedToken = await bcrypt.hash(token, this.SALT_ROUNDS);
+
+    await (tx ?? db)
+      .insert(authTokens)
+      .values({
+        token: hashedToken,
+        userId,
+      });
+
+    return token;
+  }
+
   async createUser({ email, name, password }: Omit<CreateUserDto, 'otp'>): Promise<UserLogin> {
     const hashedPassword = await bcrypt.hash(password, this.SALT_ROUNDS);
 
@@ -185,6 +193,7 @@ export class AuthService {
         // create auth token
         const token = await this.createSessionToken(user.id, tx);
 
+        // delete email verification record
         await tx
           .delete(verificationEmails)
           .where(

@@ -8,7 +8,7 @@ export class ForgotPasswordDto {
     format: 'email',
   })
   @IsEmail({}, {
-    message: "Please enter a valid email",
+    message: 'Please enter a valid email',
   })
   readonly email!: string;
 }

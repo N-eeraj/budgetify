@@ -13,6 +13,8 @@ interface UserLoginResponse {
 
 @Controller('auth')
 export class AuthController {
+  private readonly BYPASS_OTP = process.env.BYPASS_OTP === 'true';
+
   constructor(private readonly authService: AuthService) {}
 
   @ApiOperation({
@@ -21,9 +23,14 @@ export class AuthController {
   })
   @Post('send-verification')
   @HttpCode(200)
-  async sendVerification(@Body() verifyEmailDto: VerifyEmailDto) {
-    await this.authService.ensureUniqueEmail(verifyEmailDto.email);
-    await this.authService.sendVerificationMail(verifyEmailDto.email);
+  async sendVerification(@Body() { email }: VerifyEmailDto) {
+    await this.authService.ensureUniqueEmail(email);
+    if (!this.BYPASS_OTP) {
+      await this.authService.ensureVerificationCoolDownComplete(email);
+      const otp = await this.authService.generateVerificationOtp(email);
+      await this.authService.sendVerificationMail(email, otp);
+    }
+
     return {
       success: true,
       message: 'Send Verification Email',
@@ -37,8 +44,11 @@ export class AuthController {
   @Post('register')
   async createUser(@Body() createUserDto: CreateUserDto): Promise<UserLoginResponse> {
     await this.authService.ensureUniqueEmail(createUserDto.email);
-    await this.authService.verifyOtp(createUserDto);
+    if (!this.BYPASS_OTP) {
+      await this.authService.verifyOtp(createUserDto);
+    }
     const data = await this.authService.createUser(createUserDto);
+
     return {
       success: true,
       message: 'Registration Successful',
@@ -50,6 +60,7 @@ export class AuthController {
     summary: 'Login user',
     description: 'Authenticates a user using email and password',
   })
+  @HttpCode(200)
   @Post('login')
   async login(@Body() loginDto: LoginDto): Promise<UserLoginResponse> {
     const data = await this.authService.login(loginDto);
