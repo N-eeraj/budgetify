@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@components/ui/button"
 import {
   Dialog,
   DialogClose,
@@ -8,17 +8,17 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Field, FieldGroup } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@components/ui/dialog"
+import { Field, FieldGroup } from "@components/ui/field"
+import { Input } from "@components/ui/input"
+import { Label } from "@components/ui/label"
 
-export function PasswordReset() {
+function ResetPassword() {
   return (
     <Dialog>
       <form>
         <DialogTrigger asChild>
-          <Button variant="outline"> Forget Password?</Button>
+          <Button variant="outline"> Forgot Password?</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
@@ -49,3 +49,5 @@ export function PasswordReset() {
     </Dialog>
   )
 }
+
+export default ResetPassword

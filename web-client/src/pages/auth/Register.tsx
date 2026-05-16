@@ -1,14 +1,14 @@
-import React, { useState } from 'react'
-import Input from "@/components/base/Input"
-import { Field } from '@/components/ui/field'
-import { Label } from '@/components/ui/label'
-import { Button } from '@/components/ui/button'
+import { useState } from 'react'
+import Input from "@components/base/Input"
+import { Field } from '@components/ui/field'
+import { Label } from '@components/ui/label'
+import { Button } from '@components/ui/button'
 import { Link } from 'react-router'
-import { OtpView } from '@/components/register/Otp'
-import { Details } from '@/components/register/Details'
+import { OtpView } from '@components/register/Otp'
+import { Details } from '@components/register/Details'
 import { Icon } from "@iconify/react"
 
-function register() {
+function Register() {
   const [email, setEmail] = useState('')
   const [isOtpOpen, setIsOtpOpen] = useState(false) // Determines if we are on the OTP step
   const [isOtpVerified, setIsOtpVerified] = useState(false)
@@ -22,15 +22,17 @@ function register() {
         <span className="mb-6 mt-2 text-md font-bold text-foreground">
           Create Your account
         </span>
-        
+
         {!isOtpOpen && !isOtpVerified && (
           <>
             <div className="w-full flex flex-col gap-4 mt-2">
               <Field>
-                <Label htmlFor="email" className='text-muted-foreground'>Your email address</Label>
-                <Input 
-                  id="email" 
-                  placeholder='Email' 
+                <Label htmlFor="email" className='text-muted-foreground'>
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  placeholder='Your email address'
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -54,8 +56,8 @@ function register() {
         )}
 
         {isOtpOpen && !isOtpVerified && (
-          <OtpView 
-            email={email} 
+          <OtpView
+            email={email}
             onVerify={() => {
               setIsOtpVerified(true)
             }}
@@ -70,4 +72,4 @@ function register() {
   )
 }
 
-export default register
+export default Register
