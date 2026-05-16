@@ -24,8 +24,8 @@ export function PasswordReset({email}) {
     <Dialog>
       <form>
         <DialogTrigger asChild onClick={() => setResetEmail(email)}>
-         <span className="text-sm text-accent-foreground cursor-pointer">
-             Forget Password?
+         <span className="text-sm text-muted-foreground cursor-pointer">
+             Forgot Password?
          </span>
         </DialogTrigger>
         <DialogContent className="sm:max-w-lg w-full flex flex-col items-center border border-primary bg-card p-10">
