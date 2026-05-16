@@ -4,6 +4,7 @@ import { VerifyEmailDto } from './dto/verify-email.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ApiOperation } from '@nestjs/swagger';
 
 interface UserLoginResponse {
@@ -88,6 +89,30 @@ export class AuthController {
     return {
       success: true,
       message: 'Reset password email has been sent',
+    };
+  }
+
+  @ApiOperation({
+    summary: 'Reset Password',
+    description: 'Resets the user\'s password',
+  })
+  @HttpCode(200)
+  @Post('reset-password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    const userId = await this.authService.verifyPasswordResetToken({
+      uuid: resetPasswordDto.requestId,
+      token: resetPasswordDto.token,
+    });
+    await this.authService.updateUserPassword(
+      userId,
+      resetPasswordDto.password,
+      resetPasswordDto.requestId,
+      resetPasswordDto.logoutAllDevices
+    );
+
+    return {
+      success: true,
+      message: 'Successfully updated password',
     };
   }
 }

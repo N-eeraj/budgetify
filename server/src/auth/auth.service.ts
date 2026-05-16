@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { and, eq, gt, type ExtractTablesWithRelations } from 'drizzle-orm';
 import { PgTransaction } from 'drizzle-orm/pg-core';
 import { NodePgQueryResultHKT } from 'drizzle-orm/node-postgres';
@@ -325,5 +325,74 @@ export class AuthService {
         resetPasswordUrl,
       },
     });
+  }
+
+  async verifyPasswordResetToken({ uuid, token }: PasswordResetRequest): Promise<UserLogin['id']> {
+    const [passwordResetRequest] = await db
+      .select({
+        userId: resetPasswordTokens.userId,
+        hashedToken: resetPasswordTokens.token,
+      })
+      .from(resetPasswordTokens)
+      .where(
+        and(
+          eq(resetPasswordTokens.id, uuid),
+          gt(resetPasswordTokens.expiresAt, new Date()),
+        )
+      );
+
+    // verify token
+    const isMatchingToken = passwordResetRequest
+      ? await bcrypt.compare(token, passwordResetRequest.hashedToken ?? '')
+      : false;
+
+    if (!isMatchingToken) {
+      throw new NotFoundException({
+        message: 'Password reset token not found',
+        errors: {
+          token: 'Invalid password reset token',
+        },
+      });
+    }
+
+    return passwordResetRequest.userId;
+  }
+
+  async updateUserPassword(
+    userId: UserLogin['id'],
+    password: string,
+    uuid: PasswordResetRequest['uuid'],
+    logoutAllDevices?: boolean
+  ) {
+    const hashedPassword = await bcrypt.hash(password, this.SALT_ROUNDS);
+
+    await db
+      .transaction(async (tx) => {
+        // update password
+        await tx
+          .update(users)
+          .set({
+            password: hashedPassword,
+          })
+          .where(
+            eq(users.id, userId)
+          );
+
+        // delete reset request
+        await tx
+          .delete(resetPasswordTokens)
+          .where(
+            eq(resetPasswordTokens.id, uuid)
+          );
+
+        // clear auth tokens
+        if (logoutAllDevices) {
+          await tx
+            .delete(authTokens)
+            .where(
+              eq(authTokens.userId, userId)
+            );
+        }
+      });
   }
 }
