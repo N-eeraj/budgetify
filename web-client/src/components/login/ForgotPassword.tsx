@@ -1,4 +1,4 @@
-import { Button } from "@components/ui/button"
+import Button from "@components/base/Button"
 import { Field, FieldGroup } from "@components/ui/field"
 import Input from "@components/base/Input"
 import { Label } from "@components/ui/label"
@@ -20,7 +20,7 @@ interface Props {
   email: string
 }
 
-function ResetPassword({ email }: Props) {
+function ForgotPassword({ email }: Props) {
   const [resetEmail, setResetEmail] = useState("")
 
   return (
@@ -76,4 +76,4 @@ function ResetPassword({ email }: Props) {
   )
 }
 
-export default ResetPassword
+export default ForgotPassword

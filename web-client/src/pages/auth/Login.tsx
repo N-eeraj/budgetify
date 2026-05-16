@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import Input from "@components/base/Input"
-import { Field } from '@components//ui/field'
-import { Label } from '@components//ui/label'
-import { Button } from '@components//ui/button'
+import { Field } from '@components/ui/field'
+import { Label } from '@components/ui/label'
+import Button from "@components/base/Button"
 import { Icon } from "@iconify/react"
 import { Link } from 'react-router'
-import PasswordReset from "@components//login/ResetPassword"
+import ForgotPassword from "@components/login/ForgotPassword"
 
 function Login() {
   const [email, setEmail] = useState('')
@@ -47,7 +47,7 @@ function Login() {
               />
             </Field>
 
-            <PasswordReset email={email} />
+            <ForgotPassword email={email} />
           </div>
 
           <Button size="lg" className="w-full mt-5" >

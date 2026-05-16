@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Input from "@components/base/Input"
 import { Field } from '@components/ui/field'
 import { Label } from '@components/ui/label'
-import { Button } from '@components/ui/button'
+import Button from "@components/base/Button"
 
 interface DetailsProps {
   email: string;

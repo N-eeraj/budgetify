@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Input from "@components/base/Input"
 import { Field } from '@components/ui/field'
 import { Label } from '@components/ui/label'
-import { Button } from '@components/ui/button'
+import Button from "@components/base/Button"
 import { Link } from 'react-router'
 import { OtpView } from '@components/register/Otp'
 import { Details } from '@components/register/Details'
@@ -10,7 +10,7 @@ import { Icon } from "@iconify/react"
 
 function Register() {
   const [email, setEmail] = useState('')
-  const [isOtpOpen, setIsOtpOpen] = useState(false) // Determines if we are on the OTP step
+  const [isOtpOpen, setIsOtpOpen] = useState(false)
   const [isOtpVerified, setIsOtpVerified] = useState(false)
 
   return (
