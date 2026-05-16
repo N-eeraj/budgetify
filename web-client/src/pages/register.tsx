@@ -41,7 +41,7 @@ function register() {
                 }
               }}>
                 Continue
-                <Icon icon="maki:arrow" width="24" height="24" />
+                <Icon icon="icons8:right-arrow" width="24" height="24" />
               </Button>
             </div>
             <div className='text-sm text-muted-foreground pt-10'>
