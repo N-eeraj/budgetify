@@ -9,12 +9,11 @@ export class AuthGuard implements CanActivate {
   async canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const authorizationHeader = request.headers.authorization;
+    const req = context.switchToHttp().getRequest();
+    const authorizationHeader = req.headers.authorization;
     const token = authorizationHeader?.replace(/^Bearer\s/, '');
     if (!token) {
       throw new UnauthorizedException({
-        success: false,
         message: 'Invalid Authentication Token',
       });
     }
@@ -40,13 +39,12 @@ export class AuthGuard implements CanActivate {
       );
     if (!user) {
       throw new UnauthorizedException({
-        success: false,
         message: 'Invalid Authentication Token',
       });
     }
 
-    request.user = user;
-    request.token = token;
+    req.user = user;
+    req.token = token;
 
     return true;
   }

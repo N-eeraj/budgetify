@@ -24,17 +24,17 @@ export class BadRequestFilter implements ExceptionFilter {
       );
 
       return res.status(400).json({
-        success: false,
         message: 'Bad Request',
         errors: formattedErrors,
       });
     }
 
     // Generic bad request
-    return res.status(400).json({
-      success: false,
-      message: response.message || 'Bad Request',
-      errors: response.errors,
-    });
+    return res
+      .status(400)
+      .json({
+        message: response.message || 'Bad Request',
+        errors: response.errors,
+      });
   }
 }

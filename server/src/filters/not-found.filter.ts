@@ -9,17 +9,11 @@ export class NotFoundFilter implements ExceptionFilter {
 
     const exceptionResponse = exception.getResponse();
     let response: Record<string, any> = typeof exceptionResponse === 'string'
-      ? { success: false }
-      : { success: false, ...exceptionResponse };
+      ? {}
+      : exceptionResponse;
 
-    if ('error' in response && response.error === 'Not Found') {
-      response = {
-        success: false,
-        message: 'Route not found',
-        path: req.originalUrl,
-      };
-    }
-
-    res.status(404).json(response);
+    res
+      .status(404)
+      .json(response);
   }
 }

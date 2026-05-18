@@ -44,7 +44,6 @@ export class AuthService {
     const existingUser = await this.getUserByEmail(email);
     if (existingUser) {
       throw new ConflictException({
-        success: false,
         message: 'Account already exists, please login',
         errors: {
           email: [
@@ -72,7 +71,6 @@ export class AuthService {
       const secondsRemaining = Math.floor((retryTime.getTime() - now.getTime()) / 1_000);
       if (secondsRemaining > 0) {
         throw new BadRequestException({
-          success: false,
           message: 'Please wait before requesting another OTP',
           errors: {
             retryIn: secondsRemaining,
@@ -134,7 +132,6 @@ export class AuthService {
     // check if valid otp exists
     if (!verificationRecord) {
       throw new UnauthorizedException({
-        success: false,
         message: 'Please request a verification a new code',
       });
     }
@@ -143,7 +140,6 @@ export class AuthService {
     const matchingOtp = await bcrypt.compare(otp, verificationRecord.otp);
     if (!matchingOtp) {
       throw new UnauthorizedException({
-        success: false,
         message: 'Incorrect OTP',
         errors: {
           otp: [
@@ -233,7 +229,6 @@ export class AuthService {
       : false;
     if (!matchingPassword) {
       throw new UnauthorizedException({
-        success: false,
         message: 'Incorrect credentials',
       });
     }
@@ -257,7 +252,6 @@ export class AuthService {
     // ensure user exists
     if (!user) {
       throw new BadRequestException({
-        success: false,
         message: 'Unable to process the request',
       });
     }
@@ -281,7 +275,6 @@ export class AuthService {
     if (existingRequest) {
       const secondsRemaining = Math.floor((existingRequest.expiresAt.getTime() - Date.now()) / 1_000);
       throw new BadRequestException({
-        success: false,
         message: 'Request already sent, please try again later',
         errors: {
           retryIn: secondsRemaining,
