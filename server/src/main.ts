@@ -1,11 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { NotFoundFilter } from './filters/not-found.filter';
+import { NotFoundFilter } from './common/filters/not-found.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { apiReference } from '@scalar/nestjs-api-reference';
-import { BadRequestException, NotFoundException, ValidationPipe } from '@nestjs/common';
-import { BadRequestFilter } from './filters/bad-request.filter';
-import { ErrorResponseFilter } from './filters/error-response.filter';
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { BadRequestFilter } from './common/filters/bad-request.filter';
+import { ErrorResponseFilter } from './common/filters/error-response.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
