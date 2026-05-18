@@ -9,12 +9,8 @@ import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
+import type { User, UserSession } from 'src/types/global';
 
-export interface UserLogin extends Pick<CreateUserDto, 'email' | 'name'> {
-  id: number;
-  token: string;
-  avatarUrl?: string | null;
-}
 interface PasswordResetRequest {
   uuid: string;
   token: string;
@@ -30,7 +26,7 @@ export class AuthService {
 
   constructor(private readonly mailerService: MailerService) {}
 
-  async getUserByEmail(email: UserLogin['email']): Promise<Pick<UserLogin, 'id' | 'email'> | undefined> {
+  async getUserByEmail(email: User['email']): Promise<Pick<User, 'id' | 'email'> | undefined> {
     const [user] = await db
       .select({
         id: users.id,
@@ -44,7 +40,7 @@ export class AuthService {
     return user;
   }
 
-  async ensureUniqueEmail(email: UserLogin['email']) {
+  async ensureUniqueEmail(email: User['email']) {
     const existingUser = await this.getUserByEmail(email);
     if (existingUser) {
       throw new ConflictException({
@@ -59,7 +55,7 @@ export class AuthService {
     }
   }
 
-  async ensureVerificationCoolDownComplete(email: UserLogin['email']) {
+  async ensureVerificationCoolDownComplete(email: User['email']) {
     const [existingEntry] = await db
       .select({
         updatedAt: verificationEmails.updatedAt,
@@ -86,7 +82,7 @@ export class AuthService {
     }
   }
 
-  async generateVerificationOtp(email: UserLogin['email']): Promise<string> {
+  async generateVerificationOtp(email: User['email']): Promise<string> {
     // generates OTP, expires at and read HTML email template
     const otp = crypto.randomInt(0, 999_999)
       .toString()
@@ -114,7 +110,7 @@ export class AuthService {
     return otp;
   }
 
-  async sendVerificationMail(email: UserLogin['email'], otp: string) {
+  async sendVerificationMail(email: User['email'], otp: string) {
     await this.mailerService.sendMail({
       to: email,
       subject: 'Email Verification',
@@ -178,7 +174,7 @@ export class AuthService {
     return token;
   }
 
-  async createUser({ email, name, password }: Omit<CreateUserDto, 'otp'>): Promise<UserLogin> {
+  async createUser({ email, name, password }: Omit<CreateUserDto, 'otp'>): Promise<UserSession> {
     const hashedPassword = await bcrypt.hash(password, this.SALT_ROUNDS);
 
     const data = await db
@@ -217,7 +213,7 @@ export class AuthService {
     return data;
   }
 
-  async login({ email, password }: LoginDto): Promise<UserLogin> {
+  async login({ email, password }: LoginDto): Promise<UserSession> {
     const [user] = await db
       .select({
         id: users.id,
@@ -255,7 +251,7 @@ export class AuthService {
     };
   }
 
-  async ensureUserExist(email: UserLogin['email']): Promise<Pick<UserLogin, 'id' | 'email'>> {
+  async ensureUserExist(email: User['email']): Promise<Pick<User, 'id' | 'email'>> {
     const user = await this.getUserByEmail(email);
 
     // ensure user exists
@@ -269,7 +265,7 @@ export class AuthService {
     return user;
   }
 
-  async ensureNoPasswordResetRequest(userId: UserLogin['id']) {
+  async ensureNoPasswordResetRequest(userId: User['id']) {
     const [existingRequest] = await db
       .select({
         expiresAt: resetPasswordTokens.expiresAt,
@@ -294,7 +290,7 @@ export class AuthService {
     }
   }
 
-  async generatePasswordResetToken(userId: UserLogin['id']): Promise<PasswordResetRequest> {
+  async generatePasswordResetToken(userId: User['id']): Promise<PasswordResetRequest> {
     const token = crypto.randomBytes(32).toString('hex');
     const hashedToken = await bcrypt.hash(token, this.SALT_ROUNDS);
 
@@ -317,7 +313,7 @@ export class AuthService {
     };
   }
 
-  async sendPasswordResetTokenMail(email: UserLogin['email'], { uuid, token }: PasswordResetRequest) {
+  async sendPasswordResetTokenMail(email: User['email'], { uuid, token }: PasswordResetRequest) {
     const resetPasswordUrl = `${process.env.CLIENT_URL}/${this.RESET_PASSWORD_URL}/${token}?id=${uuid}`;
 
     await this.mailerService.sendMail({
@@ -330,7 +326,7 @@ export class AuthService {
     });
   }
 
-  async verifyPasswordResetToken({ uuid, token }: PasswordResetRequest): Promise<UserLogin['id']> {
+  async verifyPasswordResetToken({ uuid, token }: PasswordResetRequest): Promise<User['id']> {
     const [passwordResetRequest] = await db
       .select({
         userId: resetPasswordTokens.userId,
@@ -362,7 +358,7 @@ export class AuthService {
   }
 
   async updateUserPassword(
-    userId: UserLogin['id'],
+    userId: User['id'],
     password: string,
     uuid: PasswordResetRequest['uuid'],
     logoutAllDevices?: boolean

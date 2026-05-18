@@ -1,17 +1,12 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
-import { AuthService, type UserLogin } from './auth.service';
+import { AuthService } from './auth.service';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { ApiOperation } from '@nestjs/swagger';
-
-interface UserLoginResponse {
-  success: true;
-  message: string;
-  data: UserLogin;
-}
+import type { SuccessResponse, UserSession } from 'src/types/global';
 
 @Controller('auth')
 export class AuthController {
@@ -25,7 +20,7 @@ export class AuthController {
   })
   @Post('send-verification')
   @HttpCode(200)
-  async sendVerification(@Body() { email }: VerifyEmailDto) {
+  async sendVerification(@Body() { email }: VerifyEmailDto): Promise<SuccessResponse> {
     await this.authService.ensureUniqueEmail(email);
     if (!this.BYPASS_OTP) {
       await this.authService.ensureVerificationCoolDownComplete(email);
@@ -44,7 +39,7 @@ export class AuthController {
     description: 'Creates a new user account after verifying OTP or email',
   })
   @Post('register')
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<UserLoginResponse> {
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<SuccessResponse<UserSession>> {
     await this.authService.ensureUniqueEmail(createUserDto.email);
     if (!this.BYPASS_OTP) {
       await this.authService.verifyOtp(createUserDto);
@@ -64,7 +59,7 @@ export class AuthController {
   })
   @HttpCode(200)
   @Post('login')
-  async login(@Body() loginDto: LoginDto): Promise<UserLoginResponse> {
+  async login(@Body() loginDto: LoginDto): Promise<SuccessResponse<UserSession>> {
     const data = await this.authService.login(loginDto);
 
     return {
@@ -80,7 +75,7 @@ export class AuthController {
   })
   @HttpCode(200)
   @Post('forgot-password')
-  async requestPasswordReset(@Body() forgotPasswordDto: ForgotPasswordDto) {
+  async requestPasswordReset(@Body() forgotPasswordDto: ForgotPasswordDto): Promise<SuccessResponse> {
     const user = await this.authService.ensureUserExist(forgotPasswordDto.email);
     await this.authService.ensureNoPasswordResetRequest(user.id);
     const resetPasswordRequest = await this.authService.generatePasswordResetToken(user.id);
@@ -98,7 +93,7 @@ export class AuthController {
   })
   @HttpCode(200)
   @Post('reset-password')
-  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto): Promise<SuccessResponse> {
     const userId = await this.authService.verifyPasswordResetToken({
       uuid: resetPasswordDto.requestId,
       token: resetPasswordDto.token,
