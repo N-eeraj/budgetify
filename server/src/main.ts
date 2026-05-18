@@ -3,8 +3,9 @@ import { AppModule } from './app.module';
 import { NotFoundFilter } from './filters/not-found.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { apiReference } from '@scalar/nestjs-api-reference';
-import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, NotFoundException, ValidationPipe } from '@nestjs/common';
 import { BadRequestFilter } from './filters/bad-request.filter';
+import { ErrorResponseFilter } from './filters/error-response.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -22,6 +23,7 @@ async function bootstrap() {
     }),
   );
 
+  // validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
       exceptionFactory(errors) {
@@ -33,8 +35,10 @@ async function bootstrap() {
     }),
   );
 
+  // filters
   app.useGlobalFilters(new NotFoundFilter());
   app.useGlobalFilters(new BadRequestFilter());
+  app.useGlobalFilters(new ErrorResponseFilter());
 
   await app.listen(process.env.PORT ?? 3000);
 }
