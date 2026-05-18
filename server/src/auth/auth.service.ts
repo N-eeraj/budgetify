@@ -163,7 +163,10 @@ export class AuthService {
     tx?: PgTransaction<NodePgQueryResultHKT, Record<string, never>, ExtractTablesWithRelations<Record<string, never>>>
   ): Promise<string> {
     const token = crypto.randomBytes(32).toString('hex');
-    const hashedToken = await bcrypt.hash(token, this.SALT_ROUNDS);
+    const hashedToken = crypto
+      .createHmac('sha256', process.env.TOKEN_SECRET!)
+      .update(token)
+      .digest('hex');
 
     await (tx ?? db)
       .insert(authTokens)
@@ -229,7 +232,7 @@ export class AuthService {
       );
 
     // verify login credentials
-    const matchingPassword = user.password
+    const matchingPassword = user
       ? await bcrypt.compare(password, user.password ?? '')
       : false;
     if (!matchingPassword) {

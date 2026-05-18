@@ -6,6 +6,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/adapters/handlebars.ad
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 import { join } from 'path';
 
 @Module({
@@ -34,6 +35,7 @@ import { join } from 'path';
       },
     }),
     AuthModule,
+    UserModule,
   ],
   controllers: [
     AppController,
