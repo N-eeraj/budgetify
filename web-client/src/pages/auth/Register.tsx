@@ -4,8 +4,8 @@ import { Field } from '@components/ui/field'
 import { Label } from '@components/ui/label'
 import Button from "@components/base/Button"
 import { Link } from 'react-router'
-import { OtpView } from '@components/register/Otp'
-import { Details } from '@components/register/Details'
+import  OtpView  from '@components/register/Otp'
+import  Details  from '@components/register/Details'
 import { Icon } from "@iconify/react"
 
 function Register() {

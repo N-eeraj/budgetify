@@ -8,7 +8,7 @@ interface DetailsProps {
   email: string;
 }
 
-export function Details({ email }: DetailsProps) {
+function Details({ email }: DetailsProps) {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -59,3 +59,5 @@ export function Details({ email }: DetailsProps) {
     </div>
   )
 }
+
+export default Details
