@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
-import { UserModule } from './modules/user/user.module';
+import { ProfileModule } from './modules/profile/profile.module';
 import { InfraMailerModule as MailerModule } from './infra/mailer.module';
 import { InfraStaticModule as ServeStaticModule } from './infra/static.module';
 
@@ -17,7 +17,7 @@ import { InfraStaticModule as ServeStaticModule } from './infra/static.module';
     MailerModule,
 
     AuthModule,
-    UserModule,
+    ProfileModule,
   ],
   controllers: [
     AppController,

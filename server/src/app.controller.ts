@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { AppService, HealthResponse } from './app.service';
 import { ApiOperation } from '@nestjs/swagger';
+import type { SuccessResponse } from './types/global';
 
 @Controller()
 export class AppController {
@@ -11,7 +12,7 @@ export class AppController {
     description: 'Checks if the API and its dependencies are running correctly',
   })
   @Get('health')
-  getHealth(): ReturnType<typeof this.appService.getHealth> {
+  getHealth(): SuccessResponse<HealthResponse['data']> {
     return this.appService.getHealth();
   }
 }
