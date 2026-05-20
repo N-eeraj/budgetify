@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import type { SuccessResponse, User } from 'src/types/global';
 import type { Request } from 'express';
-import { ApiOperation } from '@nestjs/swagger';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
+import { ApiOperation } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard)
 @Controller('profile')
@@ -39,6 +40,32 @@ export class ProfileController {
     return {
       success: true,
       message: 'Updated User Successfully',
+    };
+  }
+
+  @Patch('password')
+  async updatePassword(
+    @Req() request: Request,
+    @Body() updatePasswordDto: UpdatePasswordDto
+  ): Promise<SuccessResponse> {
+    if (updatePasswordDto.password === updatePasswordDto.newPassword) {
+      throw new BadRequestException({
+        message: 'Please enter a different new password',
+        errors: {
+          newPassword: [
+            'New password can\'t be same as current password',
+          ],
+        }
+      });
+    }
+
+    const userId = request.user.id;
+    const token = request.token;
+    await this.profileService.updatePassword(userId, updatePasswordDto, token);
+
+    return {
+      success: true,
+      message: 'Updated Password Successfully',
     };
   }
 }
