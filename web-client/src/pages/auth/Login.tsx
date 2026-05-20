@@ -5,7 +5,7 @@ import { Label } from '@components/ui/label'
 import Button from "@components/base/Button"
 import { Icon } from "@iconify/react"
 import { Link } from 'react-router'
-import ForgotPassword from "@components/login/ForgotPassword"
+import ForgotPassword from "@/components/auth/login/ForgotPassword"
 
 function Login() {
   const [email, setEmail] = useState('')

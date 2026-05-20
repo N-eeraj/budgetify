@@ -10,10 +10,9 @@ interface Props extends ComponentProps<typeof Button> {
   loading?: boolean;
 }
 
-export default function DsButton({
-  variant = "default",
+export default function BaseButton({
   disabled,
-  loading=false,
+  loading = false,
   children,
   className,
   ...props
