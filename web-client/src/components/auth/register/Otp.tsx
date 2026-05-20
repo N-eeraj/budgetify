@@ -12,7 +12,7 @@ interface OtpViewProps {
 
 const OTP_LENGTH = 6 as const
 
-export function OtpView({ email, onVerify }: OtpViewProps) {
+function OtpView({ email, onVerify }: OtpViewProps) {
   return (
     <div className='w-full flex flex-col items-center gap-4 mt-2'>
       <div className='flex flex-col justify-center'>
@@ -42,3 +42,5 @@ export function OtpView({ email, onVerify }: OtpViewProps) {
     </div>
   )
 }
+
+export default OtpView
