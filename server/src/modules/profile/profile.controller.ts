@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, ParseFilePipe, Patch, Put, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Patch, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import type { SuccessResponse, User } from 'src/types/global';
@@ -7,6 +7,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
+import { ProfilePictureFile } from './decorators/profile-picture-file.decorator';
 
 @UseGuards(AuthGuard)
 @Controller('profile')
@@ -78,8 +79,6 @@ export class ProfileController {
     summary: 'Update profile picture',
     description: 'Updates the user profile picture',
   })
-  @UseInterceptors(FileInterceptor('file'))
-  @Put('picture')
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -93,22 +92,9 @@ export class ProfileController {
       },
     },
   })
-  async updateProfilePicture(
-    @UploadedFile(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({
-            maxSize: 10_48_576, // 1MB
-            errorMessage: 'Please select a file smaller than 1 MB',
-          }),
-          new FileTypeValidator({
-            fileType: 'image/*',
-            errorMessage: 'Please select an image file',
-          }),
-        ],
-      }),
-    ) file: Express.Multer.File
-  ): Promise<SuccessResponse<any>> {
+  @UseInterceptors(FileInterceptor('file'))
+  @Put('picture')
+  async updateProfilePicture(@ProfilePictureFile() file: Express.Multer.File): Promise<SuccessResponse<any>> {
     console.log(file)
 
     return {
