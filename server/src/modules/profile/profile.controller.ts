@@ -1,11 +1,12 @@
-import { BadRequestException, Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, FileTypeValidator, Get, MaxFileSizeValidator, ParseFilePipe, Patch, Put, Req, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import type { SuccessResponse, User } from 'src/types/global';
 import type { Request } from 'express';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 
 @UseGuards(AuthGuard)
 @Controller('profile')
@@ -43,6 +44,10 @@ export class ProfileController {
     };
   }
 
+  @ApiOperation({
+    summary: 'Update user password',
+    description: 'Updates the user password after verifying the current password',
+  })
   @Patch('password')
   async updatePassword(
     @Req() request: Request,
@@ -66,6 +71,49 @@ export class ProfileController {
     return {
       success: true,
       message: 'Updated Password Successfully',
+    };
+  }
+
+  @ApiOperation({
+    summary: 'Update profile picture',
+    description: 'Updates the user profile picture',
+  })
+  @UseInterceptors(FileInterceptor('file'))
+  @Put('picture')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          description: 'Image to be used as the profile picture',
+        },
+      },
+    },
+  })
+  async updateProfilePicture(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({
+            maxSize: 10_48_576, // 1MB
+            errorMessage: 'Please select a file smaller than 1 MB',
+          }),
+          new FileTypeValidator({
+            fileType: 'image/*',
+            errorMessage: 'Please select an image file',
+          }),
+        ],
+      }),
+    ) file: Express.Multer.File
+  ): Promise<SuccessResponse<any>> {
+    console.log(file)
+
+    return {
+      success: true,
+      message: 'Updated Profile Picture',
     };
   }
 }
