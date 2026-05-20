@@ -4,8 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
-import { InfraMailerModule as MailerModule } from './infra/mailer.module';
-import { InfraStaticModule as ServeStaticModule } from './infra/static.module';
+import { InfraMailerModule as MailerModule } from './infra/mailer/mailer.module';
+import { InfraStaticModule as ServeStaticModule } from './infra/static/static.module';
+import { InfraThrottlerModule as ThrottlerModule } from './infra/throttler/throttler.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { InfraStaticModule as ServeStaticModule } from './infra/static.module';
 
     ServeStaticModule,
     MailerModule,
+    ThrottlerModule,
 
     AuthModule,
     ProfileModule,

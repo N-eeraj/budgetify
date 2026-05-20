@@ -8,7 +8,14 @@ import { BadRequestFilter } from './common/filters/bad-request.filter';
 import { ErrorResponseFilter } from './common/filters/error-response.filter';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    cors: {
+      origin: [
+        process.env.CLIENT_URL ?? '',
+      ],
+      credentials: true,
+    },
+  });
   app.setGlobalPrefix('api');
 
   // API documentation
