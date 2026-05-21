@@ -6,9 +6,10 @@ import type { Request } from 'express';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 import { ProfilePictureFile } from './decorators/profile-picture-file.decorator';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 
+@ApiBearerAuth('bearer')
 @UseGuards(AuthGuard)
 @Controller('profile')
 export class ProfileController {
@@ -19,10 +20,15 @@ export class ProfileController {
     description: 'Retrieves the authenticated user profile information',
   })
   @Get()
-  getUser(@Req() request: Request): SuccessResponse<User> {
+  async getUser(@Req() request: Request): Promise<SuccessResponse<User>> {
+    const user = request.user;
+    if (user.avatarUrl) {
+      user.avatarUrl = await this.profileService.getProfilePicture(user.avatarUrl);
+    }
+
     return {
       success: true,
-      data: request.user,
+      data: user,
       message: 'User Fetched Successfully',
     };
   }
@@ -94,12 +100,19 @@ export class ProfileController {
   })
   @UseInterceptors(FileInterceptor('file'))
   @Put('picture')
-  async updateProfilePicture(@ProfilePictureFile() file: Express.Multer.File): Promise<SuccessResponse<any>> {
-    console.log(file)
+  async updateProfilePicture(
+    @Req() request,
+    @ProfilePictureFile() picture: Express.Multer.File
+  ): Promise<SuccessResponse<{ url: string }>> {
+    const userId = request.user.id;
+    const url = await this.profileService.updateProfilePicture(userId, picture);
 
     return {
       success: true,
       message: 'Updated Profile Picture',
+      data: {
+        url,
+      }
     };
   }
 }

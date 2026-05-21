@@ -7,10 +7,20 @@ import { authTokens, users } from 'src/db/schemas/index.drizzle';
 import { and, eq, ne } from 'drizzle-orm';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import { Bucket, StorageService } from 'src/infra/storage/storage.service';
 
 @Injectable()
 export class ProfileService {
   private readonly SALT_ROUNDS = 12;
+  private readonly PROFILE_PICTURE_BUCKET = Bucket.PRIVATE;
+  private readonly PROFILE_PICTURE_BASE_PATH = 'profile-pictures';
+
+  constructor (private readonly storageService: StorageService) {}
+
+  async getProfilePicture(path: string): Promise<string> {
+    const signedUrl = await this.storageService.getSignedUrl(this.PROFILE_PICTURE_BUCKET, path);
+    return signedUrl;
+  }
 
   async updateUser(userId: User['id'], { name }: UpdateUserDto) {
     const result = await db
@@ -90,5 +100,49 @@ export class ProfileService {
               );
           }
       });
+  }
+
+  async updateProfilePicture(userId: User['id'], picture: Express.Multer.File): Promise<string> {
+    const fileName = `${userId}${Date.now()}`;
+    const filePath = `${this.PROFILE_PICTURE_BASE_PATH}/${fileName}`;
+
+    const profilePictureUrl = await db.transaction(async (tx) => {
+      // upload file
+      const newAvatarUrl = await this.storageService.uploadFile(
+        this.PROFILE_PICTURE_BUCKET,
+        filePath,
+        picture,
+      );
+
+      // find current profile picture URL
+      const [{ currentAvatarUrl }] = await tx
+        .select({
+          currentAvatarUrl: users.avatarUrl,
+        })
+        .from(users)
+        .where(
+          eq(users.id, userId)
+        );
+
+      if (currentAvatarUrl) {
+        await this.storageService.deleteFile(this.PROFILE_PICTURE_BUCKET, currentAvatarUrl);
+      }
+
+      // update database with new profile picture URL
+      await tx
+        .update(users)
+        .set({
+          avatarUrl: newAvatarUrl,
+        })
+        .where(
+          eq(users.id, userId)
+        );
+  
+      // create and return a signed URL
+      const signedUrl = await this.getProfilePicture(newAvatarUrl);
+      return signedUrl;
+    });
+
+    return profilePictureUrl;
   }
 }
