@@ -36,70 +36,72 @@ function Register() {
   return (
     <main className="w-screen h-screen flex flex-col items-center justify-center bg-background gap-10">
       <div className="w-90 flex flex-col items-center md:shadow-2xl justify-center min-h-50 md:border border-primary bg-background md:bg-card rounded-md p-10">
-
-        <h1 className="text-lg text-primary font-black">
-          Budgetify
-        </h1>
-
-        <span className="mb-6 mt-2 text-md font-bold text-foreground">
-          Create Your account
-        </span>
-
         {!isOtpOpen && !isOtpVerified && (
-          <form onSubmit={handleSubmit(onSubmit)}
-          className="w-full"
-          >
+          <>
+            <h1 className="text-lg text-primary font-black">
+              Budgetify
+            </h1>
 
-            <div className="w-full flex flex-col gap-4 mt-2">
+            <span className="mb-6 mt-2 text-md font-bold text-foreground">
+              Create Your account
+            </span>
 
-              <Controller
-                name="email"
-                control={control}
-                render={({ field }) => (
-                  <Field>
-                    <Label
-                      htmlFor="email"
-                      className="text-muted-foreground"
-                    >
-                      Email
-                    </Label>
 
-                    <Input
-                      id="email"
-                      placeholder="Your email address"
-                      {...field}
-                    />
-                  </Field>
-                )}
-              />
+            <form onSubmit={handleSubmit(onSubmit)}
+              className="w-full"
+            >
 
-              <Button
-                type="submit"
-                size="lg"
-                className="w-full"
-              >
-                Continue
-                <Icon
-                  icon="icons8:right-arrow"
-                  width="24"
-                  height="24"
+              <div className="w-full flex flex-col gap-4 mt-2">
+
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => (
+                    <Field>
+                      <Label
+                        htmlFor="email"
+                        className="text-muted-foreground"
+                      >
+                        Email
+                      </Label>
+
+                      <Input
+                        id="email"
+                        placeholder="Your email address"
+                        {...field}
+                      />
+                    </Field>
+                  )}
                 />
-              </Button>
 
-            </div>
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="w-full"
+                >
+                  Continue
+                  <Icon
+                    icon="icons8:right-arrow"
+                    width="24"
+                    height="24"
+                  />
+                </Button>
 
-            <div className="text-sm text-muted-foreground pt-10">
-              Already have an account?
+              </div>
 
-              <Link
-                to="/login"
-                className="text-primary font-black text-sm pl-2 underline"
-              >
-                Login
-              </Link>
-            </div>
+              <div className="text-sm text-muted-foreground pt-10">
+                Already have an account?
 
-          </form>
+                <Link
+                  to="/login"
+                  className="text-primary font-black text-sm pl-2 underline"
+                >
+                  Login
+                </Link>
+              </div>
+
+            </form>
+          </>
         )}
 
         {isOtpOpen && !isOtpVerified && (

@@ -24,9 +24,9 @@ function OtpView({ email, onVerify }: OtpViewProps) {
 
       <div className='w-full flex flex-col gap-4 mt-4 items-center'>
         <InputOTP maxLength={OTP_LENGTH}>
-          <InputOTPGroup>
+          <InputOTPGroup className="border border-primary">
             {Array.from({ length: OTP_LENGTH }).map((_, index) => (
-              <InputOTPSlot index={index} />
+              <InputOTPSlot index={index} className="border-primary" />
             ))}
           </InputOTPGroup>
         </InputOTP>
