@@ -7,6 +7,7 @@ import { ProfileModule } from './modules/profile/profile.module';
 import { InfraMailerModule as MailerModule } from './infra/mailer/mailer.module';
 import { InfraStaticModule as ServeStaticModule } from './infra/static/static.module';
 import { InfraThrottlerModule as ThrottlerModule } from './infra/throttler/throttler.module';
+import { StorageModule } from './infra/storage/storage.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { InfraThrottlerModule as ThrottlerModule } from './infra/throttler/throt
 
     AuthModule,
     ProfileModule,
+    StorageModule,
   ],
   controllers: [
     AppController,
