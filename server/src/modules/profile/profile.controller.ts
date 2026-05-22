@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Patch, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Patch, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { AuthGuard } from 'src/common/guards/auth.guard';
 import type { SuccessResponse, User } from 'src/types/global';
@@ -101,7 +101,7 @@ export class ProfileController {
   @UseInterceptors(FileInterceptor('file'))
   @Put('picture')
   async updateProfilePicture(
-    @Req() request,
+    @Req() request: Request,
     @ProfilePictureFile() picture: Express.Multer.File
   ): Promise<SuccessResponse<{ url: string }>> {
     const userId = request.user.id;
@@ -113,6 +113,21 @@ export class ProfileController {
       data: {
         url,
       }
+    };
+  }
+
+  @ApiOperation({
+    summary: 'Delete profile picture',
+    description: 'Deletes the user profile picture',
+  })
+  @Delete('picture')
+  async deleteProfilePicture(@Req() request: Request): Promise<SuccessResponse> {
+    const userId = request.user.id;
+    await this.profileService.deleteProfilePicture(userId);
+
+    return {
+      success: true,
+      message: 'Deleted Profile Picture Successfully',
     };
   }
 }
