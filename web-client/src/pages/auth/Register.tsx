@@ -37,7 +37,7 @@ function Register() {
 
         {!isOtpOpen && !isOtpVerified && (
           <>
-            <h1 className="text-lg text-primary font-black">
+            <h1 className="text-xl text-primary font-black">
               Budgetify
             </h1>
 
