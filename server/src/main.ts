@@ -25,6 +25,16 @@ async function bootstrap() {
     '/docs',
     apiReference({
       content: document,
+      authentication: {
+        securitySchemes: {
+          BearerAuth: {
+            type: "http",
+            scheme: "bearer",
+            bearerFormat: "JWT",
+          },
+        },
+      },
+      theme: 'bluePlanet',
     }),
   );
 

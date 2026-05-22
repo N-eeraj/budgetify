@@ -3,6 +3,8 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/adapters/handlebars.adapter';
 import { join } from 'path';
 
+const TEMPLATE_DIR = join(process.cwd(), 'dist', 'assets', 'email-templates');
+
 @Module({
   imports: [
     MailerModule.forRoot({
@@ -15,12 +17,10 @@ import { join } from 'path';
         },
       },
       template: {
-        dir: join(__dirname, 'assets', 'email-templates'),
+        dir: TEMPLATE_DIR,
         adapter: new HandlebarsAdapter(),
       },
     }),
   ],
 })
-export class InfraMailerModule {
-  
-}
+export class InfraMailerModule {}
