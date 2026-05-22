@@ -1,29 +1,27 @@
 import { useState } from "react"
-import Input from "@components/base/Input"
+import { Link } from "react-router"
+import { useForm, type SubmitHandler } from "react-hook-form"
+import { Icon } from "@iconify/react"
+
 import { Field } from "@components/ui/field"
 import { Label } from "@components/ui/label"
 import Button from "@components/base/Button"
-import { Link } from "react-router"
+
 import OtpView from "@/components/auth/register/Otp"
 import Details from "@/components/auth/register/Details"
-import { Icon } from "@iconify/react"
-import { useForm, Controller, type SubmitHandler } from "react-hook-form"
 
 interface IFormInput {
   email: string
 }
 
 function Register() {
+  const { register, handleSubmit, getValues } =
+    useForm<IFormInput>()
+
   const [isOtpOpen, setIsOtpOpen] = useState(false)
   const [isOtpVerified, setIsOtpVerified] = useState(false)
 
-  const { control, handleSubmit, watch } = useForm<IFormInput>({
-    defaultValues: {
-      email: "",
-    },
-  })
-
-  const email = watch("email")
+  const email = getValues("email")
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     console.log(data)
@@ -36,6 +34,7 @@ function Register() {
   return (
     <main className="w-screen h-screen flex flex-col items-center justify-center bg-background gap-10">
       <div className="w-90 flex flex-col items-center md:shadow-2xl justify-center min-h-50 md:border border-primary bg-background md:bg-card rounded-md p-10">
+
         {!isOtpOpen && !isOtpVerified && (
           <>
             <h1 className="text-lg text-primary font-black">
@@ -43,36 +42,30 @@ function Register() {
             </h1>
 
             <span className="mb-6 mt-2 text-md font-bold text-foreground">
-              Create Your account
+              Create Your Account
             </span>
 
-
-            <form onSubmit={handleSubmit(onSubmit)}
+            <form
+              onSubmit={handleSubmit(onSubmit)}
               className="w-full"
             >
-
               <div className="w-full flex flex-col gap-4 mt-2">
 
-                <Controller
-                  name="email"
-                  control={control}
-                  render={({ field }) => (
-                    <Field>
-                      <Label
-                        htmlFor="email"
-                        className="text-muted-foreground"
-                      >
-                        Email
-                      </Label>
+                <Field>
+                  <Label
+                    htmlFor="email"
+                    className="text-muted-foreground"
+                  >
+                    Email
+                  </Label>
 
-                      <Input
-                        id="email"
-                        placeholder="Your email address"
-                        {...field}
-                      />
-                    </Field>
-                  )}
-                />
+                  <input
+                    {...register("email", {
+                      required: "Email is required",
+                    })}
+                    className="border p-2 rounded"
+                  />
+                </Field>
 
                 <Button
                   type="submit"
@@ -86,7 +79,6 @@ function Register() {
                     height="24"
                   />
                 </Button>
-
               </div>
 
               <div className="text-sm text-muted-foreground pt-10">
@@ -99,7 +91,6 @@ function Register() {
                   Login
                 </Link>
               </div>
-
             </form>
           </>
         )}
