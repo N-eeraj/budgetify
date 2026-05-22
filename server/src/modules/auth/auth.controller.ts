@@ -30,7 +30,7 @@ export class AuthController {
 
     return {
       success: true,
-      message: 'Send Verification Email',
+      message: 'Sent Verification Email',
     };
   }
 
