@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router"
-import { useForm, type SubmitHandler } from "react-hook-form"
+import { FormProvider, useForm, type SubmitHandler } from "react-hook-form"
 import { Icon } from "@iconify/react"
 
 import { Field } from "@components/ui/field"
@@ -9,14 +9,32 @@ import Button from "@components/base/Button"
 
 import OtpView from "@/components/auth/register/Otp"
 import Details from "@/components/auth/register/Details"
+import Input from "@components/base/Input"
 
 interface IFormInput {
   email: string
+  name: string
+  password: string
+  confirmPassword: string
+  otp: string
 }
 
 function Register() {
-  const { register, handleSubmit, getValues } =
-    useForm<IFormInput>()
+
+  const defaultValues = {
+    otp: "",
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: ""
+  }
+
+  const form =
+    useForm<IFormInput>({
+      defaultValues
+    });
+
+    const { register, handleSubmit, getValues } = form;
 
   const [isOtpOpen, setIsOtpOpen] = useState(false)
   const [isOtpVerified, setIsOtpVerified] = useState(false)
@@ -29,6 +47,10 @@ function Register() {
     if (data.email.trim()) {
       setIsOtpOpen(true)
     }
+  }
+
+  const onDetailsSubmit: SubmitHandler<IFormInput> = (data) => {
+    console.log(data)
   }
 
   return (
@@ -59,7 +81,7 @@ function Register() {
                     Email
                   </Label>
 
-                  <input
+                  <Input
                     {...register("email", {
                       required: "Email is required",
                     })}
@@ -95,17 +117,20 @@ function Register() {
           </>
         )}
 
-        {isOtpOpen && !isOtpVerified && (
-          <OtpView
-            email={email}
-            onVerify={() => setIsOtpVerified(true)}
-          />
-        )}
+        <FormProvider {...form}>
+          <form className="w-full" onSubmit={handleSubmit(onDetailsSubmit)}>
+            {isOtpOpen && !isOtpVerified && (
+              <OtpView
+                onVerify={() => setIsOtpVerified(true)}
+              />
+            )}
 
-        {isOtpVerified && (
-          <Details email={email} />
-        )}
-
+            {isOtpVerified && (
+              <Details
+              />
+            )}
+          </form>
+        </FormProvider>
       </div>
     </main>
   )

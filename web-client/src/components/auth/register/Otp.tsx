@@ -4,15 +4,21 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@components/ui/input-otp"
+import { useFormContext } from "react-hook-form";
 
 interface OtpViewProps {
-  email?: string;
+  email?: string
   onVerify?: () => void;
 }
+
 
 const OTP_LENGTH = 6 as const
 
 function OtpView({ email, onVerify }: OtpViewProps) {
+
+  const {getValues, register} = useFormContext();
+  console.log(getValues());
+
   return (
     <div className='w-full flex flex-col items-center gap-4 mt-2'>
       <div className='flex flex-col justify-center'>
@@ -23,7 +29,7 @@ function OtpView({ email, onVerify }: OtpViewProps) {
       </div>
 
       <div className='w-full flex flex-col gap-4 mt-4 items-center'>
-        <InputOTP maxLength={OTP_LENGTH}>
+        <InputOTP maxLength={OTP_LENGTH} {...register("otp")}>
           <InputOTPGroup className="border border-primary">
             {Array.from({ length: OTP_LENGTH }).map((_, index) => (
               <InputOTPSlot index={index} className="border-primary" />
