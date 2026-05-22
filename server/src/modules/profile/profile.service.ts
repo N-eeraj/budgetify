@@ -106,43 +106,74 @@ export class ProfileService {
     const fileName = `${userId}${Date.now()}`;
     const filePath = `${this.PROFILE_PICTURE_BASE_PATH}/${fileName}`;
 
-    const profilePictureUrl = await db.transaction(async (tx) => {
-      // upload file
-      const newAvatarUrl = await this.storageService.uploadFile(
-        this.PROFILE_PICTURE_BUCKET,
-        filePath,
-        picture,
-      );
-
-      // find current profile picture URL
-      const [{ currentAvatarUrl }] = await tx
-        .select({
-          currentAvatarUrl: users.avatarUrl,
-        })
-        .from(users)
-        .where(
-          eq(users.id, userId)
+    const profilePictureUrl = await db
+        .transaction(async (tx) => {
+        // upload file
+        const newAvatarUrl = await this.storageService.uploadFile(
+          this.PROFILE_PICTURE_BUCKET,
+          filePath,
+          picture,
         );
 
-      if (currentAvatarUrl) {
-        await this.storageService.deleteFile(this.PROFILE_PICTURE_BUCKET, currentAvatarUrl);
-      }
+        // find current profile picture URL
+        const [{ currentAvatarUrl }] = await tx
+          .select({
+            currentAvatarUrl: users.avatarUrl,
+          })
+          .from(users)
+          .where(
+            eq(users.id, userId)
+          );
 
-      // update database with new profile picture URL
-      await tx
-        .update(users)
-        .set({
-          avatarUrl: newAvatarUrl,
-        })
-        .where(
-          eq(users.id, userId)
-        );
-  
-      // create and return a signed URL
-      const signedUrl = await this.getProfilePicture(newAvatarUrl);
-      return signedUrl;
-    });
+        // remove current profile picture file
+        if (currentAvatarUrl) {
+          await this.storageService.deleteFile(this.PROFILE_PICTURE_BUCKET, currentAvatarUrl);
+        }
+
+        // update database with new profile picture URL
+        await tx
+          .update(users)
+          .set({
+            avatarUrl: newAvatarUrl,
+          })
+          .where(
+            eq(users.id, userId)
+          );
+    
+        // create and return a signed URL
+        const signedUrl = await this.getProfilePicture(newAvatarUrl);
+        return signedUrl;
+      });
 
     return profilePictureUrl;
+  }
+
+  async deleteProfilePicture(userId: User['id']) {
+    await db
+      .transaction(async (tx) => {
+        // find current profile picture URL
+        const [{ currentAvatarUrl }] = await tx
+          .select({
+            currentAvatarUrl: users.avatarUrl,
+          })
+          .from(users)
+          .where(
+            eq(users.id, userId)
+          );
+
+        // remove current profile picture file
+        if (!currentAvatarUrl) return;
+        await this.storageService.deleteFile(this.PROFILE_PICTURE_BUCKET, currentAvatarUrl);
+
+        // remove profile picture URL
+        await tx
+          .update(users)
+          .set({
+            avatarUrl: null,
+          })
+          .where(
+            eq(users.id, userId)
+          );
+      });
   }
 }
