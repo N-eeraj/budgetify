@@ -1,13 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards } from '@nestjs/common';
+import { Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { AuthGuard } from 'src/common/guards/auth.guard';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { AuthController } from 'src/common/decorator/auth-controller/auth-controller.decorator';
 
-@ApiBearerAuth('bearer')
-@UseGuards(AuthGuard)
-@Controller('transactions')
+@AuthController('transactions')
 export class TransactionsController {
   constructor(private readonly transactionsService: TransactionsService) {}
 
