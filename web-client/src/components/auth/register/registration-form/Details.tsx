@@ -4,10 +4,14 @@ import { Field } from '@components/ui/field'
 import { Label } from '@components/ui/label'
 import Button from "@components/base/Button"
 
+interface DetailsProps {
+  email: string
+}
 
-function Details() {
+function Details({ email }: DetailsProps) {
   const {getValues, register} = useFormContext();
   console.log(getValues());
+  
   return (
     <div className="w-full flex flex-col items-center mt-2">
       <img src="/budgetify-logo.png" className='w-20' alt="budgetify logo" />
@@ -15,14 +19,6 @@ function Details() {
         Budgetify
       </h1>
       <div className='w-full flex flex-col items-center gap-4 mt-10'>
-        <div className="w-full flex flex-col text-left text-accent-foreground">
-          <label htmlFor="" className='text-muted-foreground texy-sm'>
-            Email
-          </label>
-          <span className="text-accent-foreground text-sm">
-             {getValues("email")}
-          </span>
-        </div>
         <Field>
           <Label htmlFor="name" className='text-muted-foreground'>
             Name

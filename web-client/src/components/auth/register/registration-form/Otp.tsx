@@ -16,8 +16,7 @@ const OTP_LENGTH = 6 as const
 
 function OtpView({ email, onVerify }: OtpViewProps) {
 
-  const {getValues, register} = useFormContext();
-  console.log(getValues());
+  const {register} = useFormContext();
 
   return (
     <div className='w-full flex flex-col items-center gap-4 mt-2'>
@@ -37,7 +36,11 @@ function OtpView({ email, onVerify }: OtpViewProps) {
           </InputOTPGroup>
         </InputOTP>
 
-        <Button size='lg' className='w-full mt-2' onClick={() => {
+        <Button 
+        type="button"
+        size='lg' 
+        className='w-full mt-2' 
+        onClick={() => {
           if (onVerify) {
             onVerify();
           }
