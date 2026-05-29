@@ -8,8 +8,7 @@ import { Field } from "@components/ui/field"
 import { Label } from "@components/ui/label"
 
 interface EmailFormProps {
-  setEmail: (value: string) => void
-  setIsOtpOpen: (value: boolean) => void
+  onSubmit: (value: string) => void
 }
 
 interface EmailInput {
@@ -17,9 +16,10 @@ interface EmailInput {
 }
 
 function EmailForm({
-  setEmail,
-  setIsOtpOpen,
+  onSubmit: onSuccess,
 }: EmailFormProps) {
+
+
 
   const { register, handleSubmit } =
     useForm<EmailInput>()
@@ -27,14 +27,13 @@ function EmailForm({
   const onSubmit = ({ email }: EmailInput) => {
     console.log(email)
 
-    setEmail(email)
-    setIsOtpOpen(true)
+    onSuccess(email)
   }
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-full"
+    className="w-full"
+    onSubmit={handleSubmit(onSubmit)}
     >
       <div className="mt-2 flex w-full flex-col gap-4">
 

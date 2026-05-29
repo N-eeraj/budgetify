@@ -4,19 +4,18 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@components/ui/input-otp"
-import { useFormContext } from "react-hook-form";
+import { useState } from "react";
 
 interface OtpViewProps {
-  email?: string
-  onVerify?: () => void;
+  email: string
+  setOtp: (otp: string) => void;
 }
-
 
 const OTP_LENGTH = 6 as const
 
-function OtpView({ email, onVerify }: OtpViewProps) {
+function OtpView({ email, setOtp}: OtpViewProps) {
 
-  const {register} = useFormContext();
+  const [localOtp, setLocalOtp] = useState("")
 
   return (
     <div className='w-full flex flex-col items-center gap-4 mt-2'>
@@ -28,7 +27,11 @@ function OtpView({ email, onVerify }: OtpViewProps) {
       </div>
 
       <div className='w-full flex flex-col gap-4 mt-4 items-center'>
-        <InputOTP maxLength={OTP_LENGTH} {...register("otp")}>
+        <InputOTP 
+        maxLength={OTP_LENGTH} 
+        value={localOtp}
+        onChange= {setLocalOtp}
+        >
           <InputOTPGroup className="border border-primary">
             {Array.from({ length: OTP_LENGTH }).map((_, index) => (
               <InputOTPSlot index={index} className="border-primary" />
@@ -41,9 +44,7 @@ function OtpView({ email, onVerify }: OtpViewProps) {
         size='lg' 
         className='w-full mt-2' 
         onClick={() => {
-          if (onVerify) {
-            onVerify();
-          }
+          setOtp(localOtp)
         }}>
           Verify
         </Button>
