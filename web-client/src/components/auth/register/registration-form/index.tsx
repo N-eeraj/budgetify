@@ -24,7 +24,8 @@ function RegistrationForm({
     },
   })
 
-  const otp = formMethods.getValues('otp')
+
+const otp = formMethods.getValues('otp')
 
   const onDetailsSubmit = (data) => {
     console.log(data)
@@ -32,7 +33,6 @@ function RegistrationForm({
 
   return (
     <FormProvider {...formMethods}>
-      {otp}
       <form
         className="w-full"
         onSubmit={formMethods.handleSubmit(onDetailsSubmit)}
@@ -42,7 +42,7 @@ function RegistrationForm({
           otp.length === 6 ? (
             <Details email={email} />
           ) :
-            <OtpView email={email} setOtp={(value) => formMethods.setValue("otp", value)} />
+            <OtpView email={email} setOtp={(otp) => formMethods.setValue("otp", otp)} />
         }
 
       </form>

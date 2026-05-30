@@ -43,9 +43,7 @@ function OtpView({ email, setOtp}: OtpViewProps) {
         type="button"
         size='lg' 
         className='w-full mt-2' 
-        onClick={() => {
-          setOtp(localOtp)
-        }}>
+        onClick={() => setOtp(localOtp)}>
           Verify
         </Button>
       </div>
