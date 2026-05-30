@@ -28,7 +28,7 @@ function OtpView({ email, setOtp}: OtpViewProps) {
 
       <div className='w-full flex flex-col gap-4 mt-4 items-center'>
         <InputOTP 
-        maxLength={OTP_LENGTH} 
+         maxLength={OTP_LENGTH}
         value={localOtp}
         onChange= {setLocalOtp}
         >

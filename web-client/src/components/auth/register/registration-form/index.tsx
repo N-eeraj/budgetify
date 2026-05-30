@@ -25,7 +25,7 @@ function RegistrationForm({
   })
 
 
-const otp = formMethods.getValues('otp')
+const otp = formMethods.watch('otp')
 
   const onDetailsSubmit = (data) => {
     console.log(data)
