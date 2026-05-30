@@ -17,6 +17,14 @@ function OtpView({ email, setOtp}: OtpViewProps) {
 
   const [localOtp, setLocalOtp] = useState("")
 
+  const handleVerification = () => {
+  if (localOtp.length === OTP_LENGTH) {
+    setOtp(localOtp)
+  } else {
+    alert("OTP must be 6 digits")
+  }
+}
+
   return (
     <div className='w-full flex flex-col items-center gap-4 mt-2'>
       <div className='flex flex-col justify-center'>
@@ -43,7 +51,7 @@ function OtpView({ email, setOtp}: OtpViewProps) {
         type="button"
         size='lg' 
         className='w-full mt-2' 
-        onClick={() => setOtp(localOtp)}>
+        onClick={handleVerification}>
           Verify
         </Button>
       </div>

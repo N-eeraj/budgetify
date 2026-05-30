@@ -39,7 +39,7 @@ const otp = formMethods.watch('otp')
       >
 
         {
-          otp.length === 6 ? (
+          otp ? (
             <Details email={email} />
           ) :
             <OtpView email={email} setOtp={(otp) => formMethods.setValue("otp", otp)} />
