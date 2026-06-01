@@ -13,6 +13,7 @@ import { Icon } from "@iconify/react"
 
 interface Props extends ComponentProps<typeof Input> {
   label?: string;
+  error?: string;
   labelWrapperProps?: HTMLAttributes<HTMLDivElement>;
   inputWrapperProps?: HTMLAttributes<HTMLDivElement>;
 }
@@ -20,6 +21,7 @@ interface Props extends ComponentProps<typeof Input> {
 export default function BaseInput({
   label,
   type,
+  error,
   className,
   inputWrapperProps = {},
   labelWrapperProps = {},
@@ -82,6 +84,11 @@ export default function BaseInput({
               height="20"
               className="text-muted-foreground" />
           </Button>
+        )}
+        {error && (
+          <p className="text-red-500 text-xs mt-1">
+            {error}
+          </p>
         )}
       </div>
     </Wrapper>
