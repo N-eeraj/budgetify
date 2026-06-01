@@ -20,9 +20,7 @@ function OtpView({ email, setOtp}: OtpViewProps) {
   const handleVerification = () => {
   if (localOtp.length === OTP_LENGTH) {
     setOtp(localOtp)
-  } else {
-    alert("OTP must be 6 digits")
-  }
+  } 
 }
 
   return (
@@ -50,6 +48,7 @@ function OtpView({ email, setOtp}: OtpViewProps) {
         <Button 
         type="button"
         size='lg' 
+       disabled={!localOtp || localOtp.length !== OTP_LENGTH}
         className='w-full mt-2' 
         onClick={handleVerification}>
           Verify
