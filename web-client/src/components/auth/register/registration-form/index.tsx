@@ -15,7 +15,7 @@ const detailSchema = z.object({
       .email({
         error: "Please enter a valid email address"
       }),
-  otp: z.number(),
+  otp: z.string(),
   name: z
     .string()
     .trim()
