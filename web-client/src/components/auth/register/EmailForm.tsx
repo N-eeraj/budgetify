@@ -13,11 +13,9 @@ import * as z from "zod";
 
 const schema = z.object({
   email: z
-    .string()
-    .nonempty("Email is required")
     .email({
-      message: "Please enter a valid email address",
-    }),
+      error: "Please enter a valid email address"
+    })
 })
 
 
@@ -64,14 +62,10 @@ function EmailForm({
           </Label>
 
           <Input
-            type="email"
             {...register("email")}
             error={errors.email?.message}
             className="rounded border p-2"
           />
-          <span>
-            { errors.email?.message }
-          </span>
         </Field>
 
         <Button
