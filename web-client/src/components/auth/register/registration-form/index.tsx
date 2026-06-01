@@ -11,8 +11,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
 const detailSchema = z.object({
-  email: z.email(),
-  otp: z.string(),
+  email: z
+      .email({
+        error: "Please enter a valid email address"
+      }),
+  otp: z.number(),
   name: z
     .string()
     .trim()
