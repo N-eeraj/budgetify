@@ -6,15 +6,45 @@ import {
 import OtpView from "@/components/auth/register/registration-form/Otp"
 import Details from "@/components/auth/register/registration-form/Details"
 
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+const detailSchema = z.object({
+  email: z.email(),
+  otp: z.string(),
+  name: z
+    .string()
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name cannot exceed 50 characters"),
+  password: z.
+    string()
+    .min(4, "Password must be at least 4 characters")
+    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Must contain at least one number"),
+  confirmPassword: z.
+    string()
+    .min(4, "Password must be at least 4 characters")
+    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Must contain at least one number"),
+})
+
+
+
 interface RegistrationFormProps {
   email: string
 }
+
+type FormData = z.infer<typeof detailSchema>;
 
 function RegistrationForm({
   email,
 }: RegistrationFormProps) {
 
-  const formMethods = useForm({
+  const formMethods = useForm<FormData>({
     defaultValues: {
       email,
       otp: "",
@@ -22,14 +52,15 @@ function RegistrationForm({
       password: "",
       confirmPassword: "",
     },
+    resolver: zodResolver(detailSchema),
   })
 
 
 const otp = formMethods.watch('otp')
 
-  const onDetailsSubmit = (data) => {
-    console.log(data)
-  }
+const onDetailsSubmit = (data: FormData) => {
+  console.log(data)
+}
 
   return (
     <FormProvider {...formMethods}>
@@ -40,7 +71,9 @@ const otp = formMethods.watch('otp')
 
         {
           otp ? (
-            <Details email={email} />
+            <Details 
+            email={email}
+            />
           ) :
             <OtpView email={email} setOtp={(otp) => formMethods.setValue("otp", otp)} />
         }

@@ -10,8 +10,8 @@ import { Label } from "@components/ui/label"
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-
-const schema = z.object({
+// schema change to emailSchema for search
+const emailSchema = z.object({
   email: z
     .email({
       error: "Please enter a valid email address"
@@ -23,9 +23,7 @@ interface EmailFormProps {
   onSubmit: (value: string) => void
 }
 
-interface EmailInput {
-  email: string
-}
+type EmailSchema = z.infer<typeof emailSchema>
 
 function EmailForm({
   onSubmit: onSuccess,
@@ -34,13 +32,13 @@ function EmailForm({
 
 
   const { register, handleSubmit, formState: { errors } } =
-    useForm<EmailInput>(
+    useForm<EmailSchema>(
       {
-        resolver: zodResolver(schema)
+        resolver: zodResolver(emailSchema)
       }
     )
 
-  const onSubmit = ({ email }: EmailInput) => {
+  const onSubmit = ({ email }: EmailSchema) => {
     console.log(email)
 
     onSuccess(email)
