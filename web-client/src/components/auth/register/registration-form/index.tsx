@@ -20,16 +20,22 @@ const detailSchema = z.object({
     .max(50, "Name cannot exceed 50 characters"),
   password: z.
     string()
-    .min(4, "Password must be at least 4 characters")
+    .min(5, "Password must be at least 5 characters")
     .regex(/[A-Z]/, "Must contain at least one uppercase letter")
     .regex(/[a-z]/, "Must contain at least one lowercase letter")
-    .regex(/[0-9]/, "Must contain at least one number"),
+    .regex(/[0-9]/, "Must contain at least one number")
+    .regex(/[!@#$%^&*(),.?":{}|<>]/,
+    "Must contain at least one special character"
+  ),
   confirmPassword: z.
     string()
-    .min(4, "Password must be at least 4 characters")
+    .min(5, "Password must be at least 5 characters")
     .regex(/[A-Z]/, "Must contain at least one uppercase letter")
     .regex(/[a-z]/, "Must contain at least one lowercase letter")
-    .regex(/[0-9]/, "Must contain at least one number"),
+    .regex(/[0-9]/, "Must contain at least one number")
+    .regex(/[!@#$%^&*(),.?":{}|<>]/,
+    "Must contain at least one special character"
+  ),
 })
 
 
