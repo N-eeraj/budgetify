@@ -12,8 +12,7 @@ interface DetailsProps {
 
 function Details({ email }: DetailsProps) {
 
-  const { getValues, register, formState: { errors } } = useFormContext()
-  console.log(getValues());
+  const {  register, formState: { errors } } = useFormContext()
 
   return (
     <div className="w-full flex flex-col items-center mt-2">
