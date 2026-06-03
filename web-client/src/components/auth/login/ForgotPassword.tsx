@@ -3,7 +3,7 @@ import { Field, FieldGroup } from "@components/ui/field"
 import Input from "@components/base/Input"
 import { Label } from "@components/ui/label"
 import { Icon } from "@iconify/react"
-import { useState } from "react"
+// import { useState } from "react"
 
 import {
   Dialog,
@@ -16,17 +16,56 @@ import {
   DialogTrigger,
 } from "@components/ui/dialog"
 
-interface Props {
+import { useForm } from "react-hook-form"
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+
+// schema change to emailSchema for search
+const emailSchema = z.object({
+  email: z
+    .email({
+      error: "Please enter a valid email address"
+    })
+})
+
+interface EmailFormProps {
   email: string
+  onSubmit?: (value: string) => void
 }
 
-function ForgotPassword({ email }: Props) {
-  const [resetEmail, setResetEmail] = useState("")
+  type FormData = z.infer<typeof emailSchema>
+
+
+
+function ForgotPassword({ onSubmit: onSuccess, email
+}: EmailFormProps) {
+
+  // const [resetEmail, setResetEmail] = useState("")
+
+  const {
+  register,
+  handleSubmit,
+  setValue,
+  formState: { errors }
+} = useForm<FormData>({
+  resolver: zodResolver(emailSchema),
+})
+
+  const onSubmit = (data: FormData) => {
+    console.log(data)
+    onSuccess?.(data.email)
+    console.log("hi")
+  }
+
+
 
   return (
     <Dialog>
-      <form>
-        <DialogTrigger asChild onClick={() => setResetEmail(email)}>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <DialogTrigger asChild onClick={() => setValue("email", email)}>
           <span className="text-xs text-muted-foreground/75 cursor-pointer">
             Forgot Password?
           </span>
@@ -51,10 +90,9 @@ function ForgotPassword({ email }: Props) {
               </Label>
               <Input
                 id="reset_password_email"
-                name="email"
                 placeholder="Enter your email address"
-                value={resetEmail}
-                onChange={(e) => setResetEmail(e.target.value)}
+                {...register("email")}
+                error={errors.email?.message}
               />
             </Field>
           </FieldGroup>
