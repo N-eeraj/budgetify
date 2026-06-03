@@ -58,8 +58,6 @@ function Login(
 
   const email = getValues("email")
 
-
-
   return (
     <main className='w-screen h-screen flex flex-col items-center justify-center bg-background gap-10'>
       <div className='w-90 flex flex-col items-center justify-center min-h-50 md:border border-primary bg-background md:bg-card rounded-md p-10 md:shadow-2xl'>
