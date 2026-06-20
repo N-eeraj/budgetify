@@ -18,6 +18,8 @@ export const authTokensTable = pgTable('auth_tokens', {
   createdAt: timestamp('created_at')
     .defaultNow()
     .notNull(),
+  expiresAt: timestamp('expires_at')
+    .notNull(),
 }, (table) => ({
   userIdIdx: index('auth_tokens_user_id_idx')
     .on(table.userId),

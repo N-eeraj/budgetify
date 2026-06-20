@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
-import { eq } from 'drizzle-orm';
+import { eq, and, gt } from 'drizzle-orm';
 import { db } from 'src/db/index.drizzle';
 import { authTokens, users } from 'src/db/schemas/index.drizzle';
 import crypto from 'crypto';
@@ -31,11 +31,12 @@ export class AuthGuard implements CanActivate {
         avatarUrl: users.avatarUrl,
       })
       .from(authTokens)
-      .leftJoin(users, eq(
-        users.id, authTokens.userId
-      ))
+      .leftJoin(users, eq(users.id, authTokens.userId))
       .where(
-        eq(authTokens.token, hashedToken)
+        and(
+          eq(authTokens.token, hashedToken),
+          gt(authTokens.expiresAt, new Date()),
+        )
       );
     if (!user) {
       throw new UnauthorizedException({
