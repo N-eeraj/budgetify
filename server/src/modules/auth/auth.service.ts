@@ -23,6 +23,7 @@ export class AuthService {
   private readonly EMAIL_OTP_RETRY = 3_00_000; // 5 minutes in ms
   private readonly RESET_PASSWORD_TOKEN_VALIDITY = 36_00_000; // 1 hour in ms
   private readonly RESET_PASSWORD_URL = 'reset-password';
+  private readonly AUTH_TOKEN_LIFE = 8_64_00_000; // 1 day in ms
 
   constructor(private readonly mailerService: MailerService) {}
 
@@ -160,11 +161,13 @@ export class AuthService {
       .update(token)
       .digest('hex');
 
+    const expiresAt = new Date(Date.now() + this.AUTH_TOKEN_LIFE);
     await (tx ?? db)
       .insert(authTokens)
       .values({
         token: hashedToken,
         userId,
+        expiresAt,
       });
 
     return token;
