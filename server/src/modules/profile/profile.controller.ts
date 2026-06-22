@@ -1,17 +1,15 @@
-import { BadRequestException, Body, Controller, Delete, Get, Patch, Put, Req, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Delete, Get, Patch, Put, Req, UseInterceptors } from '@nestjs/common';
 import { ProfileService } from './profile.service';
-import { AuthGuard } from 'src/common/guards/auth.guard';
 import type { SuccessResponse, User } from 'src/types/global';
 import type { Request } from 'express';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProfilePictureFile } from './decorators/profile-picture-file.decorator';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
+import { AuthController } from 'src/common/decorator/auth-controller/auth-controller.decorator';
+import { ApiBody, ApiConsumes, ApiOperation } from '@nestjs/swagger';
 
-@ApiBearerAuth('bearer')
-@UseGuards(AuthGuard)
-@Controller('profile')
+@AuthController('profile')
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
