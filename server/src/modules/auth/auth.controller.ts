@@ -1,11 +1,13 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthGuard } from 'src/common/guards/auth.guard';
+import type { Request } from 'express';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import type { SuccessResponse, UserSession } from 'src/types/global';
 
 @Controller('auth')
@@ -108,6 +110,23 @@ export class AuthController {
     return {
       success: true,
       message: 'Successfully updated password',
+    };
+  }
+
+  @ApiOperation({
+    summary: 'Logout User',
+    description: 'Logs out the user\'s current session',
+  })
+  @ApiBearerAuth('bearer')
+  @UseGuards(AuthGuard)
+  @HttpCode(200)
+  @Post('logout')
+  async logout(@Req() request: Request) {
+    await this.authService.logout(request.hashedToken);
+
+    return {
+      success: true,
+      message: 'Logout Successful',
     };
   }
 }
