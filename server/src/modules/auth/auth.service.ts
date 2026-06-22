@@ -390,4 +390,12 @@ export class AuthService {
         }
       });
   }
+
+  async logout(hashedToken: string) {
+    await db.
+      delete(authTokens)
+      .where(
+        eq(authTokens.token, hashedToken)
+      );
+  }
 }

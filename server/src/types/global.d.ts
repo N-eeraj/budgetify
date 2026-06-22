@@ -20,6 +20,7 @@ declare global {
     interface Request {
       user: User;
       token: UserSession['token'];
+      hashedToken: string;
     }
   }
 }
