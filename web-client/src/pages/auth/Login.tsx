@@ -4,12 +4,20 @@ import { Label } from '@components/ui/label'
 import Button from "@components/base/Button"
 import { Icon } from "@iconify/react"
 import { Link } from 'react-router'
+
+import {
+  Dialog,
+  DialogTrigger,
+} from "@components/ui/dialog"
+import { useState } from "react"
+
 import ForgotPassword from "@/components/auth/login/ForgotPassword"
 
 import { useForm } from "react-hook-form"
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+// import { useState } from "react"
 
 // schema change to emailSchema for search
 const loginSchema = z.object({
@@ -17,15 +25,15 @@ const loginSchema = z.object({
     .email({
       error: "Please enter a valid email address"
     }),
-     password: z.
-        string()
-        .min(5, "Password must be at least 5 characters")
-        .regex(/[A-Z]/, "Must contain at least one uppercase letter")
-        .regex(/[a-z]/, "Must contain at least one lowercase letter")
-        .regex(/[0-9]/, "Must contain at least one number")
-        .regex(/[!@#$%^&*(),.?":{}|<>]/,
-        "Must contain at least one special character"
-      ),
+  password: z.
+    string()
+    .min(5, "Password must be at least 5 characters")
+    .regex(/[A-Z]/, "Must contain at least one uppercase letter")
+    .regex(/[a-z]/, "Must contain at least one lowercase letter")
+    .regex(/[0-9]/, "Must contain at least one number")
+    .regex(/[!@#$%^&*(),.?":{}|<>]/,
+      "Must contain at least one special character"
+    ),
 
 })
 
@@ -40,7 +48,7 @@ function Login(
     onSubmit: onSuccess,
   }: LoginFormProps
 ) {
-  const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormData>(
+  const formMethods = useForm<FormData>(
     {
       resolver: zodResolver(loginSchema),
 
@@ -51,12 +59,24 @@ function Login(
     }
   )
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = formMethods
+
   const onSubmit = (data: FormData) => {
     console.log(data)
     onSuccess(data)
   }
 
-  const email = getValues("email")
+  const email = formMethods.watch('email')
+
+
+
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false)
+
+  //  const [resetEmail, setResetEmail] = useState("")
 
   return (
     <main className='w-screen h-screen flex flex-col items-center justify-center bg-background gap-10'>
@@ -80,7 +100,7 @@ function Login(
               id="email"
               placeholder='Your email address'
               {...register("email")}
-               error={errors.email?.message}
+              error={errors.email?.message}
             />
           </Field>
           <div>
@@ -93,11 +113,16 @@ function Login(
                 type="password"
                 placeholder='Enter password'
                 {...register("password")}
-                 error={errors.password?.message}
+                error={errors.password?.message}
               />
             </Field>
-
-            <ForgotPassword email={email} />
+            <Button
+              variant="ghost"
+              className="text-xs text-muted-foreground/75 cursor-pointer hover:underline hover:bg-transparent px-0"
+              onClick={() => setIsForgotPasswordOpen(true)}
+            >
+              Forgot Password?
+            </Button>
           </div>
 
           <Button size="lg" className="w-full mt-5" >
@@ -111,8 +136,14 @@ function Login(
             Sign Up
           </Link>
         </div>
-      </div>
-    </main>
+      </div >
+      <Dialog
+        open={isForgotPasswordOpen}
+        onOpenChange={setIsForgotPasswordOpen}
+      >
+        <ForgotPassword email={email} />
+      </Dialog>
+    </main >
   )
 }
 
