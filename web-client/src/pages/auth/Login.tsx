@@ -141,7 +141,7 @@ function Login(
         open={isForgotPasswordOpen}
         onOpenChange={setIsForgotPasswordOpen}
       >
-        <ForgotPassword email={email} />
+      <ForgotPassword email={email} />
       </Dialog>
     </main >
   )

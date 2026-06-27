@@ -31,6 +31,14 @@ interface EmailFormProps {
   onSubmit?: (value: string) => void
 }
 
+const resetPasswordSchema = z.object({
+  email: z
+    .email({
+      error: "Please enter a valid email address"
+    }),
+
+})
+
 
 
 function ForgotPassword({ onSubmit: onSuccess, email
@@ -44,11 +52,15 @@ function ForgotPassword({ onSubmit: onSuccess, email
     reset,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: zodResolver(emailSchema),
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues:{
       email : email
     }
   })
+  
+  useEffect(() => {
+  reset({ email });
+}, [email, reset]);
 
   const onSubmit = (data: FormData) => {
     console.log(data)
@@ -63,7 +75,6 @@ function ForgotPassword({ onSubmit: onSuccess, email
         onSubmit={handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-10"
       >
-        {email}
         <DialogHeader>
           <DialogTitle className="w-full flex flex-col items-center">
             <img src="/budgetify-logo.png" className='w-20' alt="budgetify logo" />
