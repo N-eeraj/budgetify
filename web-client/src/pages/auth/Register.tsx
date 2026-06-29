@@ -1,72 +1,35 @@
-import { useState } from 'react'
-import Input from "@components/base/Input"
-import { Field } from '@components/ui/field'
-import { Label } from '@components/ui/label'
-import Button from "@components/base/Button"
-import { Link } from 'react-router'
-import  OtpView  from '@/components/auth/register/Otp'
-import  Details  from '@/components/auth/register/Details'
-import { Icon } from "@iconify/react"
+import { useState } from "react"
+
+import EmailForm from "@/components/auth/register/EmailForm"
+import RegistrationForm from "@/components/auth/register/registration-form"
 
 function Register() {
-  const [email, setEmail] = useState('')
-  const [isOtpOpen, setIsOtpOpen] = useState(false)
-  const [isOtpVerified, setIsOtpVerified] = useState(false)
+  const [email, setEmail] = useState("")
 
   return (
-    <main className='w-screen h-screen flex flex-col items-center justify-center bg-background gap-10'>
-      <div className='w-90 flex flex-col items-center md:shadow-2xl justify-center min-h-50 md:border border-primary bg-background md:bg-card rounded-md p-10'>
-        <h1 className='text-lg text-primary font-black'>
-          Budgetify
-        </h1>
-        <span className="mb-6 mt-2 text-md font-bold text-foreground">
-          Create Your account
-        </span>
+    <main className="flex h-screen w-screen flex-col items-center justify-center gap-10 bg-background">
+      <div className="flex min-h-50 w-90 flex-col items-center justify-center rounded-md border border-primary bg-background p-10 md:bg-card md:shadow-2xl">
 
-        {!isOtpOpen && !isOtpVerified && (
+        { !email ?(
           <>
-            <div className="w-full flex flex-col gap-4 mt-2">
-              <Field>
-                <Label htmlFor="email" className='text-muted-foreground'>
-                  Email
-                </Label>
-                <Input
-                  id="email"
-                  placeholder='Your email address'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Field>
-              <Button size="lg" className="w-full" onClick={() => {
-                if (email.trim()) {
-                  setIsOtpOpen(true)
-                }
-              }}>
-                Continue
-                <Icon icon="icons8:right-arrow" width="24" height="24" />
-              </Button>
-            </div>
-            <div className='text-sm text-muted-foreground pt-10'>
-              Already have an account?
-              <Link to="/login" className='text-primary font-black text-sm pl-2 underline'>
-                Login
-              </Link>
-            </div>
+            <h1 className="text-xl font-black text-primary">
+              Budgetify
+            </h1>
+
+            <span className="mt-2 mb-6 text-md font-bold text-foreground">
+              Create Your Account
+            </span>
+
+            <EmailForm
+              onSubmit={setEmail}
+            />
           </>
-        )}
+        ) :
 
-        {isOtpOpen && !isOtpVerified && (
-          <OtpView
-            email={email}
-            onVerify={() => {
-              setIsOtpVerified(true)
-            }}
-          />
-        )}
-
-        {isOtpVerified && (
-          <Details email={email} />
-        )}
+        <RegistrationForm
+          email={email}
+        />
+      }
       </div>
     </main>
   )
